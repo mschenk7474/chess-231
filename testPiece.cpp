@@ -139,41 +139,44 @@ void PieceTest::constructor_king() const
  **************************************/
 void PieceTest::assign_piece_position() const
 {  // SETUP
-   Piece pieceTest = new Pawn;
-   pieceTest.position = Position(4,5);
-   pieceTest.fWhite = false;
-   pieceTest.nMoves, pieceTest.lastMove = 0;
+   Piece *pieceTest = new Pawn;
+   pieceTest->position = Position(4,5);
+   pieceTest->fWhite = false;
+   pieceTest->nMoves = 0;
+   pieceTest->lastMove = 0;
    
    Position rhs;
    rhs.location = 63;
    // EXERCISE
    pieceTest = rhs;
    // VERIFY
-   assert(PAWN == pieceTest.getLetter());
-   assert(Position(8,8) == pieceTest.position);
-   assert(false == pieceTest.fWhite);
-   assert(0 == pieceTest.nMoves);
-   assert(0 == pieceTest.lastMove);
+   assert(PAWN == pieceTest->getLetter());
+   assert(Position(8,8) == pieceTest->position);
+   assert(false == pieceTest->fWhite);
+   assert(0 == pieceTest->nMoves);
+   assert(0 == pieceTest->lastMove);
 }  // TEARDOWN
 
 void PieceTest::assign_piece_to_piece() const
 {  // SETUP
-   Piece pieceTest = new Pawn;
-   pieceTest.position = Position(2,1);
-   pieceTest.fWhite = true;
-   pieceTest.nMoves, pieceTest.lastMove = 0;
+   Piece *pieceTest = new Pawn;
+   pieceTest->position = Position(2,1);
+   pieceTest->fWhite = true;
+   pieceTest->nMoves = 0;
+   pieceTest->lastMove = 0;
    
-   Piece rhs = new Queen;
-   rhs.position = Position(2,1);
-   rhs.fWhite = true;
-   pieceTest.nMoves, pieceTest.lastMove = 0;
+   Piece *rhs = new Queen;
+   rhs->position = Position(2,1);
+   rhs->fWhite = true;
+   pieceTest->nMoves = 0;
+   pieceTest->lastMove = 0;
    // EXERCISE
    pieceTest = rhs;
    // VERIFY
-   assert(QUEEN == pieceTest.getLetter());
-   assert(true == pieceTest.fWhite);
-   assert(0 == pieceTest.nMoves);
-   assert(0 == pieceTest.lastMove);
+   assert(QUEEN == pieceTest->getLetter());
+   assert(true == pieceTest->fWhite);
+   assert(0 == pieceTest->nMoves);
+   assert(0 == pieceTest->lastMove);
 }  // TEARDOWN
 
 /*************************************

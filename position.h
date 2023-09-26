@@ -32,6 +32,7 @@ const Delta SUB_C = { 0, -1};
 // const int PIXELS_PER_SQUARE = 32;
 
 class PositionTest;
+class PieceTest;
 
 /***************************************************
  * POSITION
@@ -40,6 +41,7 @@ class PositionTest;
 class Position
 {
    friend class PositionTest;
+   friend class PieceTest;
 public:
 
    // Constructors
