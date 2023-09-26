@@ -72,8 +72,6 @@ public:
       getMoves_king_castle_rooks_moved();
       getMoves_king_castle_blocked();
       getMoves_king_castle();
-      
-      
    }
    
 private:
