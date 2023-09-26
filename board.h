@@ -1,12 +1,26 @@
-//
-//  board.h
-//  Lab01
-//
-//  Created by Mason Schenk on 9/26/23.
-//
+/***********************************************************************
+ * Header File:
+ *    Board : hanldes everything to do with the board
+ * Author:
+ *    Mason Schenk & Andre Regino
+ ************************************************************************/
 
-#ifndef board_h
-#define board_h
+#pragma once
 
+#include "piece.h"
 
-#endif /* board_h */
+class PieceTest;
+
+class Board
+{
+   friend class PieceTest;
+public:
+   Board() {}
+   
+   Piece& operator[](int row, int col) { return board[row][col];}
+   
+   
+private:
+   Piece board[8][8];
+   
+};

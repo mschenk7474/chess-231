@@ -7,11 +7,12 @@
 
 // include the test header, needed classes for composite attributes, and all of the classes to be tested
 #include "testPiece.h"
-#include "piece.h"
-#include "position.h"
+
 
 #include <cassert> // for asserts
+#include <set>     // for set
 
+using namespace std;
 /*************************************
  * CONSTRUCTOR
  **************************************/
@@ -184,84 +185,91 @@ void PieceTest::assign_piece_to_piece() const
  **************************************/
 void PieceTest::getLetter_space() const
 {  // SETUP
-   Piece pieceTest = new SPACE;
-   pieceTest.position = Position(5,5);
-   pieceTest.fWhite = false;
-   pieceTest.nMoves, pieceTest.lastMove = 0;
+   Piece *pieceTest = new Space;
+   pieceTest->position = Position(5,5);
+   pieceTest->fWhite = false;
+   pieceTest->nMoves = 0;
+   pieceTest->lastMove = 0;
    // EXERCISE
-   char letter = pieceTest.getLetter();
+   char letter = pieceTest->getLetter();
    // VERIFY
    assert(SPACE == letter);
 }  // TEARDOWN
 
 void PieceTest::getLetter_pawn() const
 {  // SETUP
-   Piece pieceTest = new PAWN;
-   pieceTest.position = Position(2,1);
-   pieceTest.fWhite = true;
-   pieceTest.nMoves, pieceTest.lastMove = 0;
+   Piece *pieceTest = new Pawn;
+   pieceTest->position = Position(2,1);
+   pieceTest->fWhite = true;
+   pieceTest->nMoves = 0;
+   pieceTest->lastMove = 0;
    // EXERCISE
-   char letter = pieceTest.getLetter();
+   char letter = pieceTest->getLetter();
    // VERIFY
    assert(PAWN == letter);
 }  // TEARDOWN
 
 void PieceTest::getLetter_rook() const
 {  // SETUP
-   Piece pieceTest = new ROOK;
-   pieceTest.position = Position(1,1);
-   pieceTest.fWhite = true;
-   pieceTest.nMoves, pieceTest.lastMove = 0;
+   Piece *pieceTest = new Rook;
+   pieceTest->position = Position(1,1);
+   pieceTest->fWhite = true;
+   pieceTest->nMoves = 0;
+   pieceTest->lastMove = 0;
    // EXERCISE
-   char letter = pieceTest.getLetter();
+   char letter = pieceTest->getLetter();
    // VERIFY
    assert(ROOK == letter);
 }  // TEARDOWN
 
 void PieceTest::getLetter_bishop() const
 {  // SETUP
-   Piece pieceTest = new BISHOP;
-   pieceTest.position = Position(8,6);
-   pieceTest.fWhite = false;
-   pieceTest.nMoves, pieceTest.lastMove = 0;
+   Piece *pieceTest = new Bishop;
+   pieceTest->position = Position(8,6);
+   pieceTest->fWhite = false;
+   pieceTest->nMoves = 0;
+   pieceTest->lastMove = 0;
    // EXERCISE
-   char letter = pieceTest.getLetter();
+   char letter = pieceTest->getLetter();
    // VERIFY
    assert(BISHOP == letter);
 }  // TEARDOWN
 
 void PieceTest::getLetter_knight() const
 {  // SETUP
-   Piece pieceTest = new KNIGHT;
-   pieceTest.position = Position(8,7);
-   pieceTest.fWhite = false;
-   pieceTest.nMoves, pieceTest.lastMove = 0;
+   Piece *pieceTest = new Knight;
+   pieceTest->position = Position(8,7);
+   pieceTest->fWhite = false;
+   pieceTest->nMoves = 0;
+   pieceTest->lastMove = 0;
    // EXERCISE
-   char letter = pieceTest.getLetter();
+   char letter = pieceTest->getLetter();
    // VERIFY
    assert(KNIGHT == letter);
 }  // TEARDOWN
 
 void PieceTest::getLetter_queen() const
 {  // SETUP
-   Piece pieceTest = new QUEEN;
-   pieceTest.position = Position(1,4);
-   pieceTest.fWhite = true;
-   pieceTest.nMoves, pieceTest.lastMove = 0;
+   Piece *pieceTest = new Queen;
+   pieceTest->position = Position(1,4);
+   pieceTest->fWhite = true;
+   pieceTest->nMoves = 0;
+   pieceTest->lastMove = 0;
    // EXERCISE
-   char letter = pieceTest.getLetter();
+   char letter = pieceTest->getLetter();
    // VERIFY
    assert(QUEEN == letter);
 }  // TEARDOWN
 
 void PieceTest::getLetter_king() const
 {  // SETUP
-   Piece pieceTest = new KING;
-   pieceTest.position = Position(1,5);
-   pieceTest.fWhite = true;
-   pieceTest.nMoves, pieceTest.lastMove = 0;
+   Piece *pieceTest = new King;
+   pieceTest->position = Position(1,5);
+   pieceTest->fWhite = true;
+   pieceTest->nMoves = 0;
+   pieceTest->lastMove = 0;
    // EXERCISE
-   char letter = pieceTest.getLetter();
+   char letter = pieceTest->getLetter();
    // VERIFY
    assert(QUEEN == letter);
 }  // TEARDOWN
@@ -285,7 +293,7 @@ void PieceTest::getMoves_pawn_blocked() const
    p2.fWhite = false;
    board[5][4] = p2;
    // EXERCISE
-   p1.getMoves(&moves, board);
+   p1.getMoves(moves, board);
    // VERIFY
    assert(set<Move>{} == moves);
    assert(Position(4,4) == p1.position);
@@ -303,7 +311,7 @@ void PieceTest::getMoves_pawn_simple() const
    p1.fWhite = true;
    board[4][2] = p1;
    // EXERCISE
-   p1.getMoves(&moves, board);
+   p1.getMoves(moves, board);
    // VERIFY
    assert(set<Move>{"b4b5"} == moves);
    assert(Position(4,2) == p1.position);
@@ -318,7 +326,7 @@ void PieceTest::getMoves_pawn_intial() const
    // EXERCISE
    board[2][2].getMoves(&moves, board);
    // VERIFY
-   assert(set<Move>{"b2b3", "b2b4"} == moves);
+   assert((set<Move>{"b2b3", "b2b4"} == moves));
    assert(Position(2,2) == board[2][2].position);
 }  // TEARDOWN
 
@@ -334,7 +342,7 @@ void PieceTest::getMoves_pawn_capture() const
    board[6][2] = p1;
    
    // EXERCISE
-   p1.getMoves(&moves, board);
+   p1.getMoves(moves, board);
    // VERIFY
    assert(set<Move>{"b6a7p", "b6c7p"} == moves);
    assert(Position(6,2) == p1.position);
@@ -371,7 +379,7 @@ void PieceTest::getMoves_pawn_enpassant() const
    p4.lastMove = 1;
    board[6][3] = p4;
    // EXERCISE
-   p1.getMoves(&moves, board);
+   p1.getMoves(moves, board);
    // VERIFY
    assert(set<Move>{"b5c6E", "b5a6E"} == moves);
    assert(Position(6,2) == p1.position);

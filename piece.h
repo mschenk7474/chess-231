@@ -8,6 +8,10 @@
 #pragma once
 #include "pieceType.h"
 #include "position.h"
+#include "move.h"
+#include "board.h"
+
+#include <set>
 
 class PieceTest;
 
@@ -17,7 +21,10 @@ class Piece
 public:
    Piece() {};
    Piece(int row, int col, bool isWhite) : position(row, col), fWhite(isWhite), nMoves(0), lastMove(0) {};
+   Piece& operator=(Position pos);
+   Piece& operator=(Piece piece);
    virtual char getLetter() const;
+   virtual void getMoves(std::set<Move> &moves, Board board) const;
    
 protected:
    Position position;
@@ -33,6 +40,7 @@ public:
    Space() : Piece() {};
    Space(int row, int col, bool isWhite) : Piece(row, col, isWhite) {};
    virtual char getLetter() const override;
+   virtual void getMoves(std::set<Move> &moves, Board board) const override;
 };
 
 class Pawn : Piece
@@ -41,6 +49,8 @@ class Pawn : Piece
 public:
    Pawn() : Piece() {};
    Pawn(int row, int col, bool isWhite) : Piece(row, col, isWhite) {};
+   virtual char getLetter() const override;
+   virtual void getMoves(std::set<Move> &moves, Board board) const override;
 };
 
 class Rook : Piece
@@ -49,6 +59,8 @@ class Rook : Piece
 public:
    Rook() : Piece() {};
    Rook(int row, int col, bool isWhite) : Piece(row, col, isWhite) {};
+   virtual char getLetter() const override;
+   virtual void getMoves(std::set<Move> &moves, Board board) const override;
 };
 
 class Knight : Piece
@@ -57,6 +69,8 @@ class Knight : Piece
 public:
    Knight() : Piece() {};
    Knight(int row, int col, bool isWhite) : Piece(row, col, isWhite) {};
+   virtual char getLetter() const override;
+   virtual void getMoves(std::set<Move> &moves, Board board) const override;
 };
 
 class Bishop : Piece
@@ -65,6 +79,8 @@ class Bishop : Piece
 public:
    Bishop() : Piece() {};
    Bishop(int row, int col, bool isWhite) : Piece(row, col, isWhite) {};
+   virtual char getLetter() const override;
+   virtual void getMoves(std::set<Move> &moves, Board board) const override;
 };
 
 class Queen : Piece
@@ -73,6 +89,8 @@ class Queen : Piece
 public:
    Queen() : Piece() {};
    Queen(int row, int col, bool isWhite) : Piece(row, col, isWhite) {};
+   virtual char getLetter() const override;
+   virtual void getMoves(std::set<Move> &moves, Board board) const override;
 };
 
 class King : Piece
@@ -81,4 +99,6 @@ class King : Piece
 public:
    King() : Piece() {};
    King(int row, int col, bool isWhite) : Piece(row, col, isWhite) {};
+   virtual char getLetter() const override;
+   virtual void getMoves(std::set<Move> &moves, Board board) const override;
 };

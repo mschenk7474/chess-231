@@ -7,6 +7,11 @@
 
 #pragma once
 
+#include "piece.h"
+#include "position.h"
+#include "board.h"
+#include "move.h"
+
 /***************************************************
  * PIECE TEST
  * Test the Piece & Derived classes
