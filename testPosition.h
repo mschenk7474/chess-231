@@ -19,6 +19,7 @@ class PositionTest
 public:
    void run()
    {
+       // comment
       // get
       getRow_zero();
       getCol_zero();
