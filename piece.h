@@ -26,6 +26,7 @@ public:
    Piece(int row, int col, bool isWhite) : position(row, col), fWhite(isWhite), nMoves(0), lastMove(0) {};
    Piece& operator=(Position pos);
    Piece& operator=(Piece piece);
+   bool isWhite(){ return true;} // come back and change, only need to compile
    virtual char getLetter() const;
    virtual void getMoves(std::set<Move> &moves, Board board) const;
    

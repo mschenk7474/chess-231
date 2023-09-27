@@ -33,13 +33,13 @@ Move::Move() :
 void Move::complete(const Board& board)
 {
    // set the capture
-   capture = board(dest.getRow(), dest.getCol())->getLetter();
+   capture = charToPieceType(board[dest]->getLetter());
 
    // set the color
-   isWhite = board(source.getRow(), source.getCol())->isWhite();
+   isWhite = board[source]->isWhite();
 
    // handle if this is an en-passant
-   if (capture == SPACE && board(source.getRow(), source.getCol())->getLetter() == PAWN)
+   if (capture == SPACE && board[source]->getLetter() == PAWN)
       enpassant = true;
 }
 
