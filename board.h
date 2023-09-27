@@ -20,7 +20,11 @@ public:
    
    Piece* const operator[](Position pos) const  { return board[pos.getRow()][pos.getCol()]; }
    
-   void operator-=(Position pos) { board[pos.getRow()][pos.getCol()] = nullptr; board[pos.getRow()][pos.getCol()] = new Space(pos);}
+   void operator-=(Position pos) 
+   { 
+      board[pos.getRow()][pos.getCol()] = nullptr;
+      board[pos.getRow()][pos.getCol()] = new Space(pos);
+   }
    
    
 private:
