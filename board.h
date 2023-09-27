@@ -16,11 +16,12 @@ class Board
    friend class PieceTest;
 public:
    Board() {}
+   Piece*& operator()(int row, int col) { return board[row][col]; }
    
-   Piece& operator[](int row, int col) { return board[row][col];}
+   void operator-=(Position pos) { board[pos.getRow()][pos.getCol()] = nullptr; board[pos.getRow()][pos.getCol()] = new Space(pos);}
    
    
 private:
-   Piece board[8][8];
+   Piece* board[8][8];
    
 };

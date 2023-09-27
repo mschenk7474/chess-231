@@ -149,7 +149,7 @@ void PieceTest::assign_piece_position() const
    Position rhs;
    rhs.location = 63;
    // EXERCISE
-   pieceTest = rhs;
+   pieceTest->position = rhs;
    // VERIFY
    assert(PAWN == pieceTest->getLetter());
    assert(Position(8,8) == pieceTest->position);
@@ -286,12 +286,12 @@ void PieceTest::getMoves_pawn_blocked() const
    Pawn p1;
    p1.position = Position(4,4);
    p1.fWhite = true;
-   board[4][4] = p1;
+   board(4,4) = &p1;
    
    Pawn p2;
    p2.position = Position(5,4);
    p2.fWhite = false;
-   board[5][4] = p2;
+   board(5,4) = &p2;
    // EXERCISE
    p1.getMoves(moves, board);
    // VERIFY
@@ -309,7 +309,7 @@ void PieceTest::getMoves_pawn_simple() const
    Pawn p1;
    p1.position = Position(4,2);
    p1.fWhite = true;
-   board[4][2] = p1;
+   board(4,2) = &p1;
    // EXERCISE
    p1.getMoves(moves, board);
    // VERIFY
@@ -324,10 +324,10 @@ void PieceTest::getMoves_pawn_intial() const
    set<Move> moves;
    
    // EXERCISE
-   board[2][2].getMoves(&moves, board);
+   board(2,2)->getMoves(moves, board);
    // VERIFY
    assert((set<Move>{"b2b3", "b2b4"} == moves));
-   assert(Position(2,2) == board[2][2].position);
+   assert(Position(2,2) == board(2,2)->position);
 }  // TEARDOWN
 
 void PieceTest::getMoves_pawn_capture() const
@@ -339,16 +339,16 @@ void PieceTest::getMoves_pawn_capture() const
    Pawn p1;
    p1.position = Position(6,2);
    p1.fWhite = true;
-   board[6][2] = p1;
+   board(6,2) = &p1;
    
    // EXERCISE
    p1.getMoves(moves, board);
    // VERIFY
-   assert(set<Move>{"b6a7p", "b6c7p"} == moves);
+   assert((set<Move>{"b6a7p", "b6c7p"} == moves));
    assert(Position(6,2) == p1.position);
-   assert(Position(7,1) == board[7][1].position);
-   assert(Position(7,2) == board[7][2].position);
-   assert(Position(7,3) == board[7][3].position);
+   assert(Position(7,1) == board(7,1)->position);
+   assert(Position(7,2) == board(7,2)->position);
+   assert(Position(7,3) == board(7,3)->position);
 }  // TEARDOWN
 
 void PieceTest::getMoves_pawn_enpassant() const
@@ -360,28 +360,28 @@ void PieceTest::getMoves_pawn_enpassant() const
    Pawn p1;
    p1.position = Position(5,2);
    p1.fWhite = true;
-   board[5][2] = p1;
+   board(5,2) = &p1;
    
    Pawn p2;
    p2.position = Position(6,2);
    p2.fWhite = false;
-   board[6][2] = p2;
+   board(6,2) = &p2;
    
    Pawn p3;
    p3.position = Position(6,1);
    p3.fWhite = false;
    p3.lastMove = 1;
-   board[6][1] = p3;
+   board(6,1) = &p3;
    
    Pawn p4;
    p4.position = Position(6,3);
    p4.fWhite = false;
    p4.lastMove = 1;
-   board[6][3] = p4;
+   board(6,3) = &p4;
    // EXERCISE
    p1.getMoves(moves, board);
    // VERIFY
-   assert(set<Move>{"b5c6E", "b5a6E"} == moves);
+   assert((set<Move>{"b5c6E", "b5a6E"} == moves));
    assert(Position(6,2) == p1.position);
    assert(Position(7,1) == p2.position);
    assert(Position(7,2) == p3.position);
@@ -398,14 +398,14 @@ void PieceTest::getMoves_pawn_promotion() const
    p1.position = Position(7,2);
    p1.fWhite = true;
    
-   Posistion pos(8,2)
+   Position pos(8,2);
    board -= pos;
    // EXERCISE
-   p1.getMoves(&moves, board);
+   p1.getMoves(moves, board);
    // VERIFY
    assert(set<Move>{"b7b8Q"} == moves);
    assert(Position(2,2) == p1.position);
-   assert(SPACE == board[8][2].getLetter());
+   assert(SPACE == board(8,2)->getLetter());
 }  // TEARDOWN
 
 void PieceTest::getMoves_rook_blocked() const
@@ -415,10 +415,10 @@ void PieceTest::getMoves_rook_blocked() const
    set<Move> moves;
    
    // EXERCISE
-   board[1][1].getMoves(&moves, board);
+   board(1,1)->getMoves(moves, board);
    // VERIFY
    assert(set<Move>{} == moves);
-   assert(Position(1,1) == board[1][1].position);
+   assert(Position(1,1) == board(1,1)->position);
 }  // TEARDOWN
 
 void PieceTest::getMoves_rook_free() const
@@ -430,17 +430,17 @@ void PieceTest::getMoves_rook_free() const
    Pawn p1;
    p1.position = Position(3,1);
    p1.fWhite = true;
-   board[3][1] = p1;
+   board(3,1) = &p1;
    
    Position pos(2,1);
    board -= pos;
    // EXERCISE
-   board[1][1].getMoves(&moves, board);
+   board(1,1)->getMoves(moves, board);
    // VERIFY
    assert(set<Move>{"a1a2"} == moves);
-   assert(Position(1,1) == board[1][1].position);
+   assert(Position(1,1) == board(1,1)->position);
    assert(Position(3,1) == p1.position);
-   assert(SPACE == board[2][1].getLetter());
+   assert(SPACE == board(2,1)->getLetter());
 }  // TEARDOWN
 
 void PieceTest::getMoves_rook_capture() const
@@ -452,18 +452,18 @@ void PieceTest::getMoves_rook_capture() const
    Pawn p1;
    p1.position = Position(3,1);
    p1.fWhite = false;
-   board[3][1] = p1;
+   board(3,1) = &p1;
    
    Position pos(2,1);
    board -= pos;
    // EXERCISE
-   board[1][1].getMoves(&moves, board);
+   board(1,1)->getMoves(moves, board);
    // VERIFY
-   assert(set<Move>{"a1a2", "a1a3p"} == moves);
-   assert(Position(1,1) = board[1][1].position);
+   assert((set<Move>{"a1a2", "a1a3p"} == moves));
+   assert(Position(1,1) == board(1,1)->position);
    assert(Position(3,1) == p1.position);
    assert(false == p1.fWhite);
-   assert(SPACE == board[2][1].getLetter());
+   assert(SPACE == board(2,1)->getLetter());
 }  // TEARDOWN
 
 void PieceTest::getMoves_bishop_blocked() const
@@ -473,10 +473,10 @@ void PieceTest::getMoves_bishop_blocked() const
    set<Move> moves;
    
    // EXERCISE
-   board[1][3].getMoves(&moves, board);
+   board(1,3)->getMoves(moves, board);
    // VERIFY
    assert(set<Move>{} == moves);
-   assert(Position(1,3) == board[1][3].position);
+   assert(Position(1,3) == board(1,3)->position);
 }  // TEARDOWN
 
 void PieceTest::getMoves_bishop_free() const
@@ -488,12 +488,12 @@ void PieceTest::getMoves_bishop_free() const
    Pawn p1;
    p1.position = Position(3,2);
    p1.fWhite = true;
-   board[3][2] = p1;
+   board(3,2) = &p1;
    
    Position pos(2,2);
    board -= pos;
    // EXERCISE
-   board[1][3].getMoves(&moves, board);
+   board(1,3)->getMoves(moves, board);
    // VERIFY
    assert(set<Move>{"c1b2", "c1a3"} == moves);
    assert(Position(1,3) == board[1][3].position);
