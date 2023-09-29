@@ -24,7 +24,7 @@ public:
    {
    
       // Constructor
-      constructor_piece(); // talk to andre about this, maybe making it just make a space?
+      constructor_piece();
       constructor_space();
       constructor_pawn();
       constructor_rook();
