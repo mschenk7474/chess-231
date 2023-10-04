@@ -30,10 +30,10 @@ void TestBoard:: testReset() const
 
 
     // VERIFY
-    assert(board.getPiece(Position(5, 4)).getLetter() != PAWN);
-    assert(board.getPiece(Position(5, 4)).getLetter() == SPACE);
-    assert(board.getPiece(Position(3, 6)).getLetter() != ROOK);
-    assert(board.getPiece(Position(3, 6)).getLetter() == SPACE);
+   assert(board.getPiece(Position(5, 4))->getLetter() != PAWN);
+    assert(board.getPiece(Position(5, 4))->getLetter() == SPACE);
+    assert(board.getPiece(Position(3, 6))->getLetter() != ROOK);
+    assert(board.getPiece(Position(3, 6))->getLetter() == SPACE);
     assert(board.getCurrentMove() == 0);
 
 
@@ -57,8 +57,8 @@ void TestBoard:: testSwapKingRook() const
 
 
     // VERIFY
-    assert(board.getPiece(pos1).getLetter() == KING);
-    assert(board.getPiece(pos2).getLetter() == ROOK);
+    assert(board.getPiece(pos1)->getLetter() == KING);
+    assert(board.getPiece(pos2)->getLetter() == ROOK);
 
 
     // TEARDOWN
@@ -78,8 +78,8 @@ void TestBoard:: testSwapPawnSpace() const
 
 
     // VERIFY
-    assert(board.getPiece(pos2).getLetter() == PAWN);
-    assert(board.getPiece(pos1).getLetter() == SPACE);
+    assert(board.getPiece(pos2)->getLetter() == PAWN);
+    assert(board.getPiece(pos1)->getLetter() == SPACE);
 
     // TEARDOWN
 
@@ -99,10 +99,10 @@ void TestBoard:: testSwapBlackPieceWhitePiece() const
 
 
     // VERIFY
-    assert(board.getPiece(pos2).getLetter() == PAWN);
-    assert(board.getPiece(pos1).getLetter() == PAWN);
-    assert(board.getPiece(pos2).isWhite() == true);
-    assert(board.getPiece(pos1).isWhite() == false);
+    assert(board.getPiece(pos2)->getLetter() == PAWN);
+    assert(board.getPiece(pos1)->getLetter() == PAWN);
+    assert(board.getPiece(pos2)->isWhite() == true);
+    assert(board.getPiece(pos1)->isWhite() == false);
 
     
     // TEARDOWN
@@ -121,9 +121,9 @@ void TestBoard:: testDeletePieceWhite() const
     board -= pos;
 
     // VERIFY
-    assert(board.getPiece(pos) != null);
-    assert(board.getPiece(pos).getLetter() != PAWN);
-    assert(board.getPiece(pos).getLetter() == SPACE);
+    assert(board.getPiece(pos) != NULL);
+    assert(board.getPiece(pos)->getLetter() != PAWN);
+    assert(board.getPiece(pos)->getLetter() == SPACE);
 
 
     // TEARDOWN
@@ -139,9 +139,9 @@ void TestBoard:: testDeletePieceBlack() const
     board -= pos;
 
     // VERIFY
-    assert(board.getPiece(pos) != null);
-    assert(board.getPiece(pos).getLetter() != PAWN);
-    assert(board.getPiece(pos).getLetter() == SPACE);
+    assert(board.getPiece(pos) != NULL);
+    assert(board.getPiece(pos)->getLetter() != PAWN);
+    assert(board.getPiece(pos)->getLetter() == SPACE);
 
 
     // TEARDOWN
@@ -157,15 +157,14 @@ void TestBoard:: testGetPieceWhite() const
     // SETUP
     Board board;
     Position pos(1,3);
-    Piece* testPiece = new Space;
 
     // EXCERSICE
-    testPiece = board.getPiece(pos);
+    Piece* testPiece = board.getPiece(pos);
 
     //VERIFY
-    assert(testPiece != null);
-    assert(testPiece->getPiece() == pos);
-    assert(testPiece->isWhite() == true);
+    assert(testPiece != NULL);
+    assert(testPiece->position == pos);
+    assert(testPiece->fWhite == true);
 
 
     // TEARDOWN
@@ -178,12 +177,12 @@ void TestBoard:: testGetPieceBlack() const
     Position pos(6,5);
 
     // EXCERSICE
-    Piece testPiece = board.getPiece(pos);
+    Piece* testPiece = board.getPiece(pos);
 
     //VERIFY
-    assert(testPiece != null);
-    assert(testPiece.getPiece() == pos);
-    assert(testPiece.isWhite() == false);
+    assert(testPiece != NULL);
+    assert(testPiece->position == pos);
+    assert(testPiece->fWhite == false);
 
 
     // TEARDOWN
@@ -196,14 +195,12 @@ void TestBoard:: testWhiteTurnTrue() const
 {
     // SETUP
     Board board;
-    board.getCurrentMove() = 4;
+    board.currentMove = 4;
 
     // EXCERSICE
-    bool turn = board.WhiteTurn();
+    bool turn = board.whiteTurn();
 
     // VERIFY
-    assert(board.whiteTurn().type == bool);
-    assert(turn != null);
     assert(board.getCurrentMove() % 2 == 0);
     assert(turn == true);
 
@@ -215,14 +212,12 @@ void TestBoard:: testWhiteTurnFalse() const
 {
     // SETUP
     Board board;
-    board.getCurrentMove() = 7;
+    board.currentMove = 7;
 
     // EXCERSICE
-    bool turn = board.WhiteTurn();
+    bool turn = board.whiteTurn();
 
     // VERIFY
-    assert(board.whiteTurn().type == bool);
-    assert(turn != null);
     assert(board.getCurrentMove() % 2 != 0);
     assert(turn == false);
 
@@ -245,8 +240,6 @@ void TestBoard:: testGetCurrentMove() const
     int move = board.getCurrentMove();
 
     // VERIFY
-    assert(board.getCurrentMove().type == int);
-    assert(move != null);
     assert(board.getCurrentMove() > 0);
     assert(move == 6);
 

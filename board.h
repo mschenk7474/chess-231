@@ -17,7 +17,7 @@ class Board
    friend class PieceTest;
    friend class TestBoard;
 public:
-   Board() {}
+   Board() : currentMove(0) { reset(); }
    Piece*& operator()(int row, int col) { return board[row][col]; }
    
    Piece* const operator[](Position pos) const  { return board[pos.getRow()][pos.getCol()]; }
@@ -30,7 +30,8 @@ public:
    
    // getter
    int getCurrentMove() const { return currentMove; }
-   Piece getPiece(Position pos);
+   Piece* getPiece(Position pos);
+   bool whiteTurn();
    
    // special methods
    void reset();

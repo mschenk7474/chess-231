@@ -60,7 +60,7 @@ public:
       adjust_offBottom();
       adjust_invalid();
       
-      std::cout << "Passed Piece Test Cases With Flying Colors!" << std::endl;
+      std::cout << "Passed Position Test Cases With Flying Colors!" << std::endl;
    }
 private:
    void getRow_zero();
