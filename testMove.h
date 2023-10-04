@@ -7,6 +7,7 @@
 
 
 #pragma once
+#include <iostream>
 
  /***************************************************
   * MOVE TEST
@@ -52,6 +53,8 @@ public:
       pieceTypeFromLetter_rook();
       pieceTypeFromLetter_king();
       pieceTypeFromLetter_queen();
+      
+      std::cout << "Passed Move Test Cases With Flying Colors!" << std::endl;
 
    }
 private:

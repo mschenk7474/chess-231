@@ -6,7 +6,7 @@
  ************************************************************************/
 
 #pragma once
-
+#include <iostream>
 /***************************************************
  * PIECE TEST
  * Test the Piece & Derived classes
@@ -71,6 +71,8 @@ public:
       getMoves_king_castle_rooks_moved();
       getMoves_king_castle_blocked();
       getMoves_king_castle();
+      
+      std::cout << "Passed Piece Test Cases With Flying Colors!" << std::endl;
    }
    
 private:

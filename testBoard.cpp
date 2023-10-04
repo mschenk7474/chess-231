@@ -7,22 +7,22 @@ using namespace std;
 /*************************************
  * RESET
  **************************************/
-void TestBoard:: testReset()
+void TestBoard:: testReset() const
 {
-    // SETUP
-    Board board;
-    board.currentMove = 5;
+   // SETUP
+   Board board;
+   board.currentMove = 5;
 
-    Pawn p1;
-    p1.position = (5, 4);
-    p1.fWhite = true;
-    board(5, 4) = &p1;
+   Pawn p1;
+   p1.position = Position(5, 4);
+   p1.fWhite = true;
+   board(5, 4) = &p1;
 
 
-    Rook r1;
-    r1.position = (3, 6);
-    re.fWhite = false;
-    board(3, 6) = &r1
+   Rook r1;
+   r1.position = Position(3, 6);
+   r1.fWhite = false;
+   board(3, 6) = &r1;
 
 
     // EXCERSICE
@@ -44,7 +44,7 @@ void TestBoard:: testReset()
 /*************************************
  * SWAP
  **************************************/
-void TestBoard:: testSwapKingRook()
+void TestBoard:: testSwapKingRook() const
 {
     // SETUP
     Board board;
@@ -65,7 +65,7 @@ void TestBoard:: testSwapKingRook()
 }
 
 
-void TestBoard:: testSwapPawnSpace()
+void TestBoard:: testSwapPawnSpace() const
 {
     // SETUP
     Board board;
@@ -85,7 +85,7 @@ void TestBoard:: testSwapPawnSpace()
 
 }
 
-void TestBoard:: testSwapBlackPieceWhitePiece()
+void TestBoard:: testSwapBlackPieceWhitePiece() const
 {
     // SETUP
     Board board;
@@ -111,7 +111,7 @@ void TestBoard:: testSwapBlackPieceWhitePiece()
 /*************************************
  * -=
  **************************************/
-void TestBoard:: testDeletePieceWhite()
+void TestBoard:: testDeletePieceWhite() const
 {
     // SETUP
     board board;
@@ -129,7 +129,7 @@ void TestBoard:: testDeletePieceWhite()
     // TEARDOWN
 }
 
-void TestBoard:: testDeletePieceBlack()
+void TestBoard:: testDeletePieceBlack() const
 {
     // SETUP
     board board;
@@ -152,7 +152,7 @@ void TestBoard:: testDeletePieceBlack()
  * GET PIECE
  **************************************/
 
-void TestBoard:: testGetPieceWhite()
+void TestBoard:: testGetPieceWhite() const
 {
     // SETUP
     Board board;
@@ -171,7 +171,7 @@ void TestBoard:: testGetPieceWhite()
     // TEARDOWN
 }
 
-void TestBoard:: testGetPieceBlack()
+void TestBoard:: testGetPieceBlack() const
 {
     // SETUP
     Board board;
@@ -193,7 +193,7 @@ void TestBoard:: testGetPieceBlack()
 /*************************************
  * TURN
  **************************************/
-void TestBoard:: testWhiteTurnTrue()
+void TestBoard:: testWhiteTurnTrue() const
 {
     // SETUP
     Board board;
@@ -212,7 +212,7 @@ void TestBoard:: testWhiteTurnTrue()
     // TEARDOWN
 }
 
-void TestBoard:: testWhiteTurnFalse()
+void TestBoard:: testWhiteTurnFalse() const
 {
     // SETUP
     Board board;
@@ -235,7 +235,7 @@ void TestBoard:: testWhiteTurnFalse()
 /*************************************
  * CURRENT MOVE
  **************************************/
-void TestBoard:: testGetCurrentMove()
+void TestBoard:: testGetCurrentMove() const
 {
     // SETUP
     Board board;

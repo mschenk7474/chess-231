@@ -13,12 +13,14 @@
 #include <set>
 
 class PieceTest;
+class TestBoard;
 class Board;
 class Move;
 
 class Piece
 {
    friend class PieceTest;
+   friend class TestBoard;
 public:
    Piece() : position(1, 1), fWhite(false), nMoves(0), lastMove(0) {}
    Piece(Position pos) : position(pos), fWhite(false), nMoves(0), lastMove(0) {}

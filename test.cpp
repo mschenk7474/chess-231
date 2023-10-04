@@ -3,7 +3,7 @@
 #include "testMove.h"
 #include "testPosition.h"
 #include "testPiece.h"
-#include "testBoard"
+#include "testBoard.h"
 
 /*****************************************************************
  * TEST RUNNER
@@ -11,9 +11,9 @@
  ****************************************************************/
 void testRunner()
 {
-    TestMove().run();
-    TestPosition().run();
-    TestPiece().run();
+    MoveTest().run();
+    PositionTest().run();
+    PieceTest().run();
     TestBoard().run();
 }
 

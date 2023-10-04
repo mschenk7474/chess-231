@@ -8,6 +8,7 @@
  ************************************************************************/
 
 #pragma once
+#include <iostream>
 
 
 /***************************************************
@@ -58,6 +59,8 @@ public:
       adjust_offLeft();
       adjust_offBottom();
       adjust_invalid();
+      
+      std::cout << "Passed Piece Test Cases With Flying Colors!" << std::endl;
    }
 private:
    void getRow_zero();

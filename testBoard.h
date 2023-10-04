@@ -6,6 +6,7 @@
 //
 
 #pragma once
+#include <iostream>
 
 #include "piece.h"
 #include "position.h"
@@ -41,6 +42,7 @@ public:
         // CURRENT MOVE
         testGetCurrentMove();
 
+       std::cout << "Passed Board Test Cases With Flying Colors!" << std::endl;
     }
 private:
 

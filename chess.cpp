@@ -6,6 +6,7 @@
 
 #include "uiInteract.h"   // for Interface
 #include "uiDraw.h"       // for draw*
+#include "test.h"
 #include <set>            // for STD::SET
 #include <cassert>        // for ASSERT
 #include <fstream>        // for IFSTREAM
@@ -531,7 +532,8 @@ int main(int argc, char** argv)
 #endif // !_WIN32
 
    // set everything into action
-   ui.run(callBack, board);             
+//   ui.run(callBack, board);
+   testRunner();
 
    return 0;
 }
