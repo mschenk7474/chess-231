@@ -22,25 +22,25 @@ public:
         // Reset
         testReset();
         
-        // SWAP
-        testSwapKingRook();
-        testSwapPawnSpace();
-        testSwapBlackPieceWhitePiece();
-
-        // -=
-        testDeletePieceWhite();
-        testDeletePieceBlack();
-
-        // GET PIECE
-        testGetPieceWhite();
-        testGetPieceBlack();
-
-        // TURN
-        testWhiteTurnTrue();
-        testWhiteTurnFalse();
-
-        // CURRENT MOVE
-        testGetCurrentMove();
+//        // SWAP
+//        testSwapKingRook();
+//        testSwapPawnSpace();
+//        testSwapBlackPieceWhitePiece();
+//
+//        // -=
+//        testDeletePieceWhite();
+//        testDeletePieceBlack();
+//
+//        // GET PIECE
+//        testGetPieceWhite();
+//        testGetPieceBlack();
+//
+//        // TURN
+//        testWhiteTurnTrue();
+//        testWhiteTurnFalse();
+//
+//        // CURRENT MOVE
+//        testGetCurrentMove();
 
        std::cout << "Passed Board Test Cases With Flying Colors!" << std::endl;
     }

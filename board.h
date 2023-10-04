@@ -10,10 +10,12 @@
 #include "piece.h"
 
 class PieceTest;
+class TestBoard;
 
 class Board
 {
    friend class PieceTest;
+   friend class TestBoard;
 public:
    Board() {}
    Piece*& operator()(int row, int col) { return board[row][col]; }
@@ -26,8 +28,16 @@ public:
       board[pos.getRow()][pos.getCol()] = new Space(pos);
    }
    
+   // getter
+   int getCurrentMove() const { return currentMove; }
+   Piece getPiece(Position pos);
+   
+   // special methods
+   void reset();
+   void swap(Position pos1, Position pos2);
    
 private:
    Piece* board[8][8];
+   int currentMove;
    
 };

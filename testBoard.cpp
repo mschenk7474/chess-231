@@ -30,11 +30,11 @@ void TestBoard:: testReset() const
 
 
     // VERIFY
-    assert(board.getPosition(Position(5, 4)).getLetter() != PAWN);
-    assert(board.getPosition(Position(5, 4)).getLetter() == SPACE);
-    assert(board.getPosition(Position(3, 6)).getLetter() != ROOK);
-    assert(board.getPosition(Position(3, 6)).getLetter() == SPACE);
-    assert(boart.getCurrentMove() == 0);
+    assert(board.getPiece(Position(5, 4)).getLetter() != PAWN);
+    assert(board.getPiece(Position(5, 4)).getLetter() == SPACE);
+    assert(board.getPiece(Position(3, 6)).getLetter() != ROOK);
+    assert(board.getPiece(Position(3, 6)).getLetter() == SPACE);
+    assert(board.getCurrentMove() == 0);
 
 
     // TEARDOWN
@@ -57,8 +57,8 @@ void TestBoard:: testSwapKingRook() const
 
 
     // VERIFY
-    assert(board.getPosition(pos1).getLetter() == KING);
-    assert(board.getPosition(pos2).getLetter() == ROOK);
+    assert(board.getPiece(pos1).getLetter() == KING);
+    assert(board.getPiece(pos2).getLetter() == ROOK);
 
 
     // TEARDOWN
@@ -78,8 +78,8 @@ void TestBoard:: testSwapPawnSpace() const
 
 
     // VERIFY
-    assert(board.getPosition(pos2).getLetter() == PAWN);
-    assert(board.getPosition(pos1).getLetter() == SPACE);
+    assert(board.getPiece(pos2).getLetter() == PAWN);
+    assert(board.getPiece(pos1).getLetter() == SPACE);
 
     // TEARDOWN
 
@@ -99,10 +99,10 @@ void TestBoard:: testSwapBlackPieceWhitePiece() const
 
 
     // VERIFY
-    assert(board.getPosition(pos2).getLetter() == PAWN);
-    assert(board.getPosition(pos1).getLetter() == PAWN);
-    assert(board.getPosition(pos2).iswhite() == true);
-    assert(board.getPosition(pos1).iswhite() == false);
+    assert(board.getPiece(pos2).getLetter() == PAWN);
+    assert(board.getPiece(pos1).getLetter() == PAWN);
+    assert(board.getPiece(pos2).isWhite() == true);
+    assert(board.getPiece(pos1).isWhite() == false);
 
     
     // TEARDOWN
@@ -114,16 +114,16 @@ void TestBoard:: testSwapBlackPieceWhitePiece() const
 void TestBoard:: testDeletePieceWhite() const
 {
     // SETUP
-    board board;
-    Position pos(1,5)
+    Board board;
+    Position pos(1,5);
 
     // EXCERSICE
     board -= pos;
 
     // VERIFY
-    assert(board.getPosition(pos) != null);
-    assert(board.getPosition(pos).getLetter() != PAWN);
-    assert(board.getPosition(pos).getLetter() == SPACE);
+    assert(board.getPiece(pos) != null);
+    assert(board.getPiece(pos).getLetter() != PAWN);
+    assert(board.getPiece(pos).getLetter() == SPACE);
 
 
     // TEARDOWN
@@ -132,16 +132,16 @@ void TestBoard:: testDeletePieceWhite() const
 void TestBoard:: testDeletePieceBlack() const
 {
     // SETUP
-    board board;
-    Position pos(6,4)
+    Board board;
+    Position pos(6,4);
 
     // EXCERSICE
     board -= pos;
 
     // VERIFY
-    assert(board.getPosition(pos) != null);
-    assert(board.getPosition(pos).getLetter() != PAWN);
-    assert(board.getPosition(pos).getLetter() == SPACE);
+    assert(board.getPiece(pos) != null);
+    assert(board.getPiece(pos).getLetter() != PAWN);
+    assert(board.getPiece(pos).getLetter() == SPACE);
 
 
     // TEARDOWN
@@ -157,15 +157,15 @@ void TestBoard:: testGetPieceWhite() const
     // SETUP
     Board board;
     Position pos(1,3);
+    Piece* testPiece = new Space;
 
     // EXCERSICE
-    Piece testPiece = board.getPiece(pos);
+    testPiece = board.getPiece(pos);
 
     //VERIFY
-    assert(board.getPiece(pos).type() == Piece);
     assert(testPiece != null);
-    assert(testPiece.getPosition() == pos);
-    assert(testPiece.isWhite() == true);
+    assert(testPiece->getPiece() == pos);
+    assert(testPiece->isWhite() == true);
 
 
     // TEARDOWN
@@ -181,9 +181,8 @@ void TestBoard:: testGetPieceBlack() const
     Piece testPiece = board.getPiece(pos);
 
     //VERIFY
-    assert(board.getPiece(pos).type() == Piece);
     assert(testPiece != null);
-    assert(testPiece.getPosition() == pos);
+    assert(testPiece.getPiece() == pos);
     assert(testPiece.isWhite() == false);
 
 
