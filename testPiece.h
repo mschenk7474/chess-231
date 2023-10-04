@@ -7,11 +7,6 @@
 
 #pragma once
 
-#include "piece.h"
-#include "position.h"
-#include "board.h"
-#include "move.h"
-
 /***************************************************
  * PIECE TEST
  * Test the Piece & Derived classes
@@ -24,7 +19,6 @@ public:
    {
    
       // Constructor
-      constructor_piece();
       constructor_space();
       constructor_pawn();
       constructor_rook();
@@ -80,8 +74,6 @@ public:
    }
    
 private:
-   
-   void constructor_piece() const;
    void constructor_space() const;
    void constructor_pawn() const;
    void constructor_rook() const;

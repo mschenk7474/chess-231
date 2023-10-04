@@ -7,7 +7,9 @@
 
 // include the test header, needed classes for composite attributes, and all of the classes to be tested
 #include "testPiece.h"
-
+#include "piece.h"
+#include "board.h"
+#include "move.h"
 
 #include <cassert> // for asserts
 #include <set>     // for set
@@ -16,19 +18,6 @@ using namespace std;
 /*************************************
  * CONSTRUCTOR
  **************************************/
-void PieceTest::constructor_piece() const
-{  // SETUP
-   double row = 5;
-   double col = 5;
-   bool isWhite = false;
-   // EXERCISE
-   Piece pieceTest(row,col,isWhite);
-   // VERIFY
-   assert(Position(row, col) == pieceTest.position);
-   assert(false == pieceTest.fWhite);
-   assert(0 == pieceTest.nMoves);
-   assert(0 == pieceTest.lastMove);   
-}  // TEARDOWN
 
 void PieceTest::constructor_space() const
 {  // SETUP

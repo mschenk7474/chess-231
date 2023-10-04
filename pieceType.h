@@ -12,7 +12,7 @@
 
 enum PieceType { SPACE, KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN };
 
-PieceType charToPieceType(char pieceChar)
+inline PieceType charToPieceType(char pieceChar)
 {
    switch (pieceChar) {
       case ' ':
