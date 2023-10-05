@@ -9,17 +9,15 @@
 #include "board.h"
 #include "move.h"
 
-// this is to tell who's turn it is. if the last move is odd, then it is black's turn, and vice versa for white
-// need to tell what color
 bool Piece::isMove()
 {
-   // need to check if back or white
+   // need to check if black or white
    
    // white piece coverage
    if(fWhite == true)
    {
       // intial check to see if anyone has moved yet
-      if (lastMove == 0)
+      if (nMoves == 0)
          return true;
       
       // if the last move is even, that means black just moved, so it is white's turn now
@@ -35,7 +33,7 @@ bool Piece::isMove()
    else
    {
       // if no moves, return false as white always goes first
-      if(lastMove == 0)
+      if(nMoves == 0)
          return false;
       
       // if last move is odd, then white just went and it is black's turn
@@ -43,6 +41,40 @@ bool Piece::isMove()
          return true;
       
       // if there has been a move and the last move is even, return false as it is not black's turn
+      else
+         return false;
+   }
+}
+
+bool Piece::justMoved()
+{
+   // this will need to check if the piece in question just moved
+   // will follow same struct as is move
+   
+   // no matter what, if nMoves is 0, need to return false as no one has moved
+   if(nMoves == 0)
+      return false;
+   
+   // white piece coverage
+   if(fWhite == true)
+   {
+      // check if white just moved aka last move is odd
+      if(lastMove % 2 == 1)
+         return true;
+      
+      // otherwise return false
+      else
+         return false;
+   }
+   
+   // black piece coverage
+   else
+   {
+      // check if black just moved aka last move is even
+      if(lastMove % 2 == 0)
+         return true;
+      
+      // otherwise return false
       else
          return false;
    }
