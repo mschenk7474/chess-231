@@ -80,6 +80,15 @@ bool Piece::justMoved()
    }
 }
 
+Piece* Piece::operator=(Position pos)
+{
+   return new Space;
+}
+Piece* Piece::operator=(Piece* piece)
+{
+   return new Space;
+}
+
 void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
 {
    

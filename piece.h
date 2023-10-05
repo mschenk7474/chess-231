@@ -39,7 +39,7 @@ public:
    // getters
    bool isWhite()               { return ( fWhite == true) ? true : false; }
    bool isMove();
-   bool justMoved(); // come back and do
+   bool justMoved();
    int getNMoves() const        { return nMoves;                           }
    Position getPosition() const { return position;                         }
    
@@ -49,8 +49,8 @@ public:
    virtual void display(ogstream &gout) = 0;
    
    // operator overrides
-   Piece& operator=(Position pos);
-   Piece& operator=(Piece* piece);
+   Piece* operator=(Position pos); // come back and do
+   Piece* operator=(Piece* piece); // come back and do
    
 protected:
    Position position;

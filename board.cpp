@@ -20,7 +20,18 @@ void Board::reset()
 {
    
 }
+
+void Board::free()
+{
+   
+}
+
 void Board::swap(Position pos1, Position pos2)
+{
+   
+}
+
+void Board::operator=(Piece piece)
 {
    
 }
