@@ -20,7 +20,7 @@ class Board
 public:
    
    // constructor
-   Board() : currentMove(0) { reset(); }
+   Board(ogstream &gout,bool rReset) : currentMove(0), gout(gout) { reset(rReset); }
    
    // getter
    int getCurrentMove() const { return currentMove; }
@@ -28,7 +28,7 @@ public:
    bool whiteTurn(); // come back and do
    
    // special methods
-   void reset(); // come back and do
+   void reset(bool fFree); // come back and do
    void free();  // come back and do
    void display(Position posHover, Position posSel);
    void move(Move move);

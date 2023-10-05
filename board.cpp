@@ -16,7 +16,7 @@ bool Board::whiteTurn()
    return true;
 }
 
-void Board::reset()
+void Board::reset(bool fFree)
 {
    
 }

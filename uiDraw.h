@@ -22,9 +22,10 @@ using std::string;
 class ogstream : public std::ostringstream
 {
 public:
-    ogstream() : x(0), y(0)                  {          }
-    ogstream(int position): x(0), y(0)       {          }
-    ~ogstream()                              { flush(); }
+    ogstream() : x(0), y(0)                       {          }
+    ogstream(int position): x(0), y(0)            {          }
+   ogstream(ogstream &gout): x(gout.x), y(gout.y) {           }
+    ~ogstream()                                   { flush(); }
 
     // Methods specific to drawing text on the screen
     virtual void flush();
