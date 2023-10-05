@@ -35,10 +35,12 @@ public:
    
    // special methods
    void reset();
-   void swap(Position pos1, Position pos2);
+   
    
 private:
    Piece* board[8][8];
    int currentMove;
+   
+   void swap(Position pos1, Position pos2);
    
 };
