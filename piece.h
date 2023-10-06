@@ -49,7 +49,7 @@ public:
    virtual void display(ogstream &gout) = 0;
    
    // operator overrides
-   void operator=(Position pos) { position = pos; }
+   void operator=(Position pos) { position.set(pos.getRow(), pos.getCol()); }
    Piece* operator=(Piece* piece); // come back and do
    
    // special methods
@@ -79,7 +79,6 @@ public:
    void getMoves(std::set<Move> &moves, const Board &board) const override {}
    void display(ogstream &gout) override {}
 };
-void setMove(std::set<Move> &moves, Move &move, Position possiblePos, Position currentPosition);
 
 class Pawn : public Piece
 {
@@ -161,3 +160,4 @@ public:
 
 
 Piece * builder(PieceType type, int r, int c, bool isWhite);
+void insertMove(std::set<Move> &moves, Move &move, Position possiblePos, Position currentPosition);

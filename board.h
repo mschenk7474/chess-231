@@ -36,8 +36,8 @@ public:
    void resetMoves() {currentMove = 0;}
    
    // operator overrides
-   Piece*& operator()(int row, int col) { return board[row][col]; }
-   Piece* const& operator()(int row, int col) const { return board[row][col]; }
+   Piece*& operator()(int row, int col) { Position temp = Position(row, col); return board[temp.getRow()][temp.getCol()]; }
+   Piece* const& operator()(int row, int col) const { Position temp = Position(row, col); return board[temp.getRow()][temp.getCol()]; }
    Piece* const operator[](Position pos) const  { return board[pos.getRow()][pos.getCol()]; }
    void operator-=(Position pos)
    {

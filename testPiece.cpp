@@ -294,14 +294,18 @@ void PieceTest::getMoves_pawn_simple() const
    Board board(false);
    
    set<Move> moves;
-   
+      
    Pawn p1;
    p1.position = Position(4,2);
    p1.fWhite = true;
    board(4,2) = &p1;
+   
+   
    // EXERCISE
    p1.getMoves(moves, board);
+   Move move = Move("b4b5");
    // VERIFY
+   assert(moves.find(move) != moves.end());
    assert(set<Move>{"b4b5"} == moves);
    assert(Position(4,2) == p1.position);
 }  // TEARDOWN

@@ -92,12 +92,7 @@ Piece* Piece::operator=(Piece* piece)
    return new Space;
 }
 
-void setMove(std::set<Move> &moves, Move &move, Position possiblePos, Position currentPosition)
-{
-   move.setSrc(currentPosition);
-   move.setDes(possiblePos);
-   moves.insert(move);
-}
+
 
 /*********************************************************************
  * PAWN GET MOVES
@@ -125,16 +120,37 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
       possibleRow = currentRow - 2;
       
       if(currentRow == 6 && board(possibleRow,possibleCol)->getLetter() == SPACE)
-         setMove(moves, move, Position(possibleRow, possibleCol) , this->position);
+         insertMove(moves, move, Position(possibleRow, possibleCol) , this->position); // forward two blank
       possibleRow = currentRow - 1;
-      if (possibleRow >= 0 && board(possibleRow, possibleCol)->getLetter() == SPACE)
-         setMove(moves, move, Position(possibleRow, possibleCol) , this->position);
+      if(possibleRow >= 0 && board(possibleRow, possibleCol)->getLetter() == SPACE)
+         insertMove(moves, move, Position(possibleRow, possibleCol) , this->position); // forward one blank
       possibleCol = currentCol - 1;
+      if(fWhite == true)
+         insertMove(moves, move, Position(possibleRow, possibleCol) , this->position); // attack left
+      possibleCol = currentCol + 1;
+      if (fWhite == true)
+         insertMove(moves, move, Position(possibleRow, possibleCol) , this->position); // attack right
+      // handle en-passant and pawn promotion
    }
    
    // covers white pawns
    else
    {
+      possibleCol = currentCol;
+      possibleRow = currentRow + 2;
+      
+      if(currentRow == 1 && board(possibleRow,possibleCol)->getLetter() == SPACE)
+         insertMove(moves, move, Position(possibleRow, possibleCol) , this->position); // forward two blank
+      possibleRow = currentRow + 1;
+      if(possibleRow < 8 && board(possibleRow, possibleCol)->getLetter() == SPACE)
+         insertMove(moves, move, Position(possibleRow, possibleCol) , this->position); // forward one blank
+      possibleCol = currentCol - 1;
+      if(fWhite == false)
+         insertMove(moves, move, Position(possibleRow, possibleCol) , this->position); // attack left
+      possibleCol = currentCol + 1;
+      if (fWhite == false)
+         insertMove(moves, move, Position(possibleRow, possibleCol) , this->position); // attack right
+      // handle en-passant and pawn promotion
       
    }
 }
@@ -182,6 +198,17 @@ void Queen::getMoves(std::set<Move> &moves, const Board &board) const
 void King::getMoves(std::set<Move> &moves, const Board &board) const
 {
    
+}
+
+/*********************************************************************
+ * INSERT MOVE
+ * Adds a move to the possible moves
+ *********************************************************************/
+void insertMove(std::set<Move> &moves, Move &move, Position possiblePos, Position currentPosition)
+{
+   move.setSrc(currentPosition);
+   move.setDes(possiblePos);
+   moves.insert(move);
 }
 
 /*********************************************************************
