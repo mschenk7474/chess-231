@@ -39,7 +39,7 @@ public:
    // getters
    bool isMove();
    bool justMoved();
-   bool isWhite()               { return ( fWhite == true) ? true : false; }
+   bool isWhite()               { return fWhite == true;                   }
    int getNMoves() const        { return nMoves;                           }
    Position getPosition() const { return position;                         }
    
@@ -91,7 +91,7 @@ public:
    char getLetter() const override       { return PAWN;                                   }
    void display(ogstream &gout) override { gout.drawPawn(position.getLocation(), fWhite); }
    void getMoves(std::set<Move> &moves, const Board &board) const override;
-   bool canEnPassant(const Board &board, Position opposingPosition);
+   bool canEnPassant(const Board &board, Position opposingPosition) const;
 };
 
 class Rook : public Piece

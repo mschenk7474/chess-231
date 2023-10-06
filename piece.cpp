@@ -133,12 +133,24 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
           char letter = board(possibleRow,possibleCol)->getLetter();
           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, letter);// attack left
        }
+      possibleRow = currentRow;
+      if(board(possibleRow,possibleCol)->isWhite() == false && this->canEnPassant(board, Position(possibleRow, possibleCol))){
+         char letter = board(possibleRow,possibleCol)->getLetter();
+         move.setEnPassant();
+         insertMove(moves, move, Position(possibleRow - 1, possibleCol) , this->position, letter);// enpassant left
+      }
       possibleCol = currentCol + 1;
+      possibleRow = currentRow - 1;
       if (board(possibleRow,possibleCol)->isWhite() == true){
           char letter = board(possibleRow,possibleCol)->getLetter();
          insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, letter);// attack right
       }
-      // handle en-passant and pawn promotion
+      possibleRow = currentRow;
+      if(board(possibleRow,possibleCol)->isWhite() == false && this->canEnPassant(board, Position(possibleRow, possibleCol))){
+         char letter = board(possibleRow,possibleCol)->getLetter();
+         move.setEnPassant();
+         insertMove(moves, move, Position(possibleRow - 1, possibleCol) , this->position, letter);// enpassant right
+      }
    }
    
    // covers white pawns
@@ -158,19 +170,31 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
        }
       possibleCol = currentCol - 1;
        if(board(possibleRow,possibleCol)->isWhite() == false){
-           // add a call to canEnpassant and if true setEnpassant in move
            // add a call to CanPromote and if true setPromote in move
           char letter = board(possibleRow,possibleCol)->getLetter();
           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, letter);// attack left
        }
+      possibleRow = currentRow;
+      if(board(possibleRow,possibleCol)->isWhite() == false && this->canEnPassant(board, Position(possibleRow, possibleCol))){
+         char letter = board(possibleRow,possibleCol)->getLetter();
+         move.setEnPassant();
+         insertMove(moves, move, Position(possibleRow + 1, possibleCol) , this->position, letter);// enpassant left
+      }
       possibleCol = currentCol + 1;
+      possibleRow = currentRow + 1;
        if(board(possibleRow,possibleCol)->isWhite() == false){
-           // add a call to canEnpassant and if true setEnpassant in move
            // add a call to CanPromote and if true setPromote in move
            char letter = board(possibleRow,possibleCol)->getLetter();
           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, letter);// attack right
        }
-      // handle en-passant and pawn promotion
+      possibleRow = currentRow;
+      if(board(possibleRow,possibleCol)->isWhite() == false && this->canEnPassant(board, Position(possibleRow, possibleCol))){
+         char letter = board(possibleRow,possibleCol)->getLetter();
+         // for enpassant, we need to move the destination up or down one, aka adjust the row
+         move.setEnPassant();
+         insertMove(moves, move, Position(possibleRow + 1, possibleCol) , this->position, letter);// enpassant right
+      }
+      
       
    }
 }
@@ -178,7 +202,7 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
  * Pawn CAN ENPASSANT
  * Returns true ot false depending on if the conditions for enpassant have been met
  *********************************************************************/
-bool Pawn::canEnPassant(const Board &board, Position opposingPosition)
+bool Pawn::canEnPassant(const Board &board, Position opposingPosition) const
 {
    
    /*
@@ -200,6 +224,8 @@ bool Pawn::canEnPassant(const Board &board, Position opposingPosition)
          - need to: board to see what is at the position passed
     */
    
+   // for reference, this refers to the pawn that wants to do the enpassant
+   
    // first need to check the position passed in and see if it is a pawn
    if(board[opposingPosition]->getLetter() != PAWN)
       return false;
@@ -207,10 +233,21 @@ bool Pawn::canEnPassant(const Board &board, Position opposingPosition)
    // set opposing pawn to make things easier
    auto opposingPawn = board[opposingPosition];
    
-   // for reference, this refers to the pawn that wants to do the enpassant
+//   // need to check if the opposing position is next to the current pawn, either to the left or right
+//   if ((opposingPawn->getPosition().getRow() != this->getPosition().getRow()) || (opposingPawn->getPosition().getCol() != ((this->getPosition().getCol() - 1) || (this->getPosition().getCol() + 1))))
+//      return false;
+      
+//   // also need to make sure that the pieces are not the same color
+//   if(opposingPawn->isWhite() == this->isWhite())
+//      return false;
    
    // need to check if the opposing pawn has only moved once and if it moved two spaces from where it was
-   if(opposingPawn)
+   // confirms the opposing pawn has only moved once           makes sure if the piece is black, that it has moved 2 spaces            make sure if the piece is white, then it has moved two spaces
+   if(opposingPawn->getNMoves() == 1 && ((opposingPawn->getPosition().getRow() == 4 && opposingPawn->isWhite() == false) || (opposingPawn->getPosition().getRow() == 3 && opposingPawn->isWhite() == true)))
+      return true;
+   
+   // otherwise return false
+   return false;
    
    
     // *** this is what the pseudocode for this function has:
@@ -225,7 +262,7 @@ bool Pawn::canEnPassant(const Board &board, Position opposingPosition)
 //                if (previous.to / 8 == previous.from / 8 - 2)
 //                {
 //                    return true
-//                }
+//
 //            }
 //            else if(previous.isWhite == false)
 //            {
@@ -234,13 +271,6 @@ bool Pawn::canEnPassant(const Board &board, Position opposingPosition)
 //                    return true
 //                }
 //            }
-    if (board.getCurrentMove() % board(row,col)->getNMoves() == 0 )
-    {
-
-    }
-
-    
-    return true;
 }
 
 /*********************************************************************
