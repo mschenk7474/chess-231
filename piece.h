@@ -37,9 +37,9 @@ public:
    void setBlack()                     { fWhite = false;        }
    
    // getters
-   bool isWhite()               { return ( fWhite == true) ? true : false; }
    bool isMove();
    bool justMoved();
+   bool isWhite()               { return ( fWhite == true) ? true : false; }
    int getNMoves() const        { return nMoves;                           }
    Position getPosition() const { return position;                         }
    
@@ -49,8 +49,16 @@ public:
    virtual void display(ogstream &gout) = 0;
    
    // operator overrides
-   void operator=(Position pos);
+   void operator=(Position pos) { position = pos; }
    Piece* operator=(Piece* piece); // come back and do
+   
+   // special methods
+   bool canMove() const
+   {
+      // checks boundaries limits and if the spot in question is a space
+      return (this->position.getLocation() < 0 || this->position.getLocation() >= 64 || this->getLetter() == SPACE) ? false : true;
+   }
+   
    
 protected:
    Position position;
@@ -71,6 +79,7 @@ public:
    void getMoves(std::set<Move> &moves, const Board &board) const override {}
    void display(ogstream &gout) override {}
 };
+void setMove(std::set<Move> &moves, Move &move, Position possiblePos, Position currentPosition);
 
 class Pawn : public Piece
 {

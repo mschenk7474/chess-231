@@ -15,7 +15,7 @@
  *********************************************************************/
 Piece* Board::getPiece(Position pos)
 {
-   return new Space;
+   return (*this)[pos];
 }
 
 /*********************************************************************
@@ -25,15 +25,6 @@ Piece* Board::getPiece(Position pos)
 void Board::move(Move move)
 {
    
-}
-
-/*********************************************************************
- * BOARD WHITE TURN
- * Check's to see if it is white's turn.
- *********************************************************************/
-bool Board::whiteTurn()
-{
-   return true;
 }
 
 /*********************************************************************
@@ -105,10 +96,13 @@ void Board::swap(Position pos1, Position pos2)
 
 /*********************************************************************
  * BOARD ASSIGNMENT OPERATOR
- * Assigns a piece to a given place on the board.
+ * Assigns a piece's type to another piece. Used for Pawn Promotion
+ * currently.
  *********************************************************************/
-void Board::operator=(Piece piece)
+void Board::operator=(Piece* piece)
 {
+//   *this = nullptr;
+//   *this = piece;
    
 }
 

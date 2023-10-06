@@ -84,15 +84,6 @@ bool Piece::justMoved()
 }
 
 /*********************************************************************
- * PIECE ASSIGNMENT OPERATOR (POSITION PASSED)
- * Assigns a new position to the piece in question
- *********************************************************************/
-void Piece::operator=(Position pos)
-{
-   position = pos;
-}
-
-/*********************************************************************
  * PIECE ASSIGNMENT OPERATOR (PIECE PASSED)
  * Assigns a piece to the piece object in question
  *********************************************************************/
@@ -101,13 +92,51 @@ Piece* Piece::operator=(Piece* piece)
    return new Space;
 }
 
+void setMove(std::set<Move> &moves, Move &move, Position possiblePos, Position currentPosition)
+{
+   move.setSrc(currentPosition);
+   move.setDes(possiblePos);
+   moves.insert(move);
+}
+
 /*********************************************************************
  * PAWN GET MOVES
  * Gets the possible moves for a Pawn at a given space
  *********************************************************************/
 void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
 {
+   // *** PUT THIS BEFORE THIS FUNCTION IS CALLED
+//   // returns an empty set if no possible move
+//   if(!canMove())
+//   {
+//      moves.clear();
+//      return;
+//   }
    
+   int possibleRow, possibleCol; // row and col we are checking
+   int currentRow = this->position.getRow();
+   int currentCol = this->position.getCol();
+   Move move = Move();
+   
+   // covers black pawns
+   if (this->fWhite == false)
+   {
+      possibleCol = currentCol;
+      possibleRow = currentRow - 2;
+      
+      if(currentRow == 6 && board(possibleRow,possibleCol)->getLetter() == SPACE)
+         setMove(moves, move, Position(possibleRow, possibleCol) , this->position);
+      possibleRow = currentRow - 1;
+      if (possibleRow >= 0 && board(possibleRow, possibleCol)->getLetter() == SPACE)
+         setMove(moves, move, Position(possibleRow, possibleCol) , this->position);
+      possibleCol = currentCol - 1;
+   }
+   
+   // covers white pawns
+   else
+   {
+      
+   }
 }
 
 /*********************************************************************

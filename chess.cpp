@@ -97,7 +97,6 @@ set <int> getPossibleMoves(const char* board, int location)
    int c;                   // the column we are checking
    bool amBlack = isBlack(board, row, col);
 
-
    //
    // PAWN
    //

@@ -33,7 +33,7 @@ Move::Move() :
 void Move::complete(const Board& board)
 {
    // set the capture
-   capture = charToPieceType(board[dest]->getLetter());
+   capture = pieceTypeFromLetter(board[dest]->getLetter());
 
    // set the color
    isWhite = board[source]->isWhite();
