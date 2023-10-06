@@ -160,4 +160,4 @@ public:
 
 
 Piece * builder(PieceType type, int r, int c, bool isWhite);
-void insertMove(std::set<Move> &moves, Move &move, Position possiblePos, Position currentPosition);
+void insertMove(std::set<Move> &moves, Move &move, Position possiblePos, Position currentPosition, char letter);

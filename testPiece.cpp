@@ -296,7 +296,7 @@ void PieceTest::getMoves_pawn_simple() const
    set<Move> moves;
       
    Pawn p1;
-   p1.position = Position(4,2);
+   p1.position = Position(3,1);
    p1.fWhite = true;
    board(4,2) = &p1;
    
@@ -307,7 +307,7 @@ void PieceTest::getMoves_pawn_simple() const
    // VERIFY
    assert(moves.find(move) != moves.end());
    assert(set<Move>{"b4b5"} == moves);
-   assert(Position(4,2) == p1.position);
+   assert(Position(3,1) == p1.position);
 }  // TEARDOWN
 
 void PieceTest::getMoves_pawn_intial() const
@@ -317,10 +317,10 @@ void PieceTest::getMoves_pawn_intial() const
    set<Move> moves;
    
    // EXERCISE
-   board(2,2)->getMoves(moves, board);
+   board(1,1)->getMoves(moves, board);
    // VERIFY
    assert((set<Move>{"b2b3", "b2b4"} == moves));
-   assert(Position(2,2) == board(2,2)->position);
+   assert(Position(1,1) == board(1,1)->position);
 }  // TEARDOWN
 
 void PieceTest::getMoves_pawn_capture() const
@@ -330,18 +330,18 @@ void PieceTest::getMoves_pawn_capture() const
    set<Move> moves;
    
    Pawn p1;
-   p1.position = Position(6,2);
+   p1.position = Position(5,1);
    p1.fWhite = true;
-   board(6,2) = &p1;
+   board(5,1) = &p1;
    
    // EXERCISE
    p1.getMoves(moves, board);
    // VERIFY
    assert((set<Move>{"b6a7p", "b6c7p"} == moves));
-   assert(Position(6,2) == p1.position);
-   assert(Position(7,1) == board(7,1)->position);
-   assert(Position(7,2) == board(7,2)->position);
-   assert(Position(7,3) == board(7,3)->position);
+   assert(Position(5,1) == p1.position);
+   assert(Position(6,0) == board(6,0)->position);
+   assert(Position(6,1) == board(6,1)->position);
+   assert(Position(6,2) == board(6,2)->position);
 }  // TEARDOWN
 
 void PieceTest::getMoves_pawn_enpassant() const
@@ -351,34 +351,34 @@ void PieceTest::getMoves_pawn_enpassant() const
    set<Move> moves;
    
    Pawn p1;
-   p1.position = Position(5,2);
+   p1.position = Position(4,1);
    p1.fWhite = true;
-   board(5,2) = &p1;
+   board(4,1) = &p1;
    
    Pawn p2;
-   p2.position = Position(6,2);
+   p2.position = Position(5,1);
    p2.fWhite = false;
-   board(6,2) = &p2;
+   board(5,1) = &p2;
    
    Pawn p3;
-   p3.position = Position(6,1);
+   p3.position = Position(5,0);
    p3.fWhite = false;
    p3.lastMove = 1;
-   board(6,1) = &p3;
+   board(5,0) = &p3;
    
    Pawn p4;
-   p4.position = Position(6,3);
+   p4.position = Position(5,2);
    p4.fWhite = false;
    p4.lastMove = 1;
-   board(6,3) = &p4;
+   board(5,2) = &p4;
    // EXERCISE
    p1.getMoves(moves, board);
    // VERIFY
    assert((set<Move>{"b5c6E", "b5a6E"} == moves));
-   assert(Position(6,2) == p1.position);
-   assert(Position(7,1) == p2.position);
-   assert(Position(7,2) == p3.position);
-   assert(Position(7,3) == p4.position);
+   assert(Position(5,1) == p1.position);
+   assert(Position(6,0) == p2.position);
+   assert(Position(6,1) == p3.position);
+   assert(Position(6,2) == p4.position);
 }  // TEARDOWN
 
 void PieceTest::getMoves_pawn_promotion() const
