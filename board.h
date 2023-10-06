@@ -19,8 +19,9 @@ class Board
    friend class TestBoard;
 public:
    
-   // constructor
-   Board(ogstream &gout,bool rReset) : currentMove(0), gout(gout) { reset(rReset); }
+   // constructors
+   Board(bool rReset) : currentMove(0) { reset(rReset); }
+   ~Board()                            { free();        }
    
    // getter
    int getCurrentMove() const { return currentMove; }
@@ -31,7 +32,8 @@ public:
    void reset(bool fFree); // come back and do
    void free();  // come back and do
    void display(Position posHover, Position posSel);
-   void move(Move move);
+   void move(Move move); // come back and do
+   void resetMoves() {currentMove = 0;}
    
    // operator overrides
    Piece*& operator()(int row, int col) { return board[row][col]; }
@@ -52,5 +54,6 @@ private:
    
    
    void swap(Position pos1, Position pos2);
+   void assertBoard();
    
 };

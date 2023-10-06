@@ -10,7 +10,7 @@ using namespace std;
 void TestBoard:: testReset() const
 {
    // SETUP
-   Board board;
+   Board board(false);
    board.currentMove = 5;
 
    Pawn p1;
@@ -26,7 +26,7 @@ void TestBoard:: testReset() const
 
 
     // EXCERSICE
-    board.reset();
+    board.reset(false);
 
 
     // VERIFY
@@ -47,7 +47,7 @@ void TestBoard:: testReset() const
 void TestBoard:: testSwapKingRook() const
 {
     // SETUP
-    Board board;
+    Board board(false);
     Position pos1(0,4);
     Position pos2(0,0);
 
@@ -68,7 +68,7 @@ void TestBoard:: testSwapKingRook() const
 void TestBoard:: testSwapPawnSpace() const
 {
     // SETUP
-    Board board;
+    Board board(false);
     Position pos1(1,2);
     Position pos2(2,2);
 
@@ -88,7 +88,7 @@ void TestBoard:: testSwapPawnSpace() const
 void TestBoard:: testSwapBlackPieceWhitePiece() const
 {
     // SETUP
-    Board board;
+    Board board(false);
     Position pos1(1,2);
     Position pos2(6,2);
 
@@ -114,7 +114,7 @@ void TestBoard:: testSwapBlackPieceWhitePiece() const
 void TestBoard:: testDeletePieceWhite() const
 {
     // SETUP
-    Board board;
+    Board board(false);
     Position pos(1,5);
 
     // EXCERSICE
@@ -132,7 +132,7 @@ void TestBoard:: testDeletePieceWhite() const
 void TestBoard:: testDeletePieceBlack() const
 {
     // SETUP
-    Board board;
+    Board board(false);
     Position pos(6,4);
 
     // EXCERSICE
@@ -155,7 +155,7 @@ void TestBoard:: testDeletePieceBlack() const
 void TestBoard:: testGetPieceWhite() const
 {
     // SETUP
-    Board board;
+    Board board(false);
     Position pos(1,3);
 
     // EXCERSICE
@@ -173,7 +173,7 @@ void TestBoard:: testGetPieceWhite() const
 void TestBoard:: testGetPieceBlack() const
 {
     // SETUP
-    Board board;
+    Board board(false);
     Position pos(6,5);
 
     // EXCERSICE
@@ -194,7 +194,7 @@ void TestBoard:: testGetPieceBlack() const
 void TestBoard:: testWhiteTurnTrue() const
 {
     // SETUP
-    Board board;
+    Board board(false);
     board.currentMove = 4;
 
     // EXCERSICE
@@ -211,7 +211,7 @@ void TestBoard:: testWhiteTurnTrue() const
 void TestBoard:: testWhiteTurnFalse() const
 {
     // SETUP
-    Board board;
+    Board board(false);
     board.currentMove = 7;
 
     // EXCERSICE
@@ -232,7 +232,7 @@ void TestBoard:: testWhiteTurnFalse() const
 void TestBoard:: testGetCurrentMove() const
 {
     // SETUP
-    Board board;
+    Board board(false);
     board.currentMove = 6;
 
     // EXCERSICE
@@ -245,3 +245,123 @@ void TestBoard:: testGetCurrentMove() const
 
     // TEARDOWN
 }
+
+/*************************************
+ * MOVE : PAWN
+ **************************************/
+void TestBoard::move_pawnSimple() const
+{  // SETUP
+   // EXERCISE
+   // VERIFY
+}  // TEARDOWN
+
+void TestBoard::move_pawnCapture() const
+{  // SETUP
+   // EXERCISE
+   // VERIFY
+}  // TEARDOWN
+
+void TestBoard::move_pawnDouble() const
+{  // SETUP
+   // EXERCISE
+   // VERIFY
+}  // TEARDOWN
+
+void TestBoard::move_pawnEnpassant() const
+{  // SETUP
+   // EXERCISE
+   // VERIFY
+}  // TEARDOWN
+
+void TestBoard::move_pawnPromotion() const
+{  // SETUP
+   // EXERCISE
+   // VERIFY
+}  // TEARDOWN
+
+/*************************************
+ * MOVE : ROOK
+ **************************************/
+void TestBoard::move_rookSlide() const
+{  // SETUP
+   // EXERCISE
+   // VERIFY
+}  // TEARDOWN
+
+void TestBoard::move_rookAttack() const
+{  // SETUP
+   // EXERCISE
+   // VERIFY
+}  // TEARDOWN
+
+/*************************************
+ * MOVE : BISHOP
+ **************************************/
+void TestBoard::move_bishopSlide() const
+{  // SETUP
+   // EXERCISE
+   // VERIFY
+}  // TEARDOWN
+
+void TestBoard::move_bishopAttack() const
+{  // SETUP
+   // EXERCISE
+   // VERIFY
+}  // TEARDOWN
+
+/*************************************
+ * MOVE : KNIGHT
+ **************************************/
+void TestBoard::move_knightMove() const
+{  // SETUP
+   // EXERCISE
+   // VERIFY
+}  // TEARDOWN
+
+void TestBoard::move_knightAttack() const
+{  // SETUP
+   // EXERCISE
+   // VERIFY
+}  // TEARDOWN
+
+/*************************************
+ * MOVE : QUEEN
+ **************************************/
+void TestBoard::move_queenSlide() const
+{  // SETUP
+   // EXERCISE
+   // VERIFY
+}  // TEARDOWN
+
+void TestBoard::move_queenAttack() const
+{  // SETUP
+   // EXERCISE
+   // VERIFY
+}  // TEARDOWN
+
+/*************************************
+ * MOVE : KING
+ **************************************/
+void TestBoard::move_kingMove() const
+{  // SETUP
+   // EXERCISE
+   // VERIFY
+}  // TEARDOWN
+
+void TestBoard::move_kingAttack() const
+{  // SETUP
+   // EXERCISE
+   // VERIFY
+}  // TEARDOWN
+
+void TestBoard::move_kingShortCastle() const
+{  // SETUP
+   // EXERCISE
+   // VERIFY
+}  // TEARDOWN
+
+void TestBoard::move_kingLongCastle() const
+{  // SETUP
+   // EXERCISE
+   // VERIFY
+}  // TEARDOWN

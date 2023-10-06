@@ -141,7 +141,7 @@ void PieceTest::assign_piece_position() const
    pieceTest->position = rhs;
    // VERIFY
    assert(PAWN == pieceTest->getLetter());
-   assert(Position(8,8) == pieceTest->position);
+   assert('?' == pieceTest->position.location);
    assert(false == pieceTest->fWhite);
    assert(0 == pieceTest->nMoves);
    assert(0 == pieceTest->lastMove);
@@ -260,7 +260,7 @@ void PieceTest::getLetter_king() const
    // EXERCISE
    char letter = pieceTest->getLetter();
    // VERIFY
-   assert(QUEEN == letter);
+   assert(KING == letter);
 }  // TEARDOWN
 
 /*************************************
@@ -268,7 +268,7 @@ void PieceTest::getLetter_king() const
  **************************************/
 void PieceTest::getMoves_pawn_blocked() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
    
@@ -291,7 +291,7 @@ void PieceTest::getMoves_pawn_blocked() const
 
 void PieceTest::getMoves_pawn_simple() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
    
@@ -308,7 +308,7 @@ void PieceTest::getMoves_pawn_simple() const
 
 void PieceTest::getMoves_pawn_intial() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
    
@@ -321,7 +321,7 @@ void PieceTest::getMoves_pawn_intial() const
 
 void PieceTest::getMoves_pawn_capture() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
    
@@ -342,7 +342,7 @@ void PieceTest::getMoves_pawn_capture() const
 
 void PieceTest::getMoves_pawn_enpassant() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
    
@@ -379,7 +379,7 @@ void PieceTest::getMoves_pawn_enpassant() const
 
 void PieceTest::getMoves_pawn_promotion() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
    
@@ -399,7 +399,7 @@ void PieceTest::getMoves_pawn_promotion() const
 
 void PieceTest::getMoves_rook_blocked() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
    
@@ -412,7 +412,7 @@ void PieceTest::getMoves_rook_blocked() const
 
 void PieceTest::getMoves_rook_free() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
    
@@ -434,7 +434,7 @@ void PieceTest::getMoves_rook_free() const
 
 void PieceTest::getMoves_rook_capture() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
    
@@ -457,7 +457,7 @@ void PieceTest::getMoves_rook_capture() const
 
 void PieceTest::getMoves_bishop_blocked() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
    
@@ -470,7 +470,7 @@ void PieceTest::getMoves_bishop_blocked() const
 
 void PieceTest::getMoves_bishop_free() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
    
@@ -492,7 +492,7 @@ void PieceTest::getMoves_bishop_free() const
 
 void PieceTest::getMoves_bishop_capture() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
    
@@ -516,7 +516,7 @@ void PieceTest::getMoves_bishop_capture() const
 
 void PieceTest::getMoves_knight_blocked() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
    
@@ -549,7 +549,7 @@ void PieceTest::getMoves_knight_blocked() const
 
 void PieceTest::getMoves_knight_free() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
    
@@ -562,7 +562,7 @@ void PieceTest::getMoves_knight_free() const
 
 void PieceTest::getMoves_knight_capture() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
    
@@ -586,7 +586,7 @@ void PieceTest::getMoves_knight_capture() const
 
 void PieceTest::getMoves_queen_blocked() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
    
@@ -599,7 +599,7 @@ void PieceTest::getMoves_queen_blocked() const
 
 void PieceTest::getMoves_queen_free() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
    
@@ -636,7 +636,7 @@ void PieceTest::getMoves_queen_free() const
 
 void PieceTest::getMoves_queen_capture() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
    
@@ -666,7 +666,7 @@ void PieceTest::getMoves_queen_capture() const
 
 void PieceTest::getMoves_king_free() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
    
@@ -682,7 +682,7 @@ void PieceTest::getMoves_king_free() const
 
 void PieceTest::getMoves_king_blocked() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
  
@@ -695,7 +695,7 @@ void PieceTest::getMoves_king_blocked() const
 
 void PieceTest::getMoves_king_capture() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
    
@@ -716,7 +716,7 @@ void PieceTest::getMoves_king_capture() const
 
 void PieceTest::getMoves_king_castle_king_moved() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
    
@@ -736,7 +736,7 @@ void PieceTest::getMoves_king_castle_king_moved() const
 
 void PieceTest::getMoves_king_castle_rooks_moved() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
    
@@ -757,7 +757,7 @@ void PieceTest::getMoves_king_castle_rooks_moved() const
 
 void PieceTest::getMoves_king_castle_blocked() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
    
@@ -774,7 +774,7 @@ void PieceTest::getMoves_king_castle_blocked() const
 
 void PieceTest::getMoves_king_castle() const
 {  // SETUP
-   Board board;
+   Board board(false);
    
    set<Move> moves;
    

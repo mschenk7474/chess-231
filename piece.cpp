@@ -9,10 +9,12 @@
 #include "board.h"
 #include "move.h"
 
+/*********************************************************************
+ * PIECE IS MOVE
+ * Checks to see if the piece in question can go or not.
+ *********************************************************************/
 bool Piece::isMove()
 {
-   // need to check if black or white
-   
    // white piece coverage
    if(fWhite == true)
    {
@@ -46,11 +48,12 @@ bool Piece::isMove()
    }
 }
 
+/*********************************************************************
+ * PIECE JUST MOVED
+ * Checks to see if the piece in question just moved.
+ *********************************************************************/
 bool Piece::justMoved()
 {
-   // this will need to check if the piece in question just moved
-   // will follow same struct as is move
-   
    // no matter what, if nMoves is 0, need to return false as no one has moved
    if(nMoves == 0)
       return false;
@@ -80,45 +83,82 @@ bool Piece::justMoved()
    }
 }
 
-Piece* Piece::operator=(Position pos)
+/*********************************************************************
+ * PIECE ASSIGNMENT OPERATOR (POSITION PASSED)
+ * Assigns a new position to the piece in question
+ *********************************************************************/
+void Piece::operator=(Position pos)
 {
-   return new Space;
+   position = pos;
 }
+
+/*********************************************************************
+ * PIECE ASSIGNMENT OPERATOR (PIECE PASSED)
+ * Assigns a piece to the piece object in question
+ *********************************************************************/
 Piece* Piece::operator=(Piece* piece)
 {
    return new Space;
 }
 
+/*********************************************************************
+ * PAWN GET MOVES
+ * Gets the possible moves for a Pawn at a given space
+ *********************************************************************/
 void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
 {
    
 }
 
+/*********************************************************************
+ * BISHOP GET MOVES
+ * Gets the possible moves for a Bishop at a given space
+ *********************************************************************/
 void Bishop::getMoves(std::set<Move> &moves, const Board &board) const
 {
    
 }
 
+/*********************************************************************
+ * KNIGHT GET MOVES
+ * Gets the possible moves for a Knight at a given space
+ *********************************************************************/
 void Knight::getMoves(std::set<Move> &moves, const Board &board) const
 {
    
 }
 
+/*********************************************************************
+ * ROOK GET MOVES
+ * Gets the possible moves for a Rook at a given space
+ *********************************************************************/
 void Rook::getMoves(std::set<Move> &moves, const Board &board) const
 {
    
 }
 
+/*********************************************************************
+ * QUEEN GET MOVES
+ * Gets the possible moves for a Queen at a given space
+ *********************************************************************/
 void Queen::getMoves(std::set<Move> &moves, const Board &board) const
 {
    
 }
 
+/*********************************************************************
+ * KING GET MOVES
+ * Gets the possible moves for a Pawn at a given space
+ *********************************************************************/
 void King::getMoves(std::set<Move> &moves, const Board &board) const
 {
    
 }
 
+/*********************************************************************
+ * BUILDER
+ * Builds a piece given a type, position, and color
+ *********************************************************************/
 Piece * builder(PieceType type, int r, int c, bool isWhite)
 {
    // intialize object
