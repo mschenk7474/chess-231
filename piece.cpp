@@ -119,17 +119,20 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
       possibleCol = currentCol;
       possibleRow = currentRow - 2;
       
-      if(currentRow == 6 && board(possibleRow,possibleCol)->getLetter() == SPACE){
+      if(currentRow == 6 && board(possibleRow,possibleCol)->getLetter() == SPACE)
+      {
           char letter = board(possibleRow,possibleCol)->getLetter();
           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, letter);// forward two blank
        }
       possibleRow = currentRow - 1;
-      if(possibleRow >= 0 && board(possibleRow, possibleCol)->getLetter() == SPACE){
+      if(possibleRow >= 0 && board(possibleRow, possibleCol)->getLetter() == SPACE)
+      {
           char letter = board(possibleRow,possibleCol)->getLetter();
           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, letter);// forward one blank
        }
       possibleCol = currentCol - 1;
-      if(board(possibleRow,possibleCol)->isWhite() == true){
+      if(board(possibleRow,possibleCol)->isWhite() == true)
+      {
           char letter = board(possibleRow,possibleCol)->getLetter();
           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, letter);// attack left
        }
@@ -141,9 +144,10 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
       }
       possibleCol = currentCol + 1;
       possibleRow = currentRow - 1;
-      if (board(possibleRow,possibleCol)->isWhite() == true){
+      if (board(possibleRow,possibleCol)->isWhite() == true)
+      {
           char letter = board(possibleRow,possibleCol)->getLetter();
-         insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, letter);// attack right
+          insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, letter);// attack right
       }
       possibleRow = currentRow;
       if(board(possibleRow,possibleCol)->isWhite() == false && this->canEnPassant(board, Position(possibleRow, possibleCol))){
@@ -159,17 +163,20 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
       possibleCol = currentCol;
       possibleRow = currentRow + 2;
       
-      if(currentRow == 1 && board(possibleRow,possibleCol)->getLetter() == SPACE){
+      if(currentRow == 1 && board(possibleRow,possibleCol)->getLetter() == SPACE)
+      {
           char letter = board(possibleRow,possibleCol)->getLetter();
           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, letter);// forward two blank
        }
       possibleRow = currentRow + 1;
-      if(possibleRow < 8 && board(possibleRow, possibleCol)->getLetter() == SPACE){
+      if(possibleRow < 8 && board(possibleRow, possibleCol)->getLetter() == SPACE)
+      {
           char letter = board(possibleRow,possibleCol)->getLetter();
           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, letter);// forward one blank
        }
       possibleCol = currentCol - 1;
-       if(board(possibleRow,possibleCol)->isWhite() == false){
+       if(board(possibleRow,possibleCol)->isWhite() == false)
+       {
            // add a call to CanPromote and if true setPromote in move
           char letter = board(possibleRow,possibleCol)->getLetter();
           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, letter);// attack left
@@ -182,7 +189,8 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
       }
       possibleCol = currentCol + 1;
       possibleRow = currentRow + 1;
-       if(board(possibleRow,possibleCol)->isWhite() == false){
+       if(board(possibleRow,possibleCol)->isWhite() == false)
+       {
            // add a call to CanPromote and if true setPromote in move
            char letter = board(possibleRow,possibleCol)->getLetter();
           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, letter);// attack right
@@ -296,7 +304,30 @@ void Knight::getMoves(std::set<Move> &moves, const Board &board) const
     int currentRow = this->position.getRow();
     int currentCol = this->position.getCol();
     Move move = Move();
-   
+    
+    RC moveRules[8] =
+    {
+             {-1,  2}, { 1,  2},
+    {-2,  1},                    { 2,  1},
+    {-2, -1},                    { 2, -1},
+             {-1, -2}, { 1, -2}
+    };
+    for (int i = 0; i < 8; i++)
+    {
+       possibleRow = currentRow + moveRules[i].row;
+       possibleCol = currentCol + moveRules[i].col;
+        if (this->fWhite == false && board(possibleRow,possibleCol)->isWhite() == true)
+        {
+           char letter = board(possibleRow,possibleCol)->getLetter();
+           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, letter);
+        }
+        if (this->fWhite == true && board(possibleRow,possibleCol)->isWhite() == false)
+        {
+           char letter = board(possibleRow,possibleCol)->getLetter();
+           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, letter);
+        }
+    }
+  
 }
 
 /*********************************************************************
@@ -335,8 +366,130 @@ void King::getMoves(std::set<Move> &moves, const Board &board) const
     int currentRow = this->position.getRow();
     int currentCol = this->position.getCol();
     Move move = Move();
-   
+    
+    RC moveRules[8] =
+    {
+       {-1,  1}, {0,  1}, {1,  1},
+       {-1,  0},          {1,  0},
+       {-1, -1}, {0, -1}, {1, -1}
+    };
+    for (int i = 0; i < 8; i++)
+    {
+       possibleRow = currentRow + moveRules[i].row;
+       possibleCol = currentCol + moveRules[i].col;
+        if (this->fWhite == false && board(possibleRow,possibleCol)->isWhite() == true)
+        {
+           // add a call to canCastle and if true set CastleK or CastleQ on move
+           char letter = board(possibleRow,possibleCol)->getLetter();
+           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, letter);
+        }
+        if (this->fWhite == true && board(possibleRow,possibleCol)->isWhite() == false)
+        {
+           char letter = board(possibleRow,possibleCol)->getLetter();
+           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, letter);
+        }
+    }
+       
 }
+
+/*********************************************************************
+ * KING CAN CASTLE
+ * Checks conditions in the board and returns true or false
+ *********************************************************************/
+bool King::canCastle(const Board &board)
+{
+    //** The following is the pseudocode for this method **//
+//    bool canCastle(Board board)
+//        {
+//            if(hasMoved || inCheck )
+//            {
+//                return false
+//            }
+//
+//            int x = position.getX();
+//            int y = position.getY();
+//            bool kingside = false;
+//
+//            // Check to the right
+//            for (int i = 1; i <= 2; ++i)
+//            {
+//                if (board[(x + i) * 8 + y] != ' ')
+//                {
+//                    kingside = false;
+//                    i = 3
+//                }
+//
+//                kingside = true;
+//            }
+//
+//            if (!kingside)
+//            {
+//                // Check to the left
+//                for (int i = 1; i <= 3; ++i)
+//                {
+//                    if (board[(x - i) * 8 + y] != ' ')
+//                    {
+//                        return false;
+//                    }
+//                }
+//
+//                if (board[(x - 4) * 8 + y].getHasMoved == false)
+//                    return true
+//                else
+//                    return false
+//            }
+//            else
+//            {
+//                if (board[(x + 3) * 8 + y].getHasMoved == false)
+//                    return true
+//                else
+//                    return false
+//            }
+//        
+//        }
+    
+    // Can't castle if the king has moved
+    if (this->getNMoves() != 0)
+        return false;
+    
+    int row = this->position.getRow();
+    int col = this->position.getCol();
+    bool kingside = false;
+    
+    // Check if the rook to the right has not moved
+    if (board(row + 3, col)->getLetter() != ROOK || board(row + 3, col)->getNMoves() != 0)
+    {
+        
+    }
+    
+    // Check to the right
+    for (int i = 1; i <= 2; ++i)
+    {
+        if (board(row = i, col)->getLetter() != SPACE)
+        {
+            kingside = false;
+            i = 3;
+        }
+        kingside = true;
+    }
+    
+    if (!kingside)
+    {
+        // Check to the left
+        for (int i = 1; i <= 3; i++)
+        {
+            if (board(row - i, col)->getLetter() != SPACE)
+            {
+                return false;
+            }
+        }
+        
+    }
+   return false;
+}
+
+
+
 
 /*********************************************************************
  * INSERT MOVE
