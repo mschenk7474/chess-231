@@ -158,18 +158,56 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
        }
       possibleCol = currentCol - 1;
        if(board(possibleRow,possibleCol)->isWhite() == false){
+           // add a call to canEnpassant and if true setEnpassant in move
+           // add a call to CanPromote and if true setPromote in move
           char letter = board(possibleRow,possibleCol)->getLetter();
           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, letter);// attack left
        }
       possibleCol = currentCol + 1;
        if(board(possibleRow,possibleCol)->isWhite() == false){
+           // add a call to canEnpassant and if true setEnpassant in move
+           // add a call to CanPromote and if true setPromote in move
            char letter = board(possibleRow,possibleCol)->getLetter();
           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, letter);// attack right
        }
-        
       // handle en-passant and pawn promotion
       
    }
+}
+/*********************************************************************
+ * Pawn CAN ENPASSANT
+ * Returns true ot false depending on if the conditions for enpassant have been met
+ *********************************************************************/
+bool Pawn::canEnPassant(const Board &board, bool isWhite, int row, int col)
+{
+    // *** this is what the pseudocode for this function has:
+    //This includes a struct called PreviousMove passed as a parameter that keeps track of the last move, its destination and source, and its pieceType
+//    if (previous.pieceType != PAWN)
+//            {
+//                return false
+//            }
+//
+//            if(previous.isWhite == true)
+//            {
+//                if (previous.to / 8 == previous.from / 8 - 2)
+//                {
+//                    return true
+//                }
+//            }
+//            else if(previous.isWhite == false)
+//            {
+//                if (previous.to / 8 == previous.from / 8 + 2)
+//                {
+//                    return true
+//                }
+//            }
+    if (board.getCurrentMove() % board(row,col)->getNMoves() == 0 )
+    {
+
+    }
+
+    
+    return true;
 }
 
 /*********************************************************************
@@ -178,6 +216,10 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
  *********************************************************************/
 void Bishop::getMoves(std::set<Move> &moves, const Board &board) const
 {
+    int possibleRow, possibleCol; // row and col we are checking
+    int currentRow = this->position.getRow();
+    int currentCol = this->position.getCol();
+    Move move = Move();
    
 }
 
@@ -187,6 +229,10 @@ void Bishop::getMoves(std::set<Move> &moves, const Board &board) const
  *********************************************************************/
 void Knight::getMoves(std::set<Move> &moves, const Board &board) const
 {
+    int possibleRow, possibleCol; // row and col we are checking
+    int currentRow = this->position.getRow();
+    int currentCol = this->position.getCol();
+    Move move = Move();
    
 }
 
@@ -196,6 +242,10 @@ void Knight::getMoves(std::set<Move> &moves, const Board &board) const
  *********************************************************************/
 void Rook::getMoves(std::set<Move> &moves, const Board &board) const
 {
+    int possibleRow, possibleCol; // row and col we are checking
+    int currentRow = this->position.getRow();
+    int currentCol = this->position.getCol();
+    Move move = Move();
    
 }
 
@@ -205,6 +255,10 @@ void Rook::getMoves(std::set<Move> &moves, const Board &board) const
  *********************************************************************/
 void Queen::getMoves(std::set<Move> &moves, const Board &board) const
 {
+    int possibleRow, possibleCol; // row and col we are checking
+    int currentRow = this->position.getRow();
+    int currentCol = this->position.getCol();
+    Move move = Move();
    
 }
 
@@ -214,6 +268,10 @@ void Queen::getMoves(std::set<Move> &moves, const Board &board) const
  *********************************************************************/
 void King::getMoves(std::set<Move> &moves, const Board &board) const
 {
+    int possibleRow, possibleCol; // row and col we are checking
+    int currentRow = this->position.getRow();
+    int currentCol = this->position.getCol();
+    Move move = Move();
    
 }
 
