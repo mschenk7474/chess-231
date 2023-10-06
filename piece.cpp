@@ -178,8 +178,41 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
  * Pawn CAN ENPASSANT
  * Returns true ot false depending on if the conditions for enpassant have been met
  *********************************************************************/
-bool Pawn::canEnPassant(const Board &board, bool isWhite, int row, int col)
+bool Pawn::canEnPassant(const Board &board, Position opposingPosition)
 {
+   
+   /*
+      conditions for enpassant:
+         - opposing pawn moves two squares forward from its starting position
+            - if you do not capture enpassant the very next turn, you loose the chance to do so
+         - the pawn that is looking to capture woud move diagonally to where the opposing pawn would
+           have been if it had moved only one space instead of two
+         - at this point, the pawn looking to capture would be either to the left or right of the opposing pawn
+    */
+   
+   /*
+      what this function needs to check:
+         - needs to check
+      
+      what needs to be/already passed in:
+         - already: the pawn in a question is the one looking to see if it can enpassant
+         - need to: possible position to see what is there and check pawn
+         - need to: board to see what is at the position passed
+    */
+   
+   // first need to check the position passed in and see if it is a pawn
+   if(board[opposingPosition]->getLetter() != PAWN)
+      return false;
+   
+   // set opposing pawn to make things easier
+   auto opposingPawn = board[opposingPosition];
+   
+   // for reference, this refers to the pawn that wants to do the enpassant
+   
+   // need to check if the opposing pawn has only moved once and if it moved two spaces from where it was
+   if(opposingPawn)
+   
+   
     // *** this is what the pseudocode for this function has:
     //This includes a struct called PreviousMove passed as a parameter that keeps track of the last move, its destination and source, and its pieceType
 //    if (previous.pieceType != PAWN)

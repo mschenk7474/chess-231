@@ -91,7 +91,7 @@ public:
    char getLetter() const override       { return PAWN;                                   }
    void display(ogstream &gout) override { gout.drawPawn(position.getLocation(), fWhite); }
    void getMoves(std::set<Move> &moves, const Board &board) const override;
-   bool canEnPassant(const Board &board, bool isWhite, int row, int col);
+   bool canEnPassant(const Board &board, Position opposingPosition);
 };
 
 class Rook : public Piece
