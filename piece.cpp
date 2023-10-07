@@ -325,23 +325,23 @@ void Bishop::getMoves(std::set<Move> &moves, const Board &board) const
     Move move = Move();
    
    // possible positions
-   Position possiblePositions[4] =
+   RC possiblePositions[4] =
    {
-      Position(-1, 1),          Position(1,1),
-      Position(-1, -1),         Position(1,-1)
+       {-1, 1},          {1,1},
+       {-1, -1},         {1,-1}
    };
    
    for (int i = 0; i < 4; i++)
    {
-      possibleRow = currentRow + possiblePositions[i].getRow();
-      possibleCol = currentCol + possiblePositions[i].getCol();
+      possibleRow = currentRow + possiblePositions[i].row;
+      possibleCol = currentCol + possiblePositions[i].col;
       
       while(possibleRow >= 0 && possibleRow < 8 && possibleCol >= 0 && possibleCol < 8 &&
             board(possibleRow, possibleCol)->getLetter() == SPACE)
       {
          insertMove(moves, move, Position(possibleRow, possibleCol), this->position, board(possibleRow,possibleCol)->getLetter());
-         possibleRow += possiblePositions[i].getRow();
-         possibleCol += possiblePositions[i].getCol();
+         possibleRow += possiblePositions[i].row;
+         possibleCol += possiblePositions[i].col;
       }
       
       if(board[this->position]->isWhite() == false && board(possibleRow, possibleCol)->isWhite() == true)
@@ -396,37 +396,7 @@ void Rook::getMoves(std::set<Move> &moves, const Board &board) const
     int currentRow = this->position.getRow();
     int currentCol = this->position.getCol();
     Move move = Move();
-    char letter;
-
-    RC moveRules[4] =
-    {
-                {0,  1},
-       {-1, 0},         {1, 0},
-                {0, -1}
-    };
-    for (int i = 0; i < 4; i++)
-    {
-        possibleRow = currentRow + moveRules[i].row;
-        possibleCol = currentCol + moveRules[i].col;
-        while (possibleRow >= 0 && possibleRow < 8 && possibleCol >= 0 && possibleCol < 8 &&
-               board(possibleRow, possibleCol)->getLetter() == SPACE)
-        {
-            letter = board(possibleRow,possibleCol)->getLetter();
-            insertMove(moves, move, Position(possibleRow, possibleCol), this->position, letter);
-            
-            possibleRow += moveRules[i].row;
-            possibleCol += moveRules[i].col;
-        }
-        if ( this->fWhite && board(possibleRow,possibleCol)->isWhite() == true)
-        {
-            letter = board(possibleRow,possibleCol)->getLetter();
-            insertMove(moves, move, Position(possibleRow, possibleCol), this->position, letter);       }
-        if (this->fWhite == false && board(possibleRow,possibleCol)->isWhite() == false)
-        {
-            letter = board(possibleRow,possibleCol)->getLetter();
-            insertMove(moves, move, Position(possibleRow, possibleCol), this->position, letter);
-        }
-    }
+    
    
    // possible positions
    Position possiblePositions[4] =

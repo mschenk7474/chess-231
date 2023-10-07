@@ -506,13 +506,13 @@ void PieceTest::getMoves_bishop_capture() const
    
    set<Move> moves;
    
-   Position pos(2,2);
-   board -= pos;
+//   Position pos(1,1);
+//   board -= pos;
    
    Pawn p1;
-   p1.position = Position(2,2);
+   p1.position = Position(1,1);
    p1.fWhite = false;
-   board(2,2) = &p1;
+   board(1,1) = &p1;
    
    
    // EXERCISE
