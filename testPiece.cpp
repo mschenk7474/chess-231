@@ -492,9 +492,9 @@ void PieceTest::getMoves_bishop_free() const
    Position pos(1,1);
    board -= pos;
    // EXERCISE
-   auto piece = board(0,2);
-   piece->getMoves(moves, board);
+   board(0,2)->getMoves(moves, board);
    // VERIFY
+   assert(board(0,2)->getLetter() == BISHOP);
    assert((set<Move>{"c1b2", "c1a3"} == moves));
    assert(SPACE == board(2,0)->getLetter());
    assert(SPACE == board(1,1)->getLetter());
@@ -516,11 +516,10 @@ void PieceTest::getMoves_bishop_capture() const
    
    
    // EXERCISE
-   board(1,3)->getMoves(moves, board);
+   board(0,2)->getMoves(moves, board);
    // VERIFY
    assert(set<Move>{"c1b2p"} == moves);
-   assert(Position(1,3) == board(1,3)->position);
-   assert(Position(2,2) == p1.position);
+   assert(Position(1,1) == p1.position);
    assert(false == p1.fWhite);
 }  // TEARDOWN
 
@@ -531,30 +530,22 @@ void PieceTest::getMoves_knight_blocked() const
    set<Move> moves;
    
    Pawn p1;
-   p1.position = Position(3,3);
+   p1.position = Position(2,0);
    p1.fWhite = true;
-   board(3,3) = &p1;
+   board(2,0) = &p1;
    
    Pawn p2;
-   p2.position = Position(3,1);
+   p2.position = Position(2,2);
    p2.fWhite = true;
-   board(3,1) = &p2;
-   
-   Position pos1(2,3);
-   board -= pos1;
-   
-   Position pos2(2,1);
-   board -= pos2;
-   
+   board(2,2) = &p2;
+      
    // EXERCISE
-   board(1,2)->getMoves(moves, board);
+   board(0,1)->getMoves(moves, board);
    // VERIFY
    assert(set<Move>{} == moves);
-   assert(Position(1,2) == board(1,2)->position);
-   assert(Position(3,3) == p1.position);
-   assert(Position(3,1) == p2.position);
-   assert(SPACE == board(2,3)->getLetter());
-   assert(SPACE == board(2,1)->getLetter());
+   assert(Position(2,0) == p1.position);
+   assert(Position(2,2) == p2.position);
+   assert(board(0,1)->getLetter() == KNIGHT);
 }  // TEARDOWN
 
 void PieceTest::getMoves_knight_free() const
@@ -564,10 +555,10 @@ void PieceTest::getMoves_knight_free() const
    set<Move> moves;
    
    // EXERCISE
-   board(1,2)->getMoves(moves, board);
+   auto piece = board(0,1);
+   piece->getMoves(moves, board);
    // VERIFY
    assert((set<Move>{"b1c3", "b1a3"} == moves));
-   assert(Position(1,2) == board(1,2)->position);
 }  // TEARDOWN
 
 void PieceTest::getMoves_knight_capture() const
@@ -577,21 +568,20 @@ void PieceTest::getMoves_knight_capture() const
    set<Move> moves;
    
    Pawn p1;
-   p1.position = Position(3,3);
-   p1.fWhite = false;
-   board(3,3) = &p1;
+   p1.position = Position(2,0);
+   p1.fWhite = true;
+   board(2,0) = &p1;
    
    Pawn p2;
-   p2.position = Position(3,1);
-   p2.fWhite = true;
-   board(3,1) = &p2;
+   p2.position = Position(2,2);
+   p2.fWhite = false;
+   board(2,2) = &p2;
    // EXERCISE
-   board(1,2)->getMoves(moves, board);
+   board(0,1)->getMoves(moves, board);
    // VERIFY
    assert(set<Move>{"b1c3p"} == moves);
-   assert(Position(3,3) == p1.position);
-   assert(Position(3,1) == p2.position);
-   assert(Position(1,2) == board(1,2)->position);
+   assert(Position(2,0) == p1.position);
+   assert(Position(2,2) == p2.position);
 }  // TEARDOWN
 
 void PieceTest::getMoves_queen_blocked() const
