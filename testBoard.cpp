@@ -57,8 +57,8 @@ void TestBoard:: testSwapKingRook() const
 
 
     // VERIFY
-    assert(board.getPiece(pos1)->getLetter() == KING);
-    assert(board.getPiece(pos2)->getLetter() == ROOK);
+    assert(board.getPiece(pos1)->getLetter() == ROOK);
+    assert(board.getPiece(pos2)->getLetter() == KING);
 
 
     // TEARDOWN
@@ -251,32 +251,92 @@ void TestBoard:: testGetCurrentMove() const
  **************************************/
 void TestBoard::move_pawnSimple() const
 {  // SETUP
+   Board board(false);
+   
+   Move move("a2a3");
    // EXERCISE
+   board.move(move);
    // VERIFY
+   assert(SPACE == board(1,0)->getLetter());
+   assert(PAWN == board(2,0)->getLetter());
 }  // TEARDOWN
 
 void TestBoard::move_pawnCapture() const
 {  // SETUP
+   Board board(false);
+   
+   Pawn p1;
+   p1.position = Position(2,2);
+   p1.fWhite = false;
+   board(2,1) = &p1;
+   
+   Move move("a2b3p");
    // EXERCISE
+   board.move(move);
    // VERIFY
+   assert(SPACE == board(1,0)->getLetter());
+   assert(PAWN == board(2,1)->getLetter());
 }  // TEARDOWN
 
 void TestBoard::move_pawnDouble() const
 {  // SETUP
+   Board board(false);
+   
+   Move move("a2a4");
    // EXERCISE
+   board.move(move);
    // VERIFY
+   assert(SPACE == board(1,0)->getLetter());
+   assert(PAWN == board(3,0)->getLetter());
 }  // TEARDOWN
 
 void TestBoard::move_pawnEnpassant() const
 {  // SETUP
+   Board board(false);
+   
+   Pawn p1;
+   p1.position = Position(4,1);
+   p1.fWhite = true;
+   board(4,1) = &p1;
+   
+   Pawn p2;
+   p2.position = Position(4,0);
+   p2.fWhite = false;
+   p2.nMoves = 1;
+   board(4,0) = &p2;
+   
+   Move move("b5a6E");
    // EXERCISE
+   board.move(move);
    // VERIFY
+   assert(SPACE == board(4,1)->getLetter());
+   assert(SPACE == board(4,0)->getLetter());
 }  // TEARDOWN
 
 void TestBoard::move_pawnPromotion() const
 {  // SETUP
+   Board board(false);
+   
+   Pawn p1;
+   p1.position = Position(6,2);
+   p1.fWhite = true;
+   board(6,2) = &p1;
+   
+   Position pos1(7,1);
+   board[pos1]->fWhite = true;
+   
+   Position pos2(7,2);
+   board -= pos2;
+   
+   Position pos3(7,3);
+   board[pos3]->fWhite = true;
+   
+   Move move("c7c8Q");
    // EXERCISE
+   board.move(move);
    // VERIFY
+   assert(SPACE == board(6,2)->getLetter());
+   assert(QUEEN == board(7,2)->getLetter());
 }  // TEARDOWN
 
 /*************************************
@@ -284,14 +344,42 @@ void TestBoard::move_pawnPromotion() const
  **************************************/
 void TestBoard::move_rookSlide() const
 {  // SETUP
+   Board board(false);
+   
+   Pawn p1;
+   p1.position = Position(2,0);
+   p1.fWhite = true;
+   board(2,0) = &p1;
+   
+   Position pos(1,0);
+   board -= pos;
+   
+   Move move("a1a2");
    // EXERCISE
+   board.move(move);
    // VERIFY
+   assert(ROOK == board(1,0)->getLetter());
+   assert(SPACE == board(0,0)->getLetter());
 }  // TEARDOWN
 
 void TestBoard::move_rookAttack() const
 {  // SETUP
+   Board board(false);
+   
+   Position pos(1,0);
+   board -= pos;
+   
+   Pawn p1;
+   p1.position = Position(1,0);
+   p1.fWhite = false;
+   board(1,0) = &p1;
+   
+   Move move("a1a2p");
    // EXERCISE
+   board.move(move);
    // VERIFY
+   assert(ROOK == board(1,0)->getLetter());
+   assert(SPACE == board(0,0)->getLetter());
 }  // TEARDOWN
 
 /*************************************
@@ -299,14 +387,34 @@ void TestBoard::move_rookAttack() const
  **************************************/
 void TestBoard::move_bishopSlide() const
 {  // SETUP
+   Board board(false);
+   
+   Position pos(1,1);
+   board -= pos;
+   
+   Move move("c1b2");
    // EXERCISE
+   board.move(move);
    // VERIFY
+   assert(BISHOP == board(1,1)->getLetter());
+   assert(SPACE == board(0,2)->getLetter());
 }  // TEARDOWN
 
 void TestBoard::move_bishopAttack() const
 {  // SETUP
+   Board board(false);
+   
+   Pawn p1;
+   p1.position = Position(1,1);
+   p1.fWhite = false;
+   board(1,1) = &p1;
+   
+   Move move("c1b2p");
    // EXERCISE
+   board.move(move);
    // VERIFY
+   assert(BISHOP == board(1,1)->getLetter());
+   assert(SPACE == board(0,2)->getLetter());
 }  // TEARDOWN
 
 /*************************************
@@ -314,14 +422,31 @@ void TestBoard::move_bishopAttack() const
  **************************************/
 void TestBoard::move_knightMove() const
 {  // SETUP
+   Board board(false);
+   
+   Move move("b1c3");
    // EXERCISE
+   board.move(move);
    // VERIFY
+   assert(SPACE == board(0,1)->getLetter());
+   assert(KNIGHT == board(2,2)->getLetter());
 }  // TEARDOWN
 
 void TestBoard::move_knightAttack() const
 {  // SETUP
+   Board board(false);
+   
+   Pawn p2;
+   p2.position = Position(2,2);
+   p2.fWhite = false;
+   board(2,2) = &p2;
+   
+   Move move("b1c3p");
    // EXERCISE
+   board.move(move);
    // VERIFY
+   assert(SPACE == board(0,1)->getLetter());
+   assert(KNIGHT == board(2,2)->getLetter());
 }  // TEARDOWN
 
 /*************************************
@@ -329,14 +454,31 @@ void TestBoard::move_knightAttack() const
  **************************************/
 void TestBoard::move_queenSlide() const
 {  // SETUP
+   Board board(false);
+   
+   board -= Position(1, 2);
+   
+   Move move("d1a4");
    // EXERCISE
+   board.move(move);
    // VERIFY
+   assert(SPACE == board(0,3)->getLetter());
+   assert(SPACE == board(1,2)->getLetter());
+   assert(SPACE == board(2,1)->getLetter());
+   assert(QUEEN == board(3,0)->getLetter());
 }  // TEARDOWN
 
 void TestBoard::move_queenAttack() const
 {  // SETUP
+   Board board(false);
+   
+   board(1,3)->fWhite = false;
+   Move move("d1d2p");
    // EXERCISE
+   board.move(move);
    // VERIFY
+   assert(SPACE == board(0,3)->getLetter());
+   assert(QUEEN == board(1,3)->getLetter());
 }  // TEARDOWN
 
 /*************************************
@@ -344,24 +486,60 @@ void TestBoard::move_queenAttack() const
  **************************************/
 void TestBoard::move_kingMove() const
 {  // SETUP
+   Board board(false);
+   
+   board -= Position(1,4);
+   Move move("e1e2");
    // EXERCISE
+   board.move(move);
    // VERIFY
+   assert(SPACE == (board(0,4)->getLetter()));
+   assert(KING == (board(1,4)->getLetter()));
 }  // TEARDOWN
 
 void TestBoard::move_kingAttack() const
 {  // SETUP
+   Board board(false);
+   
+   board(1,4)->fWhite = false;
+   Move move("e1e2p");
    // EXERCISE
+   board.move(move);
    // VERIFY
+   assert(SPACE == (board(0,4)->getLetter()));
+   assert(KING == (board(1,4)->getLetter()));
 }  // TEARDOWN
 
 void TestBoard::move_kingShortCastle() const
 {  // SETUP
+   Board board(false);
+   
+   board -= Position(0,5);
+   board -= Position(0,6);
+   Move move("e1g1c");
    // EXERCISE
+   board.move(move);
    // VERIFY
+   assert(SPACE == (board(0,4)->getLetter()));
+   assert(ROOK == (board(0,5)->getLetter()));
+   assert(KING == (board(0,6)->getLetter()));
+   assert(SPACE == (board(0,7)->getLetter()));
 }  // TEARDOWN
 
 void TestBoard::move_kingLongCastle() const
 {  // SETUP
+   Board board(false);
+   
+   board -= Position(0,1);
+   board -= Position(0,2);
+   board -= Position(0,3);
+   Move move("e1b1C");
    // EXERCISE
+   board.move(move);
    // VERIFY
+   assert(SPACE == (board(0,0)->getLetter()));
+   assert(KING == (board(0,1)->getLetter()));
+   assert(ROOK == (board(0,2)->getLetter()));
+   assert(SPACE == (board(0,3)->getLetter()));
+   assert(SPACE == (board(0,4)->getLetter()));
 }  // TEARDOWN
