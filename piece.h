@@ -92,6 +92,7 @@ public:
    void display(ogstream &gout) override { gout.drawPawn(position.getLocation(), fWhite); }
    void getMoves(std::set<Move> &moves, const Board &board) const override;
    bool canEnPassant(const Board &board, Position opposingPosition) const;
+   bool canPromote(const Board &board, Position possiblePosition) const;
 };
 
 class Rook : public Piece
