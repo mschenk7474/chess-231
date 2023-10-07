@@ -158,7 +158,7 @@ public:
    char getLetter() const override        { return KING;                                   }
    void display(ogstream &gout) override  { gout.drawKing(position.getLocation(), fWhite); }
    void getMoves(std::set<Move> &moves, const Board &board) const override;
-    bool canCastle(const Board &board);
+   void addCastle(const Board &board, std::set<Move> moves, Move &move) const;
 };
 
 
