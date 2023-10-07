@@ -24,6 +24,54 @@ Piece* Board::getPiece(Position pos)
  *********************************************************************/
 void Board::move(Move move)
 {
+   int positionFrom = move.getSrc().getLocation();
+   int positionTo = move.getDes().getLocation();
+   std::set<Move> moves;
+   
+   // do not move if not indicated
+   if (positionFrom == -1 || positionTo == -1)
+      return;
+   assert(positionFrom >= 0 && positionFrom < 64);
+   assert(positionTo >= 0 && positionTo < 64);
+   
+   // finding possible moves from current location
+   this->getPiece(positionFrom)->getMoves(moves, *this);
+   
+   // only move there if the suggested move is on the set of possible moves
+   if(moves.find(move) != moves.end())
+   {
+      // handle castle for both sides
+      // king side first
+      if (move.getCastleK())
+         this->swap(Position(move.getDes().getRow(), 7), Position(move.getDes().getRow(), 5));
+      
+      // queen side
+      if(move.getCastleQ())
+         this->swap(Position(move.getDes().getRow(), 0), Position(move.getDes().getRow(), 2));
+      
+      // check for enpassant
+      if(move.getEnPassant())
+      {
+        if(this->getPiece(positionFrom)->isWhite())
+           *this -= Position(move.getDes().getRow() - 1, move.getDes().getCol());
+         
+         else
+            *this -= Position(move.getDes().getRow() + 1, move.getDes().getCol());
+      }
+      
+      // moves the piece
+      board[move.getDes().getRow()][move.getDes().getCol()] = board[move.getSrc().getRow()][move.getSrc().getCol()];
+      
+      // makes the previous piece a space
+      *this -= Position(move.getSrc());
+      
+      // check for promote
+      if(move.getPromotion())
+      {
+         *this -= Position(move.getDes());
+         board[move.getDes().getRow()][move.getDes().getCol()] = new Queen(move.getDes());
+      }
+   }
    
 }
 
@@ -91,13 +139,25 @@ void Board::free()
  *********************************************************************/
 void Board::swap(Position pos1, Position pos2)
 {
+   Piece* lhsTemp = board[pos1.getRow()][pos1.getCol()];
+   Piece* lhs = board[pos1.getRow()][pos1.getCol()];
+   Piece* rhs = board[pos2.getRow()][pos2.getCol()];
    
+   // need to swap type, position, fwhite, nmoves, and lastMove
+   lhs = nullptr;
+   lhs = *new Piece*(rhs);
+   board[pos1.getRow()][pos1.getCol()] = lhs;
+   
+   rhs = nullptr;
+   rhs = *new Piece*(lhsTemp);
+   board[pos2.getRow()][pos2.getCol()] = rhs;
+   
+   lhsTemp = nullptr;
 }
 
 /*********************************************************************
  * BOARD ASSIGNMENT OPERATOR
- * Assigns a piece's type to another piece. Used for Pawn Promotion
- * currently.
+ * Assigns a piece's type to another piece.
  *********************************************************************/
 void Board::operator=(Piece* piece)
 {
