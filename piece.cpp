@@ -324,24 +324,19 @@ void Bishop::getMoves(std::set<Move> &moves, const Board &board) const
     int currentCol = this->position.getCol();
     Move move = Move();
    
-   // possible positions
-   Position possiblePositions[4] =
-   {
-      Position(-1, 1),          Position(1,1),
-      Position(-1, -1),         Position(1,-1)
-   };
+   RC possiblePositions[4] = {{-1, 1}, {1,1}, {-1, -1}, {1,-1}};
    
    for (int i = 0; i < 4; i++)
    {
-      possibleRow = currentRow + possiblePositions[i].getRow();
-      possibleCol = currentCol + possiblePositions[i].getCol();
+      possibleRow = currentRow + possiblePositions[i].row;
+      possibleCol = currentCol + possiblePositions[i].col;
       
       while(possibleRow >= 0 && possibleRow < 8 && possibleCol >= 0 && possibleCol < 8 &&
             board(possibleRow, possibleCol)->getLetter() == SPACE)
       {
          insertMove(moves, move, Position(possibleRow, possibleCol), this->position, board(possibleRow,possibleCol)->getLetter());
-         possibleRow += possiblePositions[i].getRow();
-         possibleCol += possiblePositions[i].getCol();
+         possibleRow += possiblePositions[i].row;
+         possibleCol += possiblePositions[i].col;
       }
       
       if(board[this->position]->isWhite() == false && board(possibleRow, possibleCol)->isWhite() == true)
@@ -374,11 +369,11 @@ void Knight::getMoves(std::set<Move> &moves, const Board &board) const
     {
        possibleRow = currentRow + moveRules[i].row;
        possibleCol = currentCol + moveRules[i].col;
-        if (this->fWhite == false && board(possibleRow,possibleCol)->isWhite() == true)
+        if (this->fWhite == false && (board(possibleRow,possibleCol)->isWhite() == true || board(possibleRow,possibleCol)->getLetter() == SPACE))
         {
            insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, board(possibleRow,possibleCol)->getLetter());
         }
-        if (this->fWhite == true && board(possibleRow,possibleCol)->isWhite() == false)
+        if (this->fWhite == true && (board(possibleRow,possibleCol)->isWhite() == false || board(possibleRow,possibleCol)->getLetter() == SPACE))
         {
            insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, board(possibleRow,possibleCol)->getLetter());
         }
@@ -398,24 +393,24 @@ void Rook::getMoves(std::set<Move> &moves, const Board &board) const
     Move move = Move();
    
    // possible positions
-   Position possiblePositions[4] =
+   RC possiblePositions[4] =
    {
-                  Position(0, 1),
-      Position(-1, 0),          Position(1, 0),
-                  Position(0, -1)
+               {0, 1},
+      {-1, 0},          {1, 0},
+               {0, -1}
    };
    
    for (int i = 0; i < 4; i++)
    {
-      possibleRow = currentRow + possiblePositions[i].getRow();
-      possibleCol = currentCol + possiblePositions[i].getCol();
+      possibleRow = currentRow + possiblePositions[i].row;
+      possibleCol = currentCol + possiblePositions[i].col;
       
       while(possibleRow >= 0 && possibleRow < 8 && possibleCol >= 0 && possibleCol < 8 &&
             board(possibleRow, possibleCol)->getLetter() == SPACE)
       {
          insertMove(moves, move, Position(possibleRow, possibleCol), this->position, board(possibleRow,possibleCol)->getLetter());
-         possibleRow += possiblePositions[i].getRow();
-         possibleCol += possiblePositions[i].getCol();
+         possibleRow += possiblePositions[i].row;
+         possibleCol += possiblePositions[i].col;
       }
       
       if(board[this->position]->isWhite() == false && board(possibleRow, possibleCol)->isWhite() == true)
