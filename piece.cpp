@@ -340,6 +340,37 @@ void Rook::getMoves(std::set<Move> &moves, const Board &board) const
     int currentRow = this->position.getRow();
     int currentCol = this->position.getCol();
     Move move = Move();
+    char letter;
+
+    RC moveRules[4] =
+    {
+                {0,  1},
+       {-1, 0},         {1, 0},
+                {0, -1}
+    };
+    for (int i = 0; i < 4; i++)
+    {
+        possibleRow = currentRow + moveRules[i].row;
+        possibleCol = currentCol + moveRules[i].col;
+        while (possibleRow >= 0 && possibleRow < 8 && possibleCol >= 0 && possibleCol < 8 &&
+               board(possibleRow, possibleCol)->getLetter() == SPACE)
+        {
+            letter = board(possibleRow,possibleCol)->getLetter();
+            insertMove(moves, move, Position(possibleRow, possibleCol), this->position, letter);
+            
+            possibleRow += moveRules[i].row;
+            possibleCol += moveRules[i].col;
+        }
+        if ( this->fWhite && board(possibleRow,possibleCol)->isWhite() == true)
+        {
+            letter = board(possibleRow,possibleCol)->getLetter();
+            insertMove(moves, move, Position(possibleRow, possibleCol), this->position, letter);       }
+        if (this->fWhite == false && board(possibleRow,possibleCol)->isWhite() == false)
+        {
+            letter = board(possibleRow,possibleCol)->getLetter();
+            insertMove(moves, move, Position(possibleRow, possibleCol), this->position, letter);
+        }
+    }
    
 }
 
@@ -353,6 +384,37 @@ void Queen::getMoves(std::set<Move> &moves, const Board &board) const
     int currentRow = this->position.getRow();
     int currentCol = this->position.getCol();
     Move move = Move();
+    char letter;
+    
+    RC moveRules[8] =
+    {
+       {-1,  1}, {0,  1}, {1,  1},
+       {-1,  0},          {1,  0},
+       {-1, -1}, {0, -1}, {1, -1}
+    };
+    for (int i = 0; i < 8; i++)
+    {
+        possibleRow = currentRow + moveRules[i].row;
+        possibleCol = currentCol + moveRules[i].col;
+        while (possibleRow >= 0 && possibleRow < 8 && possibleCol >= 0 && possibleCol < 8 &&
+               board(possibleRow, possibleCol)->getLetter() == SPACE)
+        {
+            letter = board(possibleRow,possibleCol)->getLetter();
+            insertMove(moves, move, Position(possibleRow, possibleCol), this->position, letter);
+            
+            possibleRow += moveRules[i].row;
+            possibleCol += moveRules[i].col;
+        }
+        if ( this->fWhite && board(possibleRow,possibleCol)->isWhite() == true)
+        {
+            letter = board(possibleRow,possibleCol)->getLetter();
+            insertMove(moves, move, Position(possibleRow, possibleCol), this->position, letter);       }
+        if (this->fWhite == false && board(possibleRow,possibleCol)->isWhite() == false)
+        {
+            letter = board(possibleRow,possibleCol)->getLetter();
+            insertMove(moves, move, Position(possibleRow, possibleCol), this->position, letter);
+        }
+    }
    
 }
 
@@ -379,7 +441,7 @@ void King::getMoves(std::set<Move> &moves, const Board &board) const
        possibleCol = currentCol + moveRules[i].col;
         if (this->fWhite == false && board(possibleRow,possibleCol)->isWhite() == true)
         {
-           // add a call to canCastle and if true set CastleK or CastleQ on move
+           
            char letter = board(possibleRow,possibleCol)->getLetter();
            insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, letter);
         }
@@ -389,6 +451,9 @@ void King::getMoves(std::set<Move> &moves, const Board &board) const
            insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, letter);
         }
     }
+    
+    // Check Castling
+    this->addCastle(board, moves, move);
        
 }
 
@@ -396,96 +461,60 @@ void King::getMoves(std::set<Move> &moves, const Board &board) const
  * KING CAN CASTLE
  * Checks conditions in the board and returns true or false
  *********************************************************************/
-bool King::canCastle(const Board &board)
+void King::addCastle(const Board &board, std::set<Move> moves,Move &move) const
 {
-    //** The following is the pseudocode for this method **//
-//    bool canCastle(Board board)
-//        {
-//            if(hasMoved || inCheck )
-//            {
-//                return false
-//            }
-//
-//            int x = position.getX();
-//            int y = position.getY();
-//            bool kingside = false;
-//
-//            // Check to the right
-//            for (int i = 1; i <= 2; ++i)
-//            {
-//                if (board[(x + i) * 8 + y] != ' ')
-//                {
-//                    kingside = false;
-//                    i = 3
-//                }
-//
-//                kingside = true;
-//            }
-//
-//            if (!kingside)
-//            {
-//                // Check to the left
-//                for (int i = 1; i <= 3; ++i)
-//                {
-//                    if (board[(x - i) * 8 + y] != ' ')
-//                    {
-//                        return false;
-//                    }
-//                }
-//
-//                if (board[(x - 4) * 8 + y].getHasMoved == false)
-//                    return true
-//                else
-//                    return false
-//            }
-//            else
-//            {
-//                if (board[(x + 3) * 8 + y].getHasMoved == false)
-//                    return true
-//                else
-//                    return false
-//            }
-//        
-//        }
-    
     // Can't castle if the king has moved
     if (this->getNMoves() != 0)
-        return false;
+        return;
     
     int row = this->position.getRow();
     int col = this->position.getCol();
     bool kingside = false;
     
     // Check if the rook to the right has not moved
-    if (board(row + 3, col)->getLetter() != ROOK || board(row + 3, col)->getNMoves() != 0)
-    {
-        
-    }
-    
+
     // Check to the right
-    for (int i = 1; i <= 2; ++i)
+    if (board(row, col + 3)->getLetter() == ROOK || board(row, col +  3)->getNMoves() <= 0)
     {
-        if (board(row = i, col)->getLetter() != SPACE)
+        // Check there are no pieces in between
+        for (int i = 1; i <= 2; ++i)
         {
-            kingside = false;
-            i = 3;
+            if (board(row, col + i)->getLetter() != SPACE)
+            {
+                kingside = false;
+                i = 3;
+            }
+            
+            kingside = true;
         }
-        kingside = true;
     }
     
-    if (!kingside)
+    // Insert a move into the set for castling on King side
+    if (kingside)
     {
-        // Check to the left
+        char letter = board(row,col)->getLetter();
+        move.setCastle(kingside);
+        insertMove(moves, move, Position(row, col), this->position, letter);
+    }
+    
+    // Check to the left
+    if (board(row - 4, col)->getLetter() == ROOK || board(row - 4, col)->getNMoves() <= 0)
+    {
+        // Check there are no pieces in between
         for (int i = 1; i <= 3; i++)
         {
             if (board(row - i, col)->getLetter() != SPACE)
             {
-                return false;
+                return;
             }
         }
         
+        // Insert a move into the set for castling on Queen side
+        char letter = board(row,col)->getLetter();
+        move.setCastle(kingside);
+        insertMove(moves, move, Position(row, col), this->position, letter);
+        return;
     }
-   return false;
 }
 
 
