@@ -161,8 +161,7 @@ void Board::swap(Position pos1, Position pos2)
  *********************************************************************/
 void Board::operator=(Piece* piece)
 {
-//   *this = nullptr;
-//   *this = piece;
+   (*this)(piece->getPosition().getRow(),piece->getPosition().getCol()) = piece;
    
 }
 

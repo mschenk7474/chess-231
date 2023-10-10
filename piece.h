@@ -29,6 +29,7 @@ public:
    Piece(Position pos) : position(pos), fWhite(false), nMoves(0), lastMove(0) {}
    Piece(int row, int col) : position(row,col), fWhite(false), nMoves(0), lastMove(0) {}
    Piece(int row, int col, bool isWhite) : position(row, col), fWhite(isWhite), nMoves(0), lastMove(0) {}
+   ~Piece() {};
    
    // setters
    void setPosition(Position pos)      { position = pos;        }
