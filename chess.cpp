@@ -267,7 +267,7 @@ set <int> getPossibleMoves(const char* board, int location)
  * DRAW
  * Draw the current state of the game
  ***************************************************/
-void draw(const Board* board, const Interface & ui, const set <Move> & possible)
+void draw(const Board & board, const Interface & ui, const set <Move> & possible)
 {
    ogstream gout;
    
@@ -286,7 +286,7 @@ void draw(const Board* board, const Interface & ui, const set <Move> & possible)
    // draw the pieces
    for(int r = 0; r < 8; r++)
       for(int c = 0; c < 8; c++)
-         (*board)(r,c)->display(gout);
+         (board)(r,c)->display(gout);
       
       
 //   for (int i = 0; i < 64; i++)
@@ -369,12 +369,19 @@ void callBack(Interface *pUI, void *p)
 {
    set <Move> moves;
    Board *board = (Board *)p;
+   Move move;
    
-   // moves the pieces in the list
-   for(auto it : moves)
-      if(pUI->getSelectPosition())
-      board->move(it);
-   
+//    moves the pieces in the list
+//   for(auto it : moves)
+//      if(pUI->getSelectPosition())
+//      board->move(it);
+    
+   move.setSrc(Position(pUI->getPreviousPosition()));
+   move.setDes(Position(pUI->getSelectPosition()));
+   if (board->move(move))
+       pUI->clearSelectPosition();
+   else
+       
    // gets the possible moves
    board->getPiece(pUI->getSelectPosition())->getMoves(moves, board);
    

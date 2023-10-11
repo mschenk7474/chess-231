@@ -32,7 +32,7 @@ public:
    void reset(bool fFree);
    void free();  // come back and do
    void display(Position posHover, Position posSel); // come back and do
-   void move(Move move); // come back and do
+   bool move(Move move); // come back and do
    void resetMoves() {currentMove = 0;}
    
    // operator overrides

@@ -22,7 +22,7 @@ Piece* Board::getPiece(Position pos)
  * BOARD MOVE
  * Move's the piece on the board
  *********************************************************************/
-void Board::move(Move move)
+bool Board::move(Move move) // pass by reference
 {
    int positionFrom = move.getSrc().getLocation();
    int positionTo = move.getDes().getLocation();
@@ -30,7 +30,7 @@ void Board::move(Move move)
    
    // do not move if not indicated
    if (positionFrom == -1 || positionTo == -1)
-      return;
+      return false;
    assert(positionFrom >= 0 && positionFrom < 64);
    assert(positionTo >= 0 && positionTo < 64);
    
@@ -60,10 +60,9 @@ void Board::move(Move move)
       }
       
       // moves the piece
-      board[move.getDes().getRow()][move.getDes().getCol()] = board[move.getSrc().getRow()][move.getSrc().getCol()];
+    
+       (*this).swap(move.getSrc(), move.getDes());
       
-      // makes the previous piece a space
-      *this -= Position(move.getSrc());
       
       // check for promote
       if(move.getPromotion())
@@ -72,6 +71,7 @@ void Board::move(Move move)
          board[move.getDes().getRow()][move.getDes().getCol()] = new Queen(move.getDes());
       }
    }
+    return true;
    
 }
 
@@ -137,22 +137,25 @@ void Board::free()
  * BOARD SWAP
  * Gives two positions and the two position's pieces swap attributes.
  *********************************************************************/
-void Board::swap(Position pos1, Position pos2)
+void Board::swap(Position pos1, Position pos2)// pass by reference
 {
-   Piece* lhsTemp = board[pos1.getRow()][pos1.getCol()];
-   Piece* lhs = board[pos1.getRow()][pos1.getCol()];
-   Piece* rhs = board[pos2.getRow()][pos2.getCol()];
+   Piece* p1 = board[pos1.getRow()][pos1.getCol()];
+   Piece* p2 = board[pos2.getRow()][pos2.getCol()];
    
-   // need to swap type, position, fwhite, nmoves, and lastMove
-   lhs = nullptr;
-   lhs = *new Piece*(rhs);
-   board[pos1.getRow()][pos1.getCol()] = lhs;
-   
-   rhs = nullptr;
-   rhs = *new Piece*(lhsTemp);
-   board[pos2.getRow()][pos2.getCol()] = rhs;
-   
-   lhsTemp = nullptr;
+   board[pos1.getRow()][pos1.getCol()] = p2;
+
+   board[pos2.getRow()][pos2.getCol()] = p1;
+// p1
+
+    
+//   tell the pieces where they are bu calling p1->set`position\
+//    or board[][]->set`posiiton(
+   p1->setPosition(pos2);
+   p2->setPosition(pos1);
+    
+
+   // need to swap type, positoon, fwhite, nmoves, and lastMove
+
 }
 
 /*********************************************************************
@@ -162,6 +165,12 @@ void Board::swap(Position pos1, Position pos2)
 void Board::operator=(Piece* piece)
 {
    (*this)(piece->getPosition().getRow(),piece->getPosition().getCol()) = piece;
+    
+//    int r = piece->getPosition().getRow();
+//    int c = piece->getPosition().getCol();
+//       
+//       delete board[r][c];
+//       board[r][c] = piece;
    
 }
 
