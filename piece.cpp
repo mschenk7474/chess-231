@@ -113,8 +113,8 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
    int currentCol = this->position.getCol();
    Move move = Move();
    
-   // covers black pawns
-   if (this->fWhite == false)
+   // covers white pawns
+   if (this->fWhite == true)
    {
       possibleCol = currentCol;
       possibleRow = currentRow - 2;
@@ -131,7 +131,7 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, board(possibleRow,possibleCol)->getLetter());// forward one blank
        }
       possibleCol = currentCol - 1;
-      if(board(possibleRow,possibleCol)->isWhite() == true)
+      if(board(possibleRow,possibleCol)->isWhite() == false)
       {
          if(canPromote(board, Position(possibleRow, possibleCol)))
             move.setPromote(QUEEN);
@@ -147,7 +147,7 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
       }
       possibleCol = currentCol + 1;
       possibleRow = currentRow - 1;
-      if (board(possibleRow,possibleCol)->isWhite() == true)
+      if (board(possibleRow,possibleCol)->isWhite() == false)
       {
          if(canPromote(board, Position(possibleRow, possibleCol)))
             move.setPromote(QUEEN);
@@ -163,7 +163,7 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
       }
    }
    
-   // covers white pawns
+   // covers black pawns
    else
    {
       possibleCol = currentCol;
@@ -181,7 +181,7 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, board(possibleRow,possibleCol)->getLetter());// forward one blank
        }
       possibleCol = currentCol - 1;
-       if(board(possibleRow,possibleCol)->isWhite() == false)
+       if(board(possibleRow,possibleCol)->isWhite() == true && board(possibleRow,possibleCol)->getLetter() != SPACE)
        {
           if(canPromote(board, Position(possibleRow, possibleCol)))
              move.setPromote(QUEEN);
@@ -197,7 +197,7 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
       }
       possibleCol = currentCol + 1;
       possibleRow = currentRow + 1;
-       if(board(possibleRow,possibleCol)->isWhite() == false)
+       if(board(possibleRow,possibleCol)->isWhite() == true && board(possibleRow,possibleCol)->getLetter() != SPACE)
        {
           if(canPromote(board, Position(possibleRow, possibleCol)))
              move.setPromote(QUEEN);

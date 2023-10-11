@@ -93,29 +93,29 @@ void Board::reset(bool fFree)
    // set up pawns
    for (int c = 0; c < 8; c++)
    {
-      board[1][c] = builder(PAWN, 1, c, true);
-      board[6][c] = builder(PAWN, 6, c, false);
+      board[6][c] = builder(PAWN, 6, c, true);
+      board[1][c] = builder(PAWN, 1, c, false);
    }
    
    // white pieces
-   board[0][0] = builder(ROOK, 0, 0, true);
-   board[0][1] = builder(KNIGHT, 0, 1, true);
-   board[0][2] = builder(BISHOP, 0, 2, true);
-   board[0][3] = builder(QUEEN, 0, 3, true);
-   board[0][4] = builder(KING, 0, 4, true);
-   board[0][5] = builder(BISHOP, 0, 5, true);
-   board[0][6] = builder(KNIGHT, 0, 6, true);
-   board[0][7] = builder(ROOK, 0, 7, true);
+   board[7][0] = builder(ROOK, 7, 0, true);
+   board[7][1] = builder(KNIGHT, 7, 1, true);
+   board[7][2] = builder(BISHOP, 7, 2, true);
+   board[7][3] = builder(QUEEN, 7, 3, true);
+   board[7][4] = builder(KING, 7, 4, true);
+   board[7][5] = builder(BISHOP, 7, 5, true);
+   board[7][6] = builder(KNIGHT, 7, 6, true);
+   board[7][7] = builder(ROOK, 7, 7, true);
    
    // black pieces
-   board[7][0] = builder(ROOK, 7, 0, false);
-   board[7][1] = builder(KNIGHT, 7, 1, false);
-   board[7][2] = builder(BISHOP, 7, 2, false);
-   board[7][3] = builder(QUEEN, 7, 3, false);
-   board[7][4] = builder(KING, 7, 4, false);
-   board[7][5] = builder(BISHOP, 7, 5, false);
-   board[7][6] = builder(KNIGHT, 7, 6, false);
-   board[7][7] = builder(ROOK, 7, 7, false);
+   board[0][0] = builder(ROOK, 0, 0, false);
+   board[0][1] = builder(KNIGHT, 0, 1, false);
+   board[0][2] = builder(BISHOP, 0, 2, false);
+   board[0][3] = builder(QUEEN, 0, 3, false);
+   board[0][4] = builder(KING, 0, 4, false);
+   board[0][5] = builder(BISHOP, 0, 5, false);
+   board[0][6] = builder(KNIGHT, 0, 6, false);
+   board[0][7] = builder(ROOK, 0, 7, false);
    
    // reset the moves
    resetMoves();
