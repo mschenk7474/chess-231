@@ -26,14 +26,16 @@ public:
    // getter
    int getCurrentMove() const { return currentMove;                                              }
    bool whiteTurn()           { return (currentMove % 2 == 0 || currentMove == 0) ? true : false; }
+   
    Piece* getPiece(Position pos); // come back and do
    
    // special methods
    void reset(bool fFree);
    void free();  // come back and do
    void display(Position posHover, Position posSel); // come back and do
-   bool move(Move move); // come back and do
-   void resetMoves() {currentMove = 0;}
+   bool move(const Move &move); // come back and do
+   void resetMoves()           { currentMove = 0; }
+   void incrementCurrentMove() { currentMove++;   }
    
    // operator overrides
    Piece*& operator()(int row, int col) { Position temp = Position(row, col); return board[temp.getRow()][temp.getCol()]; }

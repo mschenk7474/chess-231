@@ -370,22 +370,31 @@ void callBack(Interface *pUI, void *p)
    set <Move> moves;
    Board *board = (Board *)p;
    Move move;
-   
-//    moves the pieces in the list
-//   for(auto it : moves)
-//      if(pUI->getSelectPosition())
-//      board->move(it);
     
    move.setSrc(Position(pUI->getPreviousPosition()));
    move.setDes(Position(pUI->getSelectPosition()));
+   
+   // gets the possible moves only if it is the piece's turn
+   if((board->getPiece(pUI->getSelectPosition())->isWhite() && board->whiteTurn()) || (!board->getPiece(pUI->getSelectPosition())->isWhite() && !board->whiteTurn()))
+      board->getPiece(pUI->getSelectPosition())->getMoves(moves, board);
+   
+   // this is supposed to get the piece's capture, but it is not working
+   auto it = moves.find(move);
+   
+   if(it != moves.end())
+      move.setCapture((*it).getCapture());
+   
    if (board->move(move))
        pUI->clearSelectPosition();
-   else
-       
-   // gets the possible moves
-   board->getPiece(pUI->getSelectPosition())->getMoves(moves, board);
    
-   draw(board, *pUI, moves);
+   
+      
+   
+   // clicked space 
+   if (pUI->getSelectPosition() != -1 && board->getPiece(pUI->getSelectPosition())->getLetter() == SPACE)
+      pUI->clearSelectPosition();
+   
+   draw(*board, *pUI, moves);
 
 //   if (move(board, pUI->getPreviousPosition(), pUI->getSelectPosition()))
 //      pUI->clearSelectPosition();
