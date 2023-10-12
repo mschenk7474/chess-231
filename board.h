@@ -56,7 +56,7 @@ private:
    ogstream gout;
    
    
-   void swap(Position pos1, Position pos2);
+   void swap(const Position &pos1, const Position &pos2);
    void assertBoard();
    
 };

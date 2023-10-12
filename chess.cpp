@@ -13,6 +13,7 @@
 #include <string>         // for STRING
 #include "board.h"        // for BOARD
 #include "move.h"         // for MOVE
+#include <iostream>
 using namespace std;
 
 
@@ -376,13 +377,32 @@ void callBack(Interface *pUI, void *p)
    
    // gets the possible moves only if it is the piece's turn
    if((board->getPiece(pUI->getSelectPosition())->isWhite() && board->whiteTurn()) || (!board->getPiece(pUI->getSelectPosition())->isWhite() && !board->whiteTurn()))
-      board->getPiece(pUI->getSelectPosition())->getMoves(moves, board);
+      board->getPiece(pUI->getSelectPosition())->getMoves(moves, *board);
    
    // this is supposed to get the piece's capture, but it is not working
-   auto it = moves.find(move);
+//   auto it = moves.find(move);
+//   
+//   if(it != moves.end())
+//   {
+//      move = *it;
+////      move.setCapture(it->getCapture());
+////      move.setEnPassant(it->getEnPassant());
+////      move.setCastle(it->getCastleK());
+////      move.setCastle(it->getCastleQ());
+////      move.setPromote(it->getPromotion());
+//   }
    
-   if(it != moves.end())
-      move.setCapture((*it).getCapture());
+   for(const Move& currentMove : moves)
+   {
+      if(currentMove.getDes() == move.getDes() && currentMove.getSrc() == move.getSrc())
+      {
+           move.setCapture(currentMove.getCapture());
+           move.setEnPassant(currentMove.getEnPassant());
+           move.setCastle(currentMove.getCastleK());
+           move.setCastle(currentMove.getCastleQ());
+           move.setPromote(currentMove.getPromotion());
+      }
+   }
    
    if (board->move(move))
        pUI->clearSelectPosition();
