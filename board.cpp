@@ -26,7 +26,6 @@ bool Board::move(const Move &move) // pass by reference
 {
    int positionFrom = move.getSrc().getLocation();
    int positionTo = move.getDes().getLocation();
-   std::set<Move> moves;
    
    // do not move if not indicated
    if (positionFrom == -1 || positionTo == -1)
@@ -38,54 +37,58 @@ bool Board::move(const Move &move) // pass by reference
    if((this->whiteTurn() && this->getPiece(positionFrom)->isWhite() == false) || (!this->whiteTurn() && this->getPiece(positionFrom)->isWhite() == true))
       return false;
    
-   // finding possible moves from current location
-   this->getPiece(positionFrom)->getMoves(moves, *this);
-   
-   // only move there if the suggested move is on the set of possible moves
-   if(moves.find(move) != moves.end())
+   // handle castle for both sides
+   // king side first
+   if (move.getCastleK())
    {
-      // handle castle for both sides
-      // king side first
-      if (move.getCastleK())
-         this->swap(Position(move.getDes().getRow(), 7), Position(move.getDes().getRow(), 5));
+      (*this).swap(Position(move.getDes().getRow(), 7), Position(move.getDes().getRow(), 5));
+      return true;
+   }
       
-      // queen side
-      if(move.getCastleQ())
-         this->swap(Position(move.getDes().getRow(), 0), Position(move.getDes().getRow(), 2));
+   // queen side
+   if(move.getCastleQ())
+   {
+      (*this).swap(Position(move.getDes().getRow(), 0), Position(move.getDes().getRow(), 2));
+      return true;
+   }
       
-      // check for enpassant
-      if(move.getEnPassant())
+   // check for enpassant
+   if(move.getEnPassant())
+   {
+      if((*this).getPiece(positionFrom)->isWhite())
       {
-        if(this->getPiece(positionFrom)->isWhite())
-           *this -= Position(move.getDes().getRow() - 1, move.getDes().getCol());
-         
-         else
-            *this -= Position(move.getDes().getRow() + 1, move.getDes().getCol());
+         *this -= Position(move.getDes().getRow() - 1, move.getDes().getCol());
+         return true;
       }
-      
-      // moves the piece
-    
-      (*this).swap(move.getSrc(), move.getDes());
-      
-      // want to check for capture
-      if (move.getCapture() != SPACE)
-         // if there was a capture that went down, need to remove instead
-         *this -= move.getDes();
-      // update the variables to keep track of who's turn it is
-      this->getPiece(positionFrom)->setLastMove(positionFrom);
-      this->getPiece(positionFrom)->incrementNMoves();
-      this->incrementCurrentMove();
-      
-      
-      // check for promote
-      if(move.getPromotion())
+        
+      else
       {
-         *this -= Position(move.getDes());
-         board[move.getDes().getRow()][move.getDes().getCol()] = new Queen(move.getDes());
+         *this -= Position(move.getDes().getRow() + 1, move.getDes().getCol());
+         return true;
       }
    }
    
-    return true;
+   // normal move
+   (*this).swap(move.getSrc(), move.getDes());
+   
+   // want to check for capture
+   if (move.getCapture() != SPACE)
+      // if there was a capture that went down, need to remove instead
+      *this -= move.getSrc();
+   // update the variables to keep track of who's turn it is
+   this->getPiece(positionFrom)->setLastMove(positionFrom);
+   this->getPiece(positionFrom)->incrementNMoves();
+   this->incrementCurrentMove();
+   
+   
+   // check for promote
+   if(move.getPromotion())
+   {
+      *this -= Position(move.getDes());
+      board[move.getDes().getRow()][move.getDes().getCol()] = new Queen(move.getDes());
+   }
+
+ return true;
    
 }
 
@@ -151,7 +154,7 @@ void Board::free()
  * BOARD SWAP
  * Gives two positions and the two position's pieces swap attributes.
  *********************************************************************/
-void Board::swap(Position pos1, Position pos2)// pass by reference
+void Board::swap(const Position &pos1, const Position &pos2)// pass by reference
 {
    Piece* p1 = board[pos1.getRow()][pos1.getCol()];
    Piece* p2 = board[pos2.getRow()][pos2.getCol()];

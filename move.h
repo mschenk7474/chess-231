@@ -53,6 +53,7 @@ class Move
       void setSrc(const Position & src) { source     = src; }
       void setDes(const Position & des) { dest       = des; }
       void setEnPassant()               { enpassant  = true;}
+      void setEnPassant(bool isE)          { enpassant = isE; }
       void setPromote(PieceType pt)     { promote      = pt;  }
       void complete(const Board& board);
       void setCastle(bool isKing)
