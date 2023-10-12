@@ -36,6 +36,8 @@ public:
    void setPosition(int row, int col)  { position.set(row,col); }
    void setWhite()                     { fWhite = true;         }
    void setBlack()                     { fWhite = false;        }
+   void incrementNMoves()              { nMoves++;              }
+   void setLastMove(int pos)           { lastMove = pos;        }
    
    // getters
    bool isMove();
@@ -90,7 +92,7 @@ public:
    Pawn(int row, int col) : Piece(row, col) {}
    Pawn(int row, int col, bool isWhite) : Piece(row, col, isWhite) {}
    char getLetter() const override       { return PAWN;                                   }
-   void display(ogstream &gout) override { gout.drawPawn(position.getLocation(), fWhite); }
+   void display(ogstream &gout) override { gout.drawPawn(position.getLocation(), !fWhite); }
    void getMoves(std::set<Move> &moves, const Board &board) const override;
    bool canEnPassant(const Board &board, Position opposingPosition) const;
    bool canPromote(const Board &board, Position possiblePosition) const;
@@ -105,7 +107,7 @@ public:
    Rook(int row, int col) : Piece(row, col) {}
    Rook(int row, int col, bool isWhite) : Piece(row, col, isWhite) {}
    char getLetter() const override       { return ROOK;                                   }
-   void display(ogstream &gout) override { gout.drawRook(position.getLocation(), fWhite); }
+   void display(ogstream &gout) override { gout.drawRook(position.getLocation(), !fWhite); }
    void getMoves(std::set<Move> &moves, const Board &board) const override;
 };
 
@@ -118,7 +120,7 @@ public:
    Knight(int row, int col) : Piece(row, col) {}
    Knight(int row, int col, bool isWhite) : Piece(row, col, isWhite) {}
    char getLetter() const override       { return KNIGHT;                                   }
-   void display(ogstream &gout) override { gout.drawKnight(position.getLocation(), fWhite); }
+   void display(ogstream &gout) override { gout.drawKnight(position.getLocation(), !fWhite); }
    void getMoves(std::set<Move> &moves, const Board &board) const override;
 };
 
@@ -131,7 +133,7 @@ public:
    Bishop(int row, int col) : Piece(row, col) {}
    Bishop(int row, int col, bool isWhite) : Piece(row, col, isWhite) {}
    char getLetter() const override       { return BISHOP;                                   }
-   void display(ogstream &gout) override { gout.drawBishop(position.getLocation(), fWhite); }
+   void display(ogstream &gout) override { gout.drawBishop(position.getLocation(), !fWhite); }
    void getMoves(std::set<Move> &moves, const Board &board) const override;
 };
 
@@ -144,7 +146,7 @@ public:
    Queen(int row, int col) : Piece(row, col) {}
    Queen(int row, int col, bool isWhite) : Piece(row, col, isWhite) {}
    char getLetter() const override       { return QUEEN;                                   }
-   void display(ogstream &gout) override { gout.drawQueen(position.getLocation(), fWhite); }
+   void display(ogstream &gout) override { gout.drawQueen(position.getLocation(), !fWhite); }
    void getMoves(std::set<Move> &moves, const Board &board) const override;
 };
 
@@ -157,7 +159,7 @@ public:
    King(int row, int col) : Piece(row, col) {}
    King(int row, int col, bool isWhite) : Piece(row, col, isWhite) {}
    char getLetter() const override        { return KING;                                   }
-   void display(ogstream &gout) override  { gout.drawKing(position.getLocation(), fWhite); }
+   void display(ogstream &gout) override  { gout.drawKing(position.getLocation(), !fWhite); }
    void getMoves(std::set<Move> &moves, const Board &board) const override;
    void addCastle(const Board &board, std::set<Move> &moves, Move &move) const;
 };

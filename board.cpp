@@ -20,9 +20,9 @@ Piece* Board::getPiece(Position pos)
 
 /*********************************************************************
  * BOARD MOVE
- * Move's the piece on the board
+ * Moves the piece on the board
  *********************************************************************/
-bool Board::move(Move move) // pass by reference
+bool Board::move(const Move &move) // pass by reference
 {
    int positionFrom = move.getSrc().getLocation();
    int positionTo = move.getDes().getLocation();
@@ -33,6 +33,10 @@ bool Board::move(Move move) // pass by reference
       return false;
    assert(positionFrom >= 0 && positionFrom < 64);
    assert(positionTo >= 0 && positionTo < 64);
+   
+   // need to check who's turn it is
+   if((this->whiteTurn() && this->getPiece(positionFrom)->isWhite() == false) || (!this->whiteTurn() && this->getPiece(positionFrom)->isWhite() == true))
+      return false;
    
    // finding possible moves from current location
    this->getPiece(positionFrom)->getMoves(moves, *this);
@@ -61,7 +65,16 @@ bool Board::move(Move move) // pass by reference
       
       // moves the piece
     
-       (*this).swap(move.getSrc(), move.getDes());
+      (*this).swap(move.getSrc(), move.getDes());
+      
+      // want to check for capture
+      if (move.getCapture() != SPACE)
+         // if there was a capture that went down, need to remove instead
+         *this -= move.getDes();
+      // update the variables to keep track of who's turn it is
+      this->getPiece(positionFrom)->setLastMove(positionFrom);
+      this->getPiece(positionFrom)->incrementNMoves();
+      this->incrementCurrentMove();
       
       
       // check for promote
@@ -71,6 +84,7 @@ bool Board::move(Move move) // pass by reference
          board[move.getDes().getRow()][move.getDes().getCol()] = new Queen(move.getDes());
       }
    }
+   
     return true;
    
 }
@@ -93,29 +107,29 @@ void Board::reset(bool fFree)
    // set up pawns
    for (int c = 0; c < 8; c++)
    {
-      board[6][c] = builder(PAWN, 6, c, true);
-      board[1][c] = builder(PAWN, 1, c, false);
+      board[1][c] = builder(PAWN, 1, c, true);
+      board[6][c] = builder(PAWN, 6, c, false);
    }
    
    // white pieces
-   board[7][0] = builder(ROOK, 7, 0, true);
-   board[7][1] = builder(KNIGHT, 7, 1, true);
-   board[7][2] = builder(BISHOP, 7, 2, true);
-   board[7][3] = builder(QUEEN, 7, 3, true);
-   board[7][4] = builder(KING, 7, 4, true);
-   board[7][5] = builder(BISHOP, 7, 5, true);
-   board[7][6] = builder(KNIGHT, 7, 6, true);
-   board[7][7] = builder(ROOK, 7, 7, true);
+   board[0][0] = builder(ROOK, 0, 0, true);
+   board[0][1] = builder(KNIGHT, 0, 1, true);
+   board[0][2] = builder(BISHOP, 0, 2, true);
+   board[0][3] = builder(QUEEN, 0, 3, true);
+   board[0][4] = builder(KING, 0, 4, true);
+   board[0][5] = builder(BISHOP, 0, 5, true);
+   board[0][6] = builder(KNIGHT, 0, 6, true);
+   board[0][7] = builder(ROOK, 0, 7, true);
    
    // black pieces
-   board[0][0] = builder(ROOK, 0, 0, false);
-   board[0][1] = builder(KNIGHT, 0, 1, false);
-   board[0][2] = builder(BISHOP, 0, 2, false);
-   board[0][3] = builder(QUEEN, 0, 3, false);
-   board[0][4] = builder(KING, 0, 4, false);
-   board[0][5] = builder(BISHOP, 0, 5, false);
-   board[0][6] = builder(KNIGHT, 0, 6, false);
-   board[0][7] = builder(ROOK, 0, 7, false);
+   board[7][0] = builder(ROOK, 7, 0, false);
+   board[7][1] = builder(KNIGHT, 7, 1, false);
+   board[7][2] = builder(BISHOP, 7, 2, false);
+   board[7][3] = builder(QUEEN, 7, 3, false);
+   board[7][4] = builder(KING, 7, 4, false);
+   board[7][5] = builder(BISHOP, 7, 5, false);
+   board[7][6] = builder(KNIGHT, 7, 6, false);
+   board[7][7] = builder(ROOK, 7, 7, false);
    
    // reset the moves
    resetMoves();
