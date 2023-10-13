@@ -1,28 +1,55 @@
-//
-//  board.cpp
-//  Lab01
-//
-//  Created by Mason Schenk on 10/4/23.
-//
+/***********************************************************************
+ * Source File:
+ *    BOARD : Keeps track of all elements of chess game, which is on the board
+ * Author:
+ *    Mason Schenk & Andre Regino
+ * Summary:
+ *    Everything we need to know about the game, which is to know the board
+ ************************************************************************/
 
-#include "board.h" // for BOARD
-#include "move.h"  // for MOVE
-#include <cassert> // for assertBoard
+#include "board.h"       // for BOARD
+#include "move.h"        // for MOVE
+#include <cassert>       // for ASSERT
+#include "uiInteract.h"  // for INTERFACE
 
 /*********************************************************************
  * BOARD GET PIECE
- * Get's the piece according the position passed
+ * Gets the piece according the position passed
  *********************************************************************/
-Piece* Board::getPiece(Position pos)
+Piece* Board::getPiece(const Position & pos) const
 {
    return (*this)[pos];
+}
+
+/*********************************************************************
+ * BOARD DISPLAY
+ * Display the board at its current state
+ *********************************************************************/
+void Board::display(const Interface & ui, const std::set <Move> & possible)
+{
+   // draw the checkerboard
+   gout.drawBoard();
+
+   // draw any selections
+   gout.drawHover(ui.getHoverPosition());
+   gout.drawSelected(ui.getSelectPosition());
+
+   // draw the possible moves
+   for (auto it = possible.begin(); it != possible.end(); ++it)
+      gout.drawPossible(it->getDes().getLocation());
+   
+   // draw the pieces
+   for(int r = 0; r < 8; r++)
+      for(int c = 0; c < 8; c++)
+         (*this)(r,c)->display(gout);
+   
 }
 
 /*********************************************************************
  * BOARD MOVE
  * Moves the piece on the board
  *********************************************************************/
-void Board::move(const Move &move) // pass by reference
+void Board::move(const Move &move)
 {
    int positionFrom = move.getSrc().getLocation();
    int positionTo = move.getDes().getLocation();
@@ -45,9 +72,11 @@ void Board::move(const Move &move) // pass by reference
    // check for enpassant
    if(move.getEnPassant())
    {
+      // white enpassant
       if((*this).getPiece(positionFrom)->isWhite())
          *this -= Position(move.getDes().getRow() - 1, move.getDes().getCol());
-        
+      
+      // black enpassant
       else
          *this -= Position(move.getDes().getRow() + 1, move.getDes().getCol());
    }
@@ -57,8 +86,9 @@ void Board::move(const Move &move) // pass by reference
    
    // want to check for capture
    if (move.getCapture() != SPACE)
-      // if there was a capture that went down, need to remove instead
+      // if there was a capture, need to remove captured piece
       *this -= move.getSrc();
+   
    // update the variables to keep track of who's turn it is
    this->getPiece(positionTo)->setLastMove(positionTo);
    this->getPiece(positionTo)->incrementNMoves();
@@ -136,7 +166,7 @@ void Board::free()
  * BOARD SWAP
  * Gives two positions and the two position's pieces swap attributes.
  *********************************************************************/
-void Board::swap(const Position &pos1, const Position &pos2)// pass by reference
+void Board::swap(const Position &pos1, const Position &pos2)
 {
    Piece* p1 = board[pos1.getRow()][pos1.getCol()];
    Piece* p2 = board[pos2.getRow()][pos2.getCol()];
@@ -144,17 +174,10 @@ void Board::swap(const Position &pos1, const Position &pos2)// pass by reference
    board[pos1.getRow()][pos1.getCol()] = p2;
 
    board[pos2.getRow()][pos2.getCol()] = p1;
-// p1
 
-    
-//   tell the pieces where they are bu calling p1->set`position\
-//    or board[][]->set`posiiton(
    p1->setPosition(pos2);
    p2->setPosition(pos1);
     
-
-   // need to swap type, positoon, fwhite, nmoves, and lastMove
-
 }
 
 /*********************************************************************
@@ -164,13 +187,6 @@ void Board::swap(const Position &pos1, const Position &pos2)// pass by reference
 void Board::operator=(Piece* piece)
 {
    (*this)(piece->getPosition().getRow(),piece->getPosition().getCol()) = piece;
-    
-//    int r = piece->getPosition().getRow();
-//    int c = piece->getPosition().getCol();
-//       
-//       delete board[r][c];
-//       board[r][c] = piece;
-   
 }
 
 /*********************************************************************
