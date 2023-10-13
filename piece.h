@@ -45,6 +45,7 @@ public:
    bool isWhite()               { return fWhite == true;                   }
    int getNMoves() const        { return nMoves;                           }
    Position getPosition() const { return position;                         }
+   int getLastMove() const      {return lastMove;}
    
    // pure virtual methods
    virtual char getLetter() const = 0;

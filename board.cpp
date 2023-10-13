@@ -60,9 +60,10 @@ void Board::move(const Move &move) // pass by reference
       // if there was a capture that went down, need to remove instead
       *this -= move.getSrc();
    // update the variables to keep track of who's turn it is
-   this->getPiece(positionTo)->setLastMove(positionFrom);
+   this->getPiece(positionTo)->setLastMove(positionTo);
    this->getPiece(positionTo)->incrementNMoves();
    this->incrementCurrentMove();
+   this->setLastMove(positionTo);
    
    
    // check for promote

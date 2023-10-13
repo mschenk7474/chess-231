@@ -282,8 +282,8 @@ bool Pawn::canEnPassant(const Board &board, Position opposingPosition) const
 //      return false;
    
    // need to check if the opposing pawn has only moved once and if it moved two spaces from where it was
-   // confirms the opposing pawn has only moved once           makes sure if the piece is black, that it has moved 2 spaces            make sure if the piece is white, then it has moved two spaces
-   if(opposingPawn->getNMoves() == 1 && ((opposingPawn->getPosition().getRow() == 4 && opposingPawn->isWhite() == false) || (opposingPawn->getPosition().getRow() == 3 && opposingPawn->isWhite() == true)))
+   // confirms the opposing pawn has only moved once           makes sure if the piece is black, that it has moved 2 spaces            make sure if the piece is white, then it has moved two spaces           // immediate response
+   if(opposingPawn->getNMoves() == 1 && ((opposingPawn->getPosition().getRow() == 4 && opposingPawn->isWhite() == false) || (opposingPawn->getPosition().getRow() == 3 && opposingPawn->isWhite() == true)) && board.getLastMove() == opposingPawn->getLastMove())
       return true;
    
    // otherwise return false
