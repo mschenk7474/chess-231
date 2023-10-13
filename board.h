@@ -26,6 +26,7 @@ public:
    // getter
    int getCurrentMove() const { return currentMove;                                              }
    bool whiteTurn()           { return (currentMove % 2 == 0 || currentMove == 0) ? true : false; }
+   int getLastMove() const {return lastMove;}
    
    Piece* getPiece(Position pos); // come back and do
    
@@ -36,6 +37,7 @@ public:
    void move(const Move &move); // come back and do
    void resetMoves()           { currentMove = 0; }
    void incrementCurrentMove() { currentMove++;   }
+   void setLastMove(int pos)   { lastMove = pos;  }
    
    // operator overrides
    Piece*& operator()(int row, int col) { Position temp = Position(row, col); return board[temp.getRow()][temp.getCol()]; }
@@ -53,6 +55,7 @@ public:
 private:
    Piece* board[8][8];
    int currentMove;
+   int lastMove;
    ogstream gout;
    
    
