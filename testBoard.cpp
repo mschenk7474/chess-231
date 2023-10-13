@@ -1,9 +1,16 @@
-#include "testBoard.h"
-#include <cassert>
+/***********************************************************************
+ * Source File:
+ *    TEST BOARD : Testing the Board class
+ * Author:
+ *    Mason Schenk & Andre Regino
+ * Summary:
+ *    The unit tests for Board
+ ************************************************************************/
+
+#include "testBoard.h" // for TESTBOARD
+#include <cassert>     // for ASSERT
 
 using namespace std;
-
-
 /*************************************
  * RESET
  **************************************/
@@ -25,21 +32,20 @@ void TestBoard:: testReset() const
    board(3, 6) = &r1;
 
 
-    // EXCERSICE
-    board.reset(false);
+   // EXCERSICE
+   board.reset(false);
 
 
     // VERIFY
    assert(board.getPiece(Position(5, 4))->getLetter() != PAWN);
-    assert(board.getPiece(Position(5, 4))->getLetter() == SPACE);
-    assert(board.getPiece(Position(3, 6))->getLetter() != ROOK);
-    assert(board.getPiece(Position(3, 6))->getLetter() == SPACE);
-    assert(board.getCurrentMove() == 0);
+   assert(board.getPiece(Position(5, 4))->getLetter() == SPACE);
+   assert(board.getPiece(Position(3, 6))->getLetter() != ROOK);
+   assert(board.getPiece(Position(3, 6))->getLetter() == SPACE);
+   assert(board.getCurrentMove() == 0);
 
 
-    // TEARDOWN
+   // TEARDOWN
 }
-
 
 /*************************************
  * SWAP

@@ -1,17 +1,19 @@
-//
-//  testBoard.hpp
-//  Lab01
-//
-//  Created by Andre Regino Paniagua on 28/09/23.
-//
+/***********************************************************************
+ * Header File:
+ *    TEST BOARD : Testing the Board class
+ * Author:
+ *    Mason Schenk & Andre Regino
+ * Summary:
+ *    The unit tests for Board
+ ************************************************************************/
 
 #pragma once
-#include <iostream>
+#include <iostream>   // for COUT & ENDL
 
-#include "piece.h"
-#include "position.h"
-#include "board.h"
-#include "move.h"
+#include "piece.h"    // for PIECE
+#include "position.h" // for POSITION
+#include "board.h"    // for BOARD
+#include "move.h"     // for MOVE
 
 
 class TestBoard
@@ -109,6 +111,4 @@ private:
    void move_kingAttack() const;
    void move_kingShortCastle() const;
    void move_kingLongCastle() const;
-
-
 };
