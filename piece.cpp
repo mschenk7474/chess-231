@@ -198,9 +198,6 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
  *********************************************************************/
 bool Pawn::canPromote(const Board &board, const Position &possiblePosition) const
 {
-   // check if the piece moving to is a space
-   if(board[possiblePosition]->getLetter() != SPACE)
-      return false;
    // check color and side of the board the pawn is moving to, aka possiblePosition
    if((this->fWhite == true && board[possiblePosition]->getPosition().getRow() == 7) || (this->fWhite == false && board[possiblePosition]->getPosition().getRow() == 0))
       return true;
