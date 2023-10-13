@@ -24,7 +24,7 @@ void callBack(Interface *pUI, void *p)
    Board *board = (Board *)p;
    Move move;
    set <Move> moves;
-   
+      
    // clicked on a piece that has not moved yet
    if(Position(pUI->getPreviousPosition()).isInvalid() && Position(pUI->getSelectPosition()).isValid())
    {
@@ -36,8 +36,10 @@ void callBack(Interface *pUI, void *p)
          pUI->clearSelectPosition();
    }
    
-   // get possible moves for selected position
-   board->getPiece(pUI->getSelectPosition())->getMoves(moves, *board);
+   // check to see the selected position is valid
+   if (Position(pUI->getSelectPosition()).isValid())
+      // get possible moves for selected position
+      board->getPiece(pUI->getSelectPosition())->getMoves(moves, *board);
    
    // check if proposed move is valid
    if(Position(pUI->getPreviousPosition()).isValid() && Position(pUI->getSelectPosition()).isValid())

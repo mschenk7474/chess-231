@@ -97,10 +97,10 @@ void Board::move(const Move &move)
    
    
    // check for promote
-   if(move.getPromotion())
+   if(move.getPromotion() != SPACE)
    {
       *this -= Position(move.getDes());
-      board[move.getDes().getRow()][move.getDes().getCol()] = new Queen(move.getDes());
+      (*this)(move.getDes().getRow(),move.getDes().getCol()) = new Queen(move.getDes().getRow(), move.getDes().getCol(), move.getWhiteMove());
    }
 }
 
