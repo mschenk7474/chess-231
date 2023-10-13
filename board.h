@@ -16,6 +16,11 @@ class PieceTest;
 class TestBoard;
 class Interface;
 
+/***************************************************
+ * BOARD
+ * Where the game happens: handles everything to do
+ * with how the game is structured
+ ***************************************************/
 class Board
 {
    friend class PieceTest;
