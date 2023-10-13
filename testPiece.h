@@ -3,10 +3,12 @@
  *    TEST Piece : test the Piece and related Derived Classes
  * Author:
  *    Mason Schenk & Andre Regino
+ * Summary:
+ *    The unit tests for Piece and the derived classes
  ************************************************************************/
 
 #pragma once
-#include <iostream>
+#include <iostream>  // for COUT & ENDL
 /***************************************************
  * PIECE TEST
  * Test the Piece & Derived classes

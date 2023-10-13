@@ -1,13 +1,14 @@
-//
-//  piece.cpp
-//  Lab01
-//
-//  Created by Mason Schenk on 10/3/23.
-//
-
-#include "piece.h"
-#include "board.h"
-#include "move.h"
+/***********************************************************************
+ * Source File:
+ *    Piece : hanldes all the types of pieces
+ * Author:
+ *    Mason Schenk & Andre Regino
+ * Summary:
+ *    Handles all of the different types of pieces and how to create them.
+ ************************************************************************/
+#include "piece.h"   // for PIECE
+#include "board.h"   // for BOARD
+#include "move.h"    // for MOVE
 
 /*********************************************************************
  * PIECE IS MOVE
@@ -84,29 +85,11 @@ bool Piece::justMoved()
 }
 
 /*********************************************************************
- * PIECE ASSIGNMENT OPERATOR (PIECE PASSED)
- * Assigns a piece to the piece object in question
- *********************************************************************/
-Piece* Piece::operator=(Piece* piece)
-{
-   return new Space;
-}
-
-
-
-/*********************************************************************
  * PAWN GET MOVES
  * Gets the possible moves for a Pawn at a given space
  *********************************************************************/
 void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
 {
-   // *** PUT THIS BEFORE THIS FUNCTION IS CALLED
-//   // returns an empty set if no possible move
-//   if(!canMove())
-//   {
-//      moves.clear();
-//      return;
-//   }
    
    int possibleRow, possibleCol; // row and col we are checking
    int currentRow = this->position.getRow();
@@ -120,9 +103,7 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
       possibleRow = currentRow - 2;
       
       if(currentRow == 6 && board(possibleRow,possibleCol)->getLetter() == SPACE)
-      {
           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, board(possibleRow,possibleCol)->getLetter());// forward two blank
-       }
       possibleRow = currentRow - 1;
       if(possibleRow >= 0 && board(possibleRow, possibleCol)->getLetter() == SPACE)
       {
@@ -170,9 +151,7 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
       possibleRow = currentRow + 2;
       
       if(currentRow == 1 && board(possibleRow,possibleCol)->getLetter() == SPACE)
-      {
          insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, board(possibleRow,possibleCol)->getLetter());// forward two blank
-       }
       possibleRow = currentRow + 1;
       if(possibleRow < 8 && board(possibleRow, possibleCol)->getLetter() == SPACE)
       {
@@ -211,23 +190,14 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
          move.setEnPassant();
          insertMove(moves, move, Position(possibleRow + 1, possibleCol) , this->position, board(possibleRow,possibleCol)->getLetter());// enpassant right
       }
-      
-      
    }
 }
 /*********************************************************************
  * Pawn CAN PROMOTE
  * Returns true ot false depending on if the conditions for pawn promotion have been met
  *********************************************************************/
-bool Pawn::canPromote(const Board &board, Position possiblePosition) const
+bool Pawn::canPromote(const Board &board, const Position &possiblePosition) const
 {
-   /*
-      conditions for promoting:
-         - pawn in question needs to be on either side of board depending on color
-         - space in question needs to be space
-         - move to see if the dest is correct
-    */
-   
    // check if the piece moving to is a space
    if(board[possiblePosition]->getLetter() != SPACE)
       return false;
@@ -242,75 +212,28 @@ bool Pawn::canPromote(const Board &board, Position possiblePosition) const
  * Pawn CAN ENPASSANT
  * Returns true ot false depending on if the conditions for enpassant have been met
  *********************************************************************/
-bool Pawn::canEnPassant(const Board &board, Position opposingPosition) const
+bool Pawn::canEnPassant(const Board &board, const Position &opposingPosition) const
 {
    
-   /*
-      conditions for enpassant:
-         - opposing pawn moves two squares forward from its starting position
-            - if you do not capture enpassant the very next turn, you loose the chance to do so
-         - the pawn that is looking to capture woud move diagonally to where the opposing pawn would
-           have been if it had moved only one space instead of two
-         - at this point, the pawn looking to capture would be either to the left or right of the opposing pawn
-    */
-   
-   /*
-      what this function needs to check:
-         - needs to check
-      
-      what needs to be/already passed in:
-         - already: the pawn in a question is the one looking to see if it can enpassant
-         - need to: possible position to see what is there and check pawn
-         - need to: board to see what is at the position passed
-    */
-   
-   // for reference, this refers to the pawn that wants to do the enpassant
-   
-   // first need to check the position passed in and see if it is a pawn
+   // check to see if position passed is a pawn
    if(board[opposingPosition]->getLetter() != PAWN)
       return false;
    
    // set opposing pawn to make things easier
    auto opposingPawn = board[opposingPosition];
    
-//   // need to check if the opposing position is next to the current pawn, either to the left or right
-//   if ((opposingPawn->getPosition().getRow() != this->getPosition().getRow()) || (opposingPawn->getPosition().getCol() != ((this->getPosition().getCol() - 1) || (this->getPosition().getCol() + 1))))
-//      return false;
-      
-//   // also need to make sure that the pieces are not the same color
-//   if(opposingPawn->isWhite() == this->isWhite())
-//      return false;
-   
-   // need to check if the opposing pawn has only moved once and if it moved two spaces from where it was
-   // confirms the opposing pawn has only moved once           makes sure if the piece is black, that it has moved 2 spaces            make sure if the piece is white, then it has moved two spaces           // immediate response
+   /*
+      the following conditional statement checks the following things in this order:
+         1. confirms the opposing pawn has only moved once
+         2. if the piece is black, then it has moved 2 spaces
+         3. if the piece is white, then it has moved 2 spaces
+         4. if the last move on the board was the opposing opawn
+    */
    if(opposingPawn->getNMoves() == 1 && ((opposingPawn->getPosition().getRow() == 4 && opposingPawn->isWhite() == false) || (opposingPawn->getPosition().getRow() == 3 && opposingPawn->isWhite() == true)) && board.getLastMove() == opposingPawn->getLastMove())
       return true;
    
    // otherwise return false
    return false;
-   
-   
-    // *** this is what the pseudocode for this function has:
-    //This includes a struct called PreviousMove passed as a parameter that keeps track of the last move, its destination and source, and its pieceType
-//    if (previous.pieceType != PAWN)
-//            {
-//                return false
-//            }
-//
-//            if(previous.isWhite == true)
-//            {
-//                if (previous.to / 8 == previous.from / 8 - 2)
-//                {
-//                    return true
-//
-//            }
-//            else if(previous.isWhite == false)
-//            {
-//                if (previous.to / 8 == previous.from / 8 + 2)
-//                {
-//                    return true
-//                }
-//            }
 }
 
 /*********************************************************************
@@ -324,27 +247,33 @@ void Bishop::getMoves(std::set<Move> &moves, const Board &board) const
     int currentCol = this->position.getCol();
     Move move = Move();
    
+   // possible piece-particular positions
    RC possiblePositions[4] = {{-1, 1}, {1,1}, {-1, -1}, {1,-1}};
    
+   // go through each of the possible positions
    for (int i = 0; i < 4; i++)
    {
+      // set possible row and col based on position
       possibleRow = currentRow + possiblePositions[i].row;
       possibleCol = currentCol + possiblePositions[i].col;
       
+      // check to see if move to be inserted is valid
       while(possibleRow >= 0 && possibleRow < 8 && possibleCol >= 0 && possibleCol < 8 &&
             board(possibleRow, possibleCol)->getLetter() == SPACE)
       {
          insertMove(moves, move, Position(possibleRow, possibleCol), this->position, board(possibleRow,possibleCol)->getLetter());
+         
+         // updates the possible row and col to new position
          possibleRow += possiblePositions[i].row;
          possibleCol += possiblePositions[i].col;
       }
       
+      // checks to capture
       if(board[this->position]->isWhite() == false && board(possibleRow, possibleCol)->isWhite() == true)
          insertMove(moves, move, Position(possibleRow, possibleCol), this->position, board(possibleRow,possibleCol)->getLetter());
       if(board[this->position]->isWhite() == true && board(possibleRow, possibleCol)->isWhite() == false)
          insertMove(moves, move, Position(possibleRow, possibleCol), this->position, board(possibleRow,possibleCol)->getLetter());
    }
-   
 }
 
 /*********************************************************************
@@ -358,6 +287,7 @@ void Knight::getMoves(std::set<Move> &moves, const Board &board) const
     int currentCol = this->position.getCol();
     Move move = Move();
     
+   // possible piece-particular positions
     RC moveRules[8] =
     {
              {-1,  2}, { 1,  2},
@@ -365,20 +295,22 @@ void Knight::getMoves(std::set<Move> &moves, const Board &board) const
     {-2, -1},                    { 2, -1},
              {-1, -2}, { 1, -2}
     };
+   
+    // go through each of the possible positions
     for (int i = 0; i < 8; i++)
     {
+       // set possible row and col based on position
        possibleRow = currentRow + moveRules[i].row;
        possibleCol = currentCol + moveRules[i].col;
-        if (this->fWhite == false && (board(possibleRow,possibleCol)->isWhite() == true || board(possibleRow,possibleCol)->getLetter() == SPACE))
-        {
-           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, board(possibleRow,possibleCol)->getLetter());
-        }
-        if (this->fWhite == true && (board(possibleRow,possibleCol)->isWhite() == false || board(possibleRow,possibleCol)->getLetter() == SPACE))
-        {
-           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, board(possibleRow,possibleCol)->getLetter());
-        }
+       
+       // black piece capture or normal move
+       if (this->fWhite == false && (board(possibleRow,possibleCol)->isWhite() == true || board(possibleRow,possibleCol)->getLetter() == SPACE))
+          insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, board(possibleRow,possibleCol)->getLetter());
+       
+       // white piece capture or normal move
+       if (this->fWhite == true && (board(possibleRow,possibleCol)->isWhite() == false || board(possibleRow,possibleCol)->getLetter() == SPACE))
+          insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, board(possibleRow,possibleCol)->getLetter());
     }
-  
 }
 
 /*********************************************************************
@@ -392,7 +324,7 @@ void Rook::getMoves(std::set<Move> &moves, const Board &board) const
     int currentCol = this->position.getCol();
     Move move = Move();
    
-   // possible positions
+   // possible piece-particular positions
    RC possiblePositions[4] =
    {
                {0, 1},
@@ -400,27 +332,32 @@ void Rook::getMoves(std::set<Move> &moves, const Board &board) const
                {0, -1}
    };
    
+   // go through each of the possible positions
    for (int i = 0; i < 4; i++)
    {
+      // set possible row and col based on position
       possibleRow = currentRow + possiblePositions[i].row;
       possibleCol = currentCol + possiblePositions[i].col;
       
+      // check to see if move to be inserted is valid
       while(possibleRow >= 0 && possibleRow < 8 && possibleCol >= 0 && possibleCol < 8 &&
             board(possibleRow, possibleCol)->getLetter() == SPACE)
       {
          insertMove(moves, move, Position(possibleRow, possibleCol), this->position, board(possibleRow,possibleCol)->getLetter());
+         
+         // updates the possible row and col to new position
          possibleRow += possiblePositions[i].row;
          possibleCol += possiblePositions[i].col;
       }
       
+      // black piece capture or normal move
       if(board[this->position]->isWhite() == false && board(possibleRow, possibleCol)->isWhite() == true)
          insertMove(moves, move, Position(possibleRow, possibleCol), this->position, board(possibleRow,possibleCol)->getLetter());
+      
+      // white piece capture or normal move
       if(board[this->position]->isWhite() == true && board(possibleRow, possibleCol)->isWhite() == false)
          insertMove(moves, move, Position(possibleRow, possibleCol), this->position, board(possibleRow,possibleCol)->getLetter());
    }
-   
-   
-   
 }
 
 /*********************************************************************
@@ -433,39 +370,42 @@ void Queen::getMoves(std::set<Move> &moves, const Board &board) const
     int currentRow = this->position.getRow();
     int currentCol = this->position.getCol();
     Move move = Move();
-    char letter;
     
+   // possible piece-particular positions
     RC moveRules[8] =
     {
        {-1,  1}, {0,  1}, {1,  1},
        {-1,  0},          {1,  0},
        {-1, -1}, {0, -1}, {1, -1}
     };
+   
+   // go through each of the possible positions
     for (int i = 0; i < 8; i++)
     {
+       
+        // set possible row and col based on position
         possibleRow = currentRow + moveRules[i].row;
         possibleCol = currentCol + moveRules[i].col;
+       
+        // check to see if move to be inserted is valid
         while (possibleRow >= 0 && possibleRow < 8 && possibleCol >= 0 && possibleCol < 8 &&
                board(possibleRow, possibleCol)->getLetter() == SPACE)
         {
-            letter = board(possibleRow,possibleCol)->getLetter();
-            insertMove(moves, move, Position(possibleRow, possibleCol), this->position, letter);
+            insertMove(moves, move, Position(possibleRow, possibleCol), this->position, board(possibleRow,possibleCol)->getLetter());
             
+            // updates the possible row and col to new position
             possibleRow += moveRules[i].row;
             possibleCol += moveRules[i].col;
         }
+       
+       // white piece capture or normal move
         if ( this->fWhite && (board(possibleRow,possibleCol)->isWhite() == false || board(possibleRow,possibleCol)->getLetter() == SPACE))
-        {
-           letter = board(possibleRow,possibleCol)->getLetter();
-           insertMove(moves, move, Position(possibleRow, possibleCol), this->position, letter);
-        }
+           insertMove(moves, move, Position(possibleRow, possibleCol), this->position, board(possibleRow,possibleCol)->getLetter());
+       
+       // black piece capture or normal move
         if (this->fWhite == false && (board(possibleRow,possibleCol)->isWhite() == true || board(possibleRow,possibleCol)->getLetter() == SPACE))
-        {
-            letter = board(possibleRow,possibleCol)->getLetter();
-            insertMove(moves, move, Position(possibleRow, possibleCol), this->position, letter);
-        }
+            insertMove(moves, move, Position(possibleRow, possibleCol), this->position, board(possibleRow,possibleCol)->getLetter());
     }
-   
 }
 
 /*********************************************************************
@@ -479,31 +419,33 @@ void King::getMoves(std::set<Move> &moves, const Board &board) const
     int currentCol = this->position.getCol();
     Move move = Move();
     
+   // possible piece-particular positions
     RC moveRules[8] =
     {
        {-1,  1}, {0,  1}, {1,  1},
        {-1,  0},          {1,  0},
        {-1, -1}, {0, -1}, {1, -1}
     };
+   
+   // go through each of the possible positions
     for (int i = 0; i < 8; i++)
     {
+       
+       // set possible row and col based on position
        possibleRow = currentRow + moveRules[i].row;
        possibleCol = currentCol + moveRules[i].col;
+       
+        // black piece capture or normal move
         if (this->fWhite == false && (board(possibleRow,possibleCol)->isWhite() == true || board(possibleRow,possibleCol)->getLetter() == SPACE))
-        {
-           char letter = board(possibleRow,possibleCol)->getLetter();
-           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, letter);
-        }
+           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, board(possibleRow,possibleCol)->getLetter());
+       
+        // white piece capture or normal move
         if (this->fWhite == true && (board(possibleRow,possibleCol)->isWhite() == false || board(possibleRow,possibleCol)->getLetter() == SPACE))
-        {
-           char letter = board(possibleRow,possibleCol)->getLetter();
-           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, letter);
-        }
+           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, board(possibleRow,possibleCol)->getLetter());
     }
     
-    // Check Castling
+    // check castling
     this->addCastle(board, moves, move);
-       
 }
 
 /*********************************************************************
@@ -542,7 +484,6 @@ void King::addCastle(const Board &board, std::set<Move> &moves,Move &move) const
     if (kingside)
     {
         move.setCastle(kingside);
-       
         insertMove(moves, move, Position(row, col + 2), this->position, board(row,col + 2)->getLetter());
     }
    
@@ -564,9 +505,6 @@ void King::addCastle(const Board &board, std::set<Move> &moves,Move &move) const
     }
 }
 
-
-
-
 /*********************************************************************
  * INSERT MOVE
  * Adds a move to the possible moves
@@ -574,6 +512,8 @@ void King::addCastle(const Board &board, std::set<Move> &moves,Move &move) const
 void insertMove(std::set<Move> &moves, Move &move, Position possiblePos, Position currentPosition, char letter)
 {
     PieceType captured;
+   
+   // sets caputre based on letter passed
     switch (letter) {
         case PieceType(PAWN):
             captured = PAWN;
@@ -597,16 +537,22 @@ void insertMove(std::set<Move> &moves, Move &move, Position possiblePos, Positio
             captured = SPACE;
             break;
     }
+   
+   // sets the source and dest
    move.setSrc(currentPosition);
    move.setDes(possiblePos);
+   
+   // sets capture
    if(captured != SPACE)
        move.setCapture(captured);
+   
    moves.insert(move);
 }
 
 /*********************************************************************
  * BUILDER
  * Builds a piece given a type, position, and color
+ * Note: Design pulled James Helfrich
  *********************************************************************/
 Piece * builder(PieceType type, int r, int c, bool isWhite)
 {

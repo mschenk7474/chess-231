@@ -3,6 +3,8 @@
  *    TEST Piece : test the Piece and related Derived Classes
  * Author:
  *    Mason Schenk & Andre Regino
+ * Summary:
+ *    The unit tests for Piece and the derived classes
  ************************************************************************/
 
 // include the test header, needed classes for composite attributes, and all of the classes to be tested

@@ -15,7 +15,10 @@
 #include "board.h"    // for BOARD
 #include "move.h"     // for MOVE
 
-
+/***************************************************
+ * TESTBOARD
+ * Holds the unit test cases for Board
+ ***************************************************/
 class TestBoard
 {
 public:
