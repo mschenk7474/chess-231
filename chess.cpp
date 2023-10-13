@@ -368,66 +368,113 @@ bool move(char* board, int positionFrom, int positionTo)
  **************************************/
 void callBack(Interface *pUI, void *p)
 {
-   set <Move> moves;
    Board *board = (Board *)p;
    Move move;
-    
-   move.setSrc(Position(pUI->getPreviousPosition()));
-   move.setDes(Position(pUI->getSelectPosition()));
+   set <Move> moves;
    
-   // gets the possible moves only if it is the piece's turn
-   if((board->getPiece(pUI->getSelectPosition())->isWhite() && board->whiteTurn()) || (!board->getPiece(pUI->getSelectPosition())->isWhite() && !board->whiteTurn()))
-      board->getPiece(pUI->getSelectPosition())->getMoves(moves, *board);
-   
-   // this is supposed to get the piece's capture, but it is not working
-//   auto it = moves.find(move);
-//   
-//   if(it != moves.end())
-//   {
-//      move = *it;
-////      move.setCapture(it->getCapture());
-////      move.setEnPassant(it->getEnPassant());
-////      move.setCastle(it->getCastleK());
-////      move.setCastle(it->getCastleQ());
-////      move.setPromote(it->getPromotion());
-//   }
-   
-   for(const Move& currentMove : moves)
+   // clicked on a piece that has not moved yet
+   if(Position(pUI->getPreviousPosition()).isInvalid() && Position(pUI->getSelectPosition()).isValid())
    {
-      if(currentMove.getDes() == move.getDes() && currentMove.getSrc() == move.getSrc())
-      {
-           move.setCapture(currentMove.getCapture());
-           move.setEnPassant(currentMove.getEnPassant());
-           move.setCastle(currentMove.getCastleK());
-           move.setCastle(currentMove.getCastleQ());
-           move.setPromote(currentMove.getPromotion());
-      }
+      // clicked on space
+      if(board->getPiece(pUI->getSelectPosition())->getLetter() == SPACE)
+         pUI->clearSelectPosition();
+      // not our turn
+      else if (board->getPiece(pUI->getSelectPosition())->isWhite() != board->whiteTurn())
+         pUI->clearSelectPosition();
    }
    
-   if (board->move(move))
-       pUI->clearSelectPosition();
-   
-   
+   board->getPiece(pUI->getSelectPosition())->getMoves(moves, *board);
+   if(Position(pUI->getPreviousPosition()).isValid() && Position(pUI->getSelectPosition()).isValid())
+   {
+      move.setSrc(pUI->getPreviousPosition());
+      move.setDes(pUI->getSelectPosition());
       
-   
-   // clicked space 
-   if (pUI->getSelectPosition() != -1 && board->getPiece(pUI->getSelectPosition())->getLetter() == SPACE)
+      board->getPiece(pUI->getPreviousPosition())->getMoves(moves, *board);
+      
+      auto it = moves.find(move);
+      if(it != moves.end())
+         board->move(*it);
       pUI->clearSelectPosition();
+      pUI->clearPreviousPosition();
+      moves.clear();
+   }
    
    draw(*board, *pUI, moves);
-
-//   if (move(board, pUI->getPreviousPosition(), pUI->getSelectPosition()))
-//      pUI->clearSelectPosition();
-//   else
-//      possible = getPossibleMoves(board, pUI->getSelectPosition());
+//   set <Move> moves;
+//   Board *board = (Board *)p;
+//   Move move;
+//    
+//   move.setSrc(Position(pUI->getPreviousPosition()));
+//   move.setDes(Position(pUI->getSelectPosition()));
+//   
+//   // gets the possible moves only if it is the piece's turn
+//   if((board->getPiece(pUI->getSelectPosition())->isWhite() && board->whiteTurn()) || (!board->getPiece(pUI->getSelectPosition())->isWhite() && !board->whiteTurn()))
+//      board->getPiece(pUI->getSelectPosition())->getMoves(moves, *board);
+//   
+//   // this is supposed to get the piece's capture, but it is not working
+////   auto it = moves.find(move);
+////   
+////   if(it != moves.end())
+////   {
+////      move = *it;
+//////      move.setCapture(it->getCapture());
+//////      move.setEnPassant(it->getEnPassant());
+//////      move.setCastle(it->getCastleK());
+//////      move.setCastle(it->getCastleQ());
+//////      move.setPromote(it->getPromotion());
+////   }
+//   // we have all of the moves saved and are iterating through them
+//   for(const Move& currentMove : moves)
+//   {
+////      pUI->getSelectPosition() != board->getPiece(pUI->getSelectPosition())->getPosition().getLocation()
+//      //  &&
+//      // need to find the correct move associated with the space that is not the piece's space
+//      if(currentMove.getDes() == pUI->getSelectPosition() && pUI->getPreviousPosition() == board->getPiece(pUI->getPreviousPosition())->getPosition().getLocation() && pUI->getSelectPosition() == board->getPiece(pUI->getPreviousPosition())->getPosition().getLocation())
+//      {
+////           move.setCapture(currentMove.getCapture());
+////           move.setEnPassant(currentMove.getEnPassant());
+////           move.setCastle(currentMove.getCastleK());
+////           move.setCastle(currentMove.getCastleQ());
+////           move.setPromote(currentMove.getPromotion());
+//         if(board->move(currentMove))
+//            pUI->clearSelectPosition();
+//      }
+//   }
+////   // need to set this to the move we are looking for
+////   // like so "g4h7p"
+////   auto it = moves.find(Move(move.getText()));
+////   
+////   // checks that the move is in the set
+////   if(it != moves.end())
+////      // if so, need to move it
 //
-//   // if we clicked on a blank spot, then it is not selected
-//   // put in move check
-//   if (pUI->getSelectPosition() != -1 && board[pUI->getSelectPosition()] == ' ')
+//   
+//   
+//   
+////   if (board->move(move))
+////            // once this is figured out, move can go back to void since this can just be ran after
+////      pUI->clearSelectPosition();
+//   
+//      
+//   
+//   // clicked space 
+//   if (pUI->getSelectPosition() != -1 && board->getPiece(pUI->getSelectPosition())->getLetter() == SPACE)
 //      pUI->clearSelectPosition();
+//   
+//   draw(*board, *pUI, moves);
 //
-//   // draw the board
-//   draw(board, *pUI, possible);
+////   if (move(board, pUI->getPreviousPosition(), pUI->getSelectPosition()))
+////      pUI->clearSelectPosition();
+////   else
+////      possible = getPossibleMoves(board, pUI->getSelectPosition());
+////
+////   // if we clicked on a blank spot, then it is not selected
+////   // put in move check
+////   if (pUI->getSelectPosition() != -1 && board[pUI->getSelectPosition()] == ' ')
+////      pUI->clearSelectPosition();
+////
+////   // draw the board
+////   draw(board, *pUI, possible);
 
 }
 

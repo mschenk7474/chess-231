@@ -163,7 +163,7 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
       }
    }
    
-   // covers black pawns
+   // covers white pawns
    else
    {
       possibleCol = currentCol;

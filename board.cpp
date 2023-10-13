@@ -22,50 +22,34 @@ Piece* Board::getPiece(Position pos)
  * BOARD MOVE
  * Moves the piece on the board
  *********************************************************************/
-bool Board::move(const Move &move) // pass by reference
+void Board::move(const Move &move) // pass by reference
 {
    int positionFrom = move.getSrc().getLocation();
    int positionTo = move.getDes().getLocation();
    
    // do not move if not indicated
    if (positionFrom == -1 || positionTo == -1)
-      return false;
+      return;
    assert(positionFrom >= 0 && positionFrom < 64);
    assert(positionTo >= 0 && positionTo < 64);
-   
-   // need to check who's turn it is
-   if((this->whiteTurn() && this->getPiece(positionFrom)->isWhite() == false) || (!this->whiteTurn() && this->getPiece(positionFrom)->isWhite() == true))
-      return false;
    
    // handle castle for both sides
    // king side first
    if (move.getCastleK())
-   {
       (*this).swap(Position(move.getDes().getRow(), 7), Position(move.getDes().getRow(), 5));
-      return true;
-   }
       
    // queen side
    if(move.getCastleQ())
-   {
       (*this).swap(Position(move.getDes().getRow(), 0), Position(move.getDes().getRow(), 2));
-      return true;
-   }
       
    // check for enpassant
    if(move.getEnPassant())
    {
       if((*this).getPiece(positionFrom)->isWhite())
-      {
          *this -= Position(move.getDes().getRow() - 1, move.getDes().getCol());
-         return true;
-      }
         
       else
-      {
          *this -= Position(move.getDes().getRow() + 1, move.getDes().getCol());
-         return true;
-      }
    }
    
    // normal move
@@ -76,8 +60,8 @@ bool Board::move(const Move &move) // pass by reference
       // if there was a capture that went down, need to remove instead
       *this -= move.getSrc();
    // update the variables to keep track of who's turn it is
-   this->getPiece(positionFrom)->setLastMove(positionFrom);
-   this->getPiece(positionFrom)->incrementNMoves();
+   this->getPiece(positionTo)->setLastMove(positionFrom);
+   this->getPiece(positionTo)->incrementNMoves();
    this->incrementCurrentMove();
    
    
@@ -87,9 +71,6 @@ bool Board::move(const Move &move) // pass by reference
       *this -= Position(move.getDes());
       board[move.getDes().getRow()][move.getDes().getCol()] = new Queen(move.getDes());
    }
-
- return true;
-   
 }
 
 /*********************************************************************
