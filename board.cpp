@@ -150,7 +150,7 @@ void Board::reset(bool fFree)
    resetMoves();
    
    // make sure the board is correct
-   assertBoard();
+//   assertBoard();
 }
 
 /*********************************************************************
@@ -159,7 +159,12 @@ void Board::reset(bool fFree)
  *********************************************************************/
 void Board::free()
 {
-   
+    for(int r = 0; r < 8; r++)
+       for(int c = 0; c < 8; c++)
+       {
+           delete (*this)(r,c);
+           (*this)(r,c) = nullptr;
+       }
 }
 
 /*********************************************************************
@@ -189,11 +194,4 @@ void Board::operator=(Piece* piece)
    (*this)(piece->getPosition().getRow(),piece->getPosition().getCol()) = piece;
 }
 
-/*********************************************************************
- * BOARD ASSERT BOARD
- * Makes sure the board looks correct.
- *********************************************************************/
-void Board::assertBoard()
-{
-   
-}
+

@@ -34,7 +34,6 @@ public:
    Piece(Position pos) : position(pos), fWhite(false), nMoves(0), lastMove(0) {}
    Piece(int row, int col) : position(row,col), fWhite(false), nMoves(0), lastMove(0) {}
    Piece(int row, int col, bool isWhite) : position(row, col), fWhite(isWhite), nMoves(0), lastMove(0) {}
-   virtual ~Piece() {};
    
    // setters
    void setPosition(Position pos)      { position = pos;        }
@@ -110,6 +109,7 @@ public:
    Pawn(Position pos) : Piece(pos) {}
    Pawn(int row, int col) : Piece(row, col) {}
    Pawn(int row, int col, bool isWhite) : Piece(row, col, isWhite) {}
+ 
    
    // getters
    char getLetter() const override       { return PAWN;                                   }
