@@ -300,16 +300,16 @@ void TestBoard::move_pawnEnpassant() const
 {  // SETUP
    Board board(false);
    
-   Pawn p1;
-   p1.position = Position(4,1);
-   p1.fWhite = true;
-   board(4,1) = &p1;
+   Pawn *p1 = new Pawn;
+   p1->position = Position(4,1);
+   p1->fWhite = true;
+   board(4,1) = p1;
    
-   Pawn p2;
-   p2.position = Position(4,0);
-   p2.fWhite = false;
-   p2.nMoves = 1;
-   board(4,0) = &p2;
+   Pawn *p2 = new Pawn;
+   p2->position = Position(4,0);
+   p2->fWhite = false;
+   p2->nMoves = 1;
+   board(4,0) = p2;
    
    Move move("b5a6E");
    // EXERCISE
@@ -323,10 +323,10 @@ void TestBoard::move_pawnPromotion() const
 {  // SETUP
    Board board(false);
    
-   Pawn p1;
-   p1.position = Position(6,2);
-   p1.fWhite = true;
-   board(6,2) = &p1;
+   Pawn *p1 = new Pawn;
+   p1->position = Position(6,2);
+   p1->fWhite = true;
+   board(6,2) = p1;
    
    Position pos1(7,1);
    board[pos1]->fWhite = true;
@@ -352,10 +352,10 @@ void TestBoard::move_rookSlide() const
 {  // SETUP
    Board board(false);
    
-   Pawn p1;
-   p1.position = Position(2,0);
-   p1.fWhite = true;
-   board(2,0) = &p1;
+   Pawn *p1 = new Pawn;
+   p1->position = Position(2,0);
+   p1->fWhite = true;
+   board(2,0) = p1;
    
    Position pos(1,0);
    board -= pos;
@@ -375,10 +375,10 @@ void TestBoard::move_rookAttack() const
    Position pos(1,0);
    board -= pos;
    
-   Pawn p1;
-   p1.position = Position(1,0);
-   p1.fWhite = false;
-   board(1,0) = &p1;
+   Pawn *p1 = new Pawn;
+   p1->position = Position(1,0);
+   p1->fWhite = false;
+   board(1,0) = p1;
    
    Move move("a1a2p");
    // EXERCISE
@@ -410,10 +410,10 @@ void TestBoard::move_bishopAttack() const
 {  // SETUP
    Board board(false);
    
-   Pawn p1;
-   p1.position = Position(1,1);
-   p1.fWhite = false;
-   board(1,1) = &p1;
+   Pawn *p1 = new Pawn;
+   p1->position = Position(1,1);
+   p1->fWhite = false;
+   board(1,1) = p1;
    
    Move move("c1b2p");
    // EXERCISE
@@ -442,10 +442,10 @@ void TestBoard::move_knightAttack() const
 {  // SETUP
    Board board(false);
    
-   Pawn p2;
-   p2.position = Position(2,2);
-   p2.fWhite = false;
-   board(2,2) = &p2;
+   Pawn *p2 = new Pawn;
+   p2->position = Position(2,2);
+   p2->fWhite = false;
+   board(2,2) = p2;
    
    Move move("b1c3p");
    // EXERCISE
