@@ -49,7 +49,7 @@ const int RGB_BLACK[] = { 0, 0, 0 };
 
 // normal squares: tan and brown
 const int RGB_WHITE_SQUARE[] = { 210, 180, 140 };
-const int RGB_BLACK_SQUARE[] = { 0,0,255 }; // simple alteration, changed brown to blue
+const int RGB_BLACK_SQUARE[] = { 128, 128, 128 }; // simple alteration, changed brown to blue
 
 // the color of a selected square
 const int RGB_SELECTED[] = { 256, 0, 0 };
