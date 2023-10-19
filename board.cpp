@@ -164,6 +164,7 @@ void Board::free()
        {
            delete (*this)(r,c);
            (*this)(r,c) = nullptr;
+           
        }
 }
 
