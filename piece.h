@@ -50,7 +50,7 @@ public:
    bool isWhite()               { return fWhite == true;                   }
    int getNMoves() const        { return nMoves;                           }
    Position getPosition() const { return position;                         }
-   int getLastMove() const      {return lastMove;}
+   int getLastMove() const      {return lastMove;                          }
    
    // pure virtual methods
    virtual char getLetter() const = 0;
@@ -159,7 +159,7 @@ public:
    Knight(int row, int col, bool isWhite) : Piece(row, col, isWhite) {}
    
    // getters
-   char getLetter() const override       { return KNIGHT;                                   }
+   char getLetter() const override       { return KNIGHT;                                    }
    void getMoves(std::set<Move> &moves, const Board &board) const override;
    
    // special methods
@@ -181,7 +181,7 @@ public:
    Bishop(int row, int col, bool isWhite) : Piece(row, col, isWhite) {}
    
    // getters
-   char getLetter() const override       { return BISHOP;                                   }
+   char getLetter() const override       { return BISHOP;                                    }
    void getMoves(std::set<Move> &moves, const Board &board) const override;
    
    // special methods
@@ -203,7 +203,7 @@ public:
    Queen(int row, int col, bool isWhite) : Piece(row, col, isWhite) {}
    
    // getters
-   char getLetter() const override       { return QUEEN;                                   }
+   char getLetter() const override       { return QUEEN;                                    }
    void getMoves(std::set<Move> &moves, const Board &board) const override;
    
    // special methods
@@ -225,7 +225,7 @@ public:
    King(int row, int col, bool isWhite) : Piece(row, col, isWhite) {}
    
    // getters
-   char getLetter() const override        { return KING;                                   }
+   char getLetter() const override        { return KING;                                    }
    void getMoves(std::set<Move> &moves, const Board &board) const override;
    
    // special methods

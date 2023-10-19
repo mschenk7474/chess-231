@@ -108,37 +108,52 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
       if(possibleRow >= 0 && board(possibleRow, possibleCol)->getLetter() == SPACE)
       {
          if(canPromote(board, Position(possibleRow, possibleCol)))
+         {
             move.setPromote(QUEEN);
+            move.setWhiteMove(this->fWhite);
+         }
           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, board(possibleRow,possibleCol)->getLetter());// forward one blank
        }
-      possibleCol = currentCol - 1;
+      possibleCol = currentCol + 1;
       if(board(possibleRow,possibleCol)->isWhite() == true && board(possibleRow,possibleCol)->getLetter() != SPACE)
       {
          if(canPromote(board, Position(possibleRow, possibleCol)))
+         {
             move.setPromote(QUEEN);
+            move.setWhiteMove(this->fWhite);
+         }
           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, board(possibleRow,possibleCol)->getLetter());// attack left
        }
       possibleRow = currentRow;
       if(board(possibleRow,possibleCol)->isWhite() == true && this->canEnPassant(board, Position(possibleRow, possibleCol)))
       {
          if(canPromote(board, Position(possibleRow, possibleCol)))
+         {
             move.setPromote(QUEEN);
+            move.setWhiteMove(this->fWhite);
+         }
          move.setEnPassant();
          insertMove(moves, move, Position(possibleRow - 1, possibleCol) , this->position, board(possibleRow,possibleCol)->getLetter());// enpassant left
       }
-      possibleCol = currentCol + 1;
+      possibleCol = currentCol - 1;
       possibleRow = currentRow - 1;
       if (board(possibleRow,possibleCol)->isWhite() == true && board(possibleRow,possibleCol)->getLetter() != SPACE)
       {
          if(canPromote(board, Position(possibleRow, possibleCol)))
+         {
             move.setPromote(QUEEN);
+            move.setWhiteMove(this->fWhite);
+         }
          insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, board(possibleRow,possibleCol)->getLetter());// attack right
       }
       possibleRow = currentRow;
       if(board(possibleRow,possibleCol)->isWhite() == true && this->canEnPassant(board, Position(possibleRow, possibleCol)))
       {
          if(canPromote(board, Position(possibleRow, possibleCol)))
+         {
             move.setPromote(QUEEN);
+            move.setWhiteMove(this->fWhite);
+         }
          move.setEnPassant();
          insertMove(moves, move, Position(possibleRow - 1, possibleCol) , this->position, board(possibleRow,possibleCol)->getLetter());// enpassant right
       }
@@ -156,21 +171,30 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
       if(possibleRow < 8 && board(possibleRow, possibleCol)->getLetter() == SPACE)
       {
          if(canPromote(board, Position(possibleRow, possibleCol)))
+         {
             move.setPromote(QUEEN);
+            move.setWhiteMove(this->fWhite);
+         }
           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, board(possibleRow,possibleCol)->getLetter());// forward one blank
        }
       possibleCol = currentCol - 1;
        if(board(possibleRow,possibleCol)->isWhite() == false && board(possibleRow,possibleCol)->getLetter() != SPACE)
        {
           if(canPromote(board, Position(possibleRow, possibleCol)))
+          {
              move.setPromote(QUEEN);
+             move.setWhiteMove(this->fWhite);
+          }
           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, board(possibleRow,possibleCol)->getLetter());// attack left
        }
       possibleRow = currentRow;
       if(board(possibleRow,possibleCol)->isWhite() == false && this->canEnPassant(board, Position(possibleRow, possibleCol)))
       {
          if(canPromote(board, Position(possibleRow, possibleCol)))
+         {
             move.setPromote(QUEEN);
+            move.setWhiteMove(this->fWhite);
+         }
          move.setEnPassant();
          insertMove(moves, move, Position(possibleRow + 1, possibleCol) , this->position, board(possibleRow,possibleCol)->getLetter());// enpassant left
       }
@@ -179,14 +203,20 @@ void Pawn::getMoves(std::set<Move> &moves, const Board &board) const
        if(board(possibleRow,possibleCol)->isWhite() == false && board(possibleRow,possibleCol)->getLetter() != SPACE)
        {
           if(canPromote(board, Position(possibleRow, possibleCol)))
+          {
              move.setPromote(QUEEN);
+             move.setWhiteMove(this->fWhite);
+          }
           insertMove(moves, move, Position(possibleRow, possibleCol) , this->position, board(possibleRow,possibleCol)->getLetter());// attack right
        }
       possibleRow = currentRow;
       if(board(possibleRow,possibleCol)->isWhite() == false && this->canEnPassant(board, Position(possibleRow, possibleCol)))
       {
          if(canPromote(board, Position(possibleRow, possibleCol)))
+         {
             move.setPromote(QUEEN);
+            move.setWhiteMove(this->fWhite);
+         }
          move.setEnPassant();
          insertMove(moves, move, Position(possibleRow + 1, possibleCol) , this->position, board(possibleRow,possibleCol)->getLetter());// enpassant right
       }
