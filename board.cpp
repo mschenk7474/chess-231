@@ -150,7 +150,7 @@ void Board::reset(bool fFree)
    resetMoves();
    
    // make sure the board is correct
-//   assertBoard();
+   assertBoard();
 }
 
 /*********************************************************************
@@ -159,12 +159,13 @@ void Board::reset(bool fFree)
  *********************************************************************/
 void Board::free()
 {
+   // go through each piece on the board
     for(int r = 0; r < 8; r++)
        for(int c = 0; c < 8; c++)
        {
+           // delete the piece at the location and set the pointer to null
            delete (*this)(r,c);
            (*this)(r,c) = nullptr;
-           
        }
 }
 
@@ -193,6 +194,50 @@ void Board::swap(const Position &pos1, const Position &pos2)
 void Board::operator=(Piece* piece)
 {
    (*this)(piece->getPosition().getRow(),piece->getPosition().getCol()) = piece;
+}
+
+/*********************************************************************
+ * BOARD ASSERT BOARD
+ * Makes sure the board looks correct upon reset.
+ *********************************************************************/
+void Board::assertBoard()
+{
+   // make sure white bottom row is in the right place
+   assert(board[0][0]->getLetter() == ROOK   && board[0][0]->isWhite() == true);
+   assert(board[0][1]->getLetter() == KNIGHT && board[0][1]->isWhite() == true);
+   assert(board[0][2]->getLetter() == BISHOP && board[0][2]->isWhite() == true);
+   assert(board[0][3]->getLetter() == QUEEN  && board[0][3]->isWhite() == true);
+   assert(board[0][4]->getLetter() == KING   && board[0][4]->isWhite() == true);
+   assert(board[0][5]->getLetter() == BISHOP && board[0][5]->isWhite() == true);
+   assert(board[0][6]->getLetter() == KNIGHT && board[0][6]->isWhite() == true);
+   assert(board[0][7]->getLetter() == ROOK   && board[0][7]->isWhite() == true);
+   
+   // make sure the rows of pawn for both sides are in the correct place
+   for (int i = 0; i < 8; i++)
+   {
+      // white pawns
+      assert(board[1][i]->getLetter() == PAWN);
+      assert(board[1][i]->isWhite() == true);
+      
+      // black pawns
+      assert(board[6][i]->getLetter() == PAWN);
+      assert(board[6][i]->isWhite() == false);
+   }
+   
+   // make sure space between white and black pawns are spaces
+   for (int r = 2; r < 6; r++)
+      for (int c = 0; c < 8; c++)
+         assert(board[r][c]->getLetter() == SPACE);
+   
+   // make sure black top row is in the right place
+   assert(board[7][0]->getLetter() == ROOK   && board[7][0]->isWhite() == false);
+   assert(board[7][1]->getLetter() == KNIGHT && board[7][1]->isWhite() == false);
+   assert(board[7][2]->getLetter() == BISHOP && board[7][2]->isWhite() == false);
+   assert(board[7][3]->getLetter() == QUEEN  && board[7][3]->isWhite() == false);
+   assert(board[7][4]->getLetter() == KING   && board[7][4]->isWhite() == false);
+   assert(board[7][5]->getLetter() == BISHOP && board[7][5]->isWhite() == false);
+   assert(board[7][6]->getLetter() == KNIGHT && board[7][6]->isWhite() == false);
+   assert(board[7][7]->getLetter() == ROOK   && board[7][7]->isWhite() == false);
 }
 
 
